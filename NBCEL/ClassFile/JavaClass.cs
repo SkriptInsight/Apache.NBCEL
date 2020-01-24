@@ -30,79 +30,79 @@ using Type = Apache.NBCEL.Generic.Type;
 
 namespace Apache.NBCEL.ClassFile
 {
-	/// <summary>
-	///     Represents a Java class, i.e., the data structures, constant pool,
-	///     fields, methods and commands contained in a Java .class file.
-	/// </summary>
-	/// <remarks>
-	///     Represents a Java class, i.e., the data structures, constant pool,
-	///     fields, methods and commands contained in a Java .class file.
-	///     See <a href="http://docs.oracle.com/javase/specs/">JVM specification</a> for details.
-	///     The intent of this class is to represent a parsed or otherwise existing
-	///     class file.  Those interested in programatically generating classes
-	///     should see the <a href="../generic/ClassGen.html">ClassGen</a> class.
-	/// </remarks>
-	/// <seealso cref="ClassGen" />
-	public class JavaClass : AccessFlags, ICloneable, Node
+    /// <summary>
+    ///     Represents a Java class, i.e., the data structures, constant pool,
+    ///     fields, methods and commands contained in a Java .class file.
+    /// </summary>
+    /// <remarks>
+    ///     Represents a Java class, i.e., the data structures, constant pool,
+    ///     fields, methods and commands contained in a Java .class file.
+    ///     See <a href="http://docs.oracle.com/javase/specs/">JVM specification</a> for details.
+    ///     The intent of this class is to represent a parsed or otherwise existing
+    ///     class file.  Those interested in programatically generating classes
+    ///     should see the <a href="../generic/ClassGen.html">ClassGen</a> class.
+    /// </remarks>
+    /// <seealso cref="ClassGen" />
+    public class JavaClass : AccessFlags, ICloneable, Node
         , IComparable<JavaClass>
     {
-        public const byte HEAP = 1;
+        public const byte Heap = 1;
 
-        public const byte FILE = 2;
+        public const byte File = 2;
 
-        public const byte ZIP = 3;
+        public const byte Zip = 3;
 
-        private static readonly bool debug = System.GetBoolean("JavaClass.debug");
+        private static readonly bool Debug = System.GetBoolean("JavaClass.debug");
 
-        private static BCELComparator bcelComparator = new _BCELComparator_76(
+        private static BCELComparator _bcelComparator = new BcelComparator76(
         );
 
-        private AnnotationEntry[] annotations;
+        private AnnotationEntry[] _annotations;
 
-        private Attribute[] attributes;
+        private Attribute[] _attributes;
 
-        private string class_name;
+        private string _className;
 
-        private int class_name_index;
+        private int _classNameIndex;
 
-        private bool computedNestedTypeStatus;
+        private bool _computedNestedTypeStatus;
 
-        private ConstantPool constant_pool;
+        private ConstantPool _constantPool;
 
-        private Field[] fields;
-        private string file_name;
+        private Field[] _fields;
+        private string _fileName;
 
-        private string[] interface_names;
+        private string[] _interfaceNames;
 
-        private int[] interfaces;
+        private int[] _interfaces;
 
-        private bool isAnonymous__;
+        private bool _isAnonymous;
 
-        private bool isNested__;
+        private bool _isNested;
 
-        private int major;
+        private int _major;
 
-        private Method[] methods;
+        private Method[] _methods;
 
-        private int minor;
+        private int _minor;
 
-        private readonly string package_name;
+        private readonly string _packageName;
 
         /// <summary>
         ///     In cases where we go ahead and create something,
         ///     use the default SyntheticRepository, because we
         ///     don't know any better.
         /// </summary>
-        [NonSerialized] private Util.Repository repository = SyntheticRepository.GetInstance
+        [NonSerialized] private Util.Repository _repository = SyntheticRepository.GetInstance
             ();
 
-        private readonly byte source = HEAP;
+        private readonly byte _source = Heap;
 
-        private string source_file_name = "<Unknown>";
+        private string _sourceFileName = "<Unknown>";
 
-        private string superclass_name;
+        private string _superclassName;
 
-        private int superclass_name_index;
+        private int _superclassNameIndex;
 
         /// <summary>Constructor gets all contents as arguments.</summary>
         /// <param name="class_name_index">
@@ -123,32 +123,32 @@ namespace Apache.NBCEL.ClassFile
         /// <param name="methods">Class methods</param>
         /// <param name="attributes">Class attributes</param>
         /// <param name="source">Read from file or generated in memory?</param>
-        public JavaClass(int class_name_index, int superclass_name_index, string file_name
-            , int major, int minor, int access_flags, ConstantPool constant_pool
+        public JavaClass(int classNameIndex, int superclassNameIndex, string fileName
+            , int major, int minor, int accessFlags, ConstantPool constantPool
             , int[] interfaces, Field[] fields, Method[] methods
             , Attribute[] attributes, byte source)
-            : base(access_flags)
+            : base(accessFlags)
         {
             if (interfaces == null) interfaces = new int[0];
             if (attributes == null) attributes = new Attribute[0];
             if (fields == null) fields = new Field[0];
             if (methods == null) methods = new Method[0];
-            this.class_name_index = class_name_index;
-            this.superclass_name_index = superclass_name_index;
-            this.file_name = file_name;
-            this.major = major;
-            this.minor = minor;
-            this.constant_pool = constant_pool;
-            this.interfaces = interfaces;
-            this.fields = fields;
-            this.methods = methods;
-            this.attributes = attributes;
-            this.source = source;
+            this._classNameIndex = classNameIndex;
+            this._superclassNameIndex = superclassNameIndex;
+            this._fileName = fileName;
+            this._major = major;
+            this._minor = minor;
+            this._constantPool = constantPool;
+            this._interfaces = interfaces;
+            this._fields = fields;
+            this._methods = methods;
+            this._attributes = attributes;
+            this._source = source;
             // Get source file name if available
             foreach (var attribute in attributes)
                 if (attribute is SourceFile)
                 {
-                    source_file_name = ((SourceFile) attribute).GetSourceFileName();
+                    _sourceFileName = ((SourceFile) attribute).GetSourceFileName();
                     break;
                 }
 
@@ -156,33 +156,33 @@ namespace Apache.NBCEL.ClassFile
             * `ConstantClass' but we check that anyway via the
             * `ConstPool.getConstant' method.
             */
-            class_name = constant_pool.GetConstantString(class_name_index, Const.CONSTANT_Class
+            _className = constantPool.GetConstantString(classNameIndex, Const.CONSTANT_Class
             );
-            class_name = Utility.CompactClassName(class_name, false);
-            var index = class_name.LastIndexOf('.');
+            _className = Utility.CompactClassName(_className, false);
+            var index = _className.LastIndexOf('.');
             if (index < 0)
-                package_name = string.Empty;
+                _packageName = string.Empty;
             else
-                package_name = Runtime.Substring(class_name, 0, index);
-            if (superclass_name_index > 0)
+                _packageName = Runtime.Substring(_className, 0, index);
+            if (superclassNameIndex > 0)
             {
                 // May be zero -> class is java.lang.Object
-                superclass_name = constant_pool.GetConstantString(superclass_name_index, Const
+                _superclassName = constantPool.GetConstantString(superclassNameIndex, Const
                     .CONSTANT_Class);
-                superclass_name = Utility.CompactClassName(superclass_name, false
+                _superclassName = Utility.CompactClassName(_superclassName, false
                 );
             }
             else
             {
-                superclass_name = "java.lang.Object";
+                _superclassName = "java.lang.Object";
             }
 
-            interface_names = new string[interfaces.Length];
+            _interfaceNames = new string[interfaces.Length];
             for (var i = 0; i < interfaces.Length; i++)
             {
-                var str = constant_pool.GetConstantString(interfaces[i], Const.CONSTANT_Class
+                var str = constantPool.GetConstantString(interfaces[i], Const.CONSTANT_Class
                 );
-                interface_names[i] = Utility.CompactClassName(str, false);
+                _interfaceNames[i] = Utility.CompactClassName(str, false);
             }
         }
 
@@ -198,12 +198,12 @@ namespace Apache.NBCEL.ClassFile
         /// <param name="fields">Class fields</param>
         /// <param name="methods">Class methods</param>
         /// <param name="attributes">Class attributes</param>
-        public JavaClass(int class_name_index, int superclass_name_index, string file_name
-            , int major, int minor, int access_flags, ConstantPool constant_pool
+        public JavaClass(int classNameIndex, int superclassNameIndex, string fileName
+            , int major, int minor, int accessFlags, ConstantPool constantPool
             , int[] interfaces, Field[] fields, Method[] methods
             , Attribute[] attributes)
-            : this(class_name_index, superclass_name_index, file_name, major, minor, access_flags
-                , constant_pool, interfaces, fields, methods, attributes, HEAP)
+            : this(classNameIndex, superclassNameIndex, fileName, major, minor, accessFlags
+                , constantPool, interfaces, fields, methods, attributes, Heap)
         {
         }
 
@@ -240,9 +240,9 @@ namespace Apache.NBCEL.ClassFile
 
         /* Print debug information depending on `JavaClass.debug'
         */
-        internal static void Debug(string str)
+        internal static void DebugLog(string str)
         {
-            if (debug) Console.Out.WriteLine(str);
+            if (Debug) Console.Out.WriteLine(str);
         }
 
         /// <summary>Dump class to a file.</summary>
@@ -252,7 +252,7 @@ namespace Apache.NBCEL.ClassFile
         {
             var parent = file.Directory;
             if (parent != null) Directory.CreateDirectory(parent.FullName);
-            using (var dos = new DataOutputStream(File.ReadAllBytes(file.FullName).ToOutputStream()))
+            using (var dos = new DataOutputStream(global::System.IO.File.ReadAllBytes(file.FullName).ToOutputStream()))
             {
                 Dump(dos);
             }
@@ -261,9 +261,9 @@ namespace Apache.NBCEL.ClassFile
         /// <summary>Dump class to a file named file_name.</summary>
         /// <param name="_file_name">Output file name</param>
         /// <exception cref="IOException" />
-        public virtual void Dump(string _file_name)
+        public virtual void Dump(string fileName)
         {
-            Dump(new FileInfo(_file_name));
+            Dump(new FileInfo(fileName));
         }
 
         /// <returns>class in binary format</returns>
@@ -309,22 +309,22 @@ namespace Apache.NBCEL.ClassFile
         public virtual void Dump(DataOutputStream file)
         {
             file.WriteInt(Const.JVM_CLASSFILE_MAGIC);
-            file.WriteShort(minor);
-            file.WriteShort(major);
-            constant_pool.Dump(file);
+            file.WriteShort(_minor);
+            file.WriteShort(_major);
+            _constantPool.Dump(file);
             file.WriteShort(GetAccessFlags());
-            file.WriteShort(class_name_index);
-            file.WriteShort(superclass_name_index);
-            file.WriteShort(interfaces.Length);
-            foreach (var interface1 in interfaces) file.WriteShort(interface1);
-            file.WriteShort(fields.Length);
-            foreach (var field in fields) field.Dump(file);
-            file.WriteShort(methods.Length);
-            foreach (var method in methods) method.Dump(file);
-            if (attributes != null)
+            file.WriteShort(_classNameIndex);
+            file.WriteShort(_superclassNameIndex);
+            file.WriteShort(_interfaces.Length);
+            foreach (var interface1 in _interfaces) file.WriteShort(interface1);
+            file.WriteShort(_fields.Length);
+            foreach (var field in _fields) field.Dump(file);
+            file.WriteShort(_methods.Length);
+            foreach (var method in _methods) method.Dump(file);
+            if (_attributes != null)
             {
-                file.WriteShort(attributes.Length);
-                foreach (var attribute in attributes) attribute.Dump(file);
+                file.WriteShort(_attributes.Length);
+                foreach (var attribute in _attributes) attribute.Dump(file);
             }
             else
             {
@@ -337,41 +337,41 @@ namespace Apache.NBCEL.ClassFile
         /// <returns>Attributes of the class.</returns>
         public virtual Attribute[] GetAttributes()
         {
-            return attributes;
+            return _attributes;
         }
 
         /// <returns>Annotations on the class</returns>
         /// <since>6.0</since>
         public virtual AnnotationEntry[] GetAnnotationEntries()
         {
-            if (annotations == null)
-                annotations = AnnotationEntry.CreateAnnotationEntries(GetAttributes
+            if (_annotations == null)
+                _annotations = AnnotationEntry.CreateAnnotationEntries(GetAttributes
                     ());
-            return annotations;
+            return _annotations;
         }
 
         /// <returns>Class name.</returns>
         public virtual string GetClassName()
         {
-            return class_name;
+            return _className;
         }
 
         /// <returns>Package name.</returns>
         public virtual string GetPackageName()
         {
-            return package_name;
+            return _packageName;
         }
 
         /// <returns>Class name index.</returns>
         public virtual int GetClassNameIndex()
         {
-            return class_name_index;
+            return _classNameIndex;
         }
 
         /// <returns>Constant pool.</returns>
         public virtual ConstantPool GetConstantPool()
         {
-            return constant_pool;
+            return _constantPool;
         }
 
         /// <returns>
@@ -381,37 +381,37 @@ namespace Apache.NBCEL.ClassFile
         /// </returns>
         public virtual Field[] GetFields()
         {
-            return fields;
+            return _fields;
         }
 
         /// <returns>File name of class, aka SourceFile attribute value</returns>
         public virtual string GetFileName()
         {
-            return file_name;
+            return _fileName;
         }
 
         /// <returns>Names of implemented interfaces.</returns>
         public virtual string[] GetInterfaceNames()
         {
-            return interface_names;
+            return _interfaceNames;
         }
 
         /// <returns>Indices in constant pool of implemented interfaces.</returns>
         public virtual int[] GetInterfaceIndices()
         {
-            return interfaces;
+            return _interfaces;
         }
 
         /// <returns>Major number of class file version.</returns>
         public virtual int GetMajor()
         {
-            return major;
+            return _major;
         }
 
         /// <returns>Methods of the class.</returns>
         public virtual Method[] GetMethods()
         {
-            return methods;
+            return _methods;
         }
 
         /// <returns>
@@ -422,7 +422,7 @@ namespace Apache.NBCEL.ClassFile
         /// </returns>
         public virtual Method GetMethod(MethodInfo m)
         {
-            foreach (var method in methods)
+            foreach (var method in _methods)
                 if (m.Name.Equals(method.GetName()) &&
                     Type.GetSignature(m).Equals(method.GetSignature()))
                     return method;
@@ -432,13 +432,13 @@ namespace Apache.NBCEL.ClassFile
         /// <returns>Minor number of class file version.</returns>
         public virtual int GetMinor()
         {
-            return minor;
+            return _minor;
         }
 
         /// <returns>sbsolute path to file where this class was read from</returns>
         public virtual string GetSourceFileName()
         {
-            return source_file_name;
+            return _sourceFileName;
         }
 
         /// <summary>returns the super class name of this class.</summary>
@@ -450,97 +450,97 @@ namespace Apache.NBCEL.ClassFile
         /// <returns>Superclass name.</returns>
         public virtual string GetSuperclassName()
         {
-            return superclass_name;
+            return _superclassName;
         }
 
         /// <returns>Class name index.</returns>
         public virtual int GetSuperclassNameIndex()
         {
-            return superclass_name_index;
+            return _superclassNameIndex;
         }
 
         /// <param name="attributes">.</param>
         public virtual void SetAttributes(Attribute[] attributes)
         {
-            this.attributes = attributes;
+            this._attributes = attributes;
         }
 
         /// <param name="class_name">.</param>
-        public virtual void SetClassName(string class_name)
+        public virtual void SetClassName(string className)
         {
-            this.class_name = class_name;
+            this._className = className;
         }
 
         /// <param name="class_name_index">.</param>
-        public virtual void SetClassNameIndex(int class_name_index)
+        public virtual void SetClassNameIndex(int classNameIndex)
         {
-            this.class_name_index = class_name_index;
+            this._classNameIndex = classNameIndex;
         }
 
         /// <param name="constant_pool">.</param>
-        public virtual void SetConstantPool(ConstantPool constant_pool)
+        public virtual void SetConstantPool(ConstantPool constantPool)
         {
-            this.constant_pool = constant_pool;
+            this._constantPool = constantPool;
         }
 
         /// <param name="fields">.</param>
         public virtual void SetFields(Field[] fields)
         {
-            this.fields = fields;
+            this._fields = fields;
         }
 
         /// <summary>Set File name of class, aka SourceFile attribute value</summary>
-        public virtual void SetFileName(string file_name)
+        public virtual void SetFileName(string fileName)
         {
-            this.file_name = file_name;
+            this._fileName = fileName;
         }
 
         /// <param name="interface_names">.</param>
-        public virtual void SetInterfaceNames(string[] interface_names)
+        public virtual void SetInterfaceNames(string[] interfaceNames)
         {
-            this.interface_names = interface_names;
+            this._interfaceNames = interfaceNames;
         }
 
         /// <param name="interfaces">.</param>
         public virtual void SetInterfaces(int[] interfaces)
         {
-            this.interfaces = interfaces;
+            this._interfaces = interfaces;
         }
 
         /// <param name="major">.</param>
         public virtual void SetMajor(int major)
         {
-            this.major = major;
+            this._major = major;
         }
 
         /// <param name="methods">.</param>
         public virtual void SetMethods(Method[] methods)
         {
-            this.methods = methods;
+            this._methods = methods;
         }
 
         /// <param name="minor">.</param>
         public virtual void SetMinor(int minor)
         {
-            this.minor = minor;
+            this._minor = minor;
         }
 
         /// <summary>Set absolute path to file this class was read from.</summary>
-        public virtual void SetSourceFileName(string source_file_name)
+        public virtual void SetSourceFileName(string sourceFileName)
         {
-            this.source_file_name = source_file_name;
+            this._sourceFileName = sourceFileName;
         }
 
         /// <param name="superclass_name">.</param>
-        public virtual void SetSuperclassName(string superclass_name)
+        public virtual void SetSuperclassName(string superclassName)
         {
-            this.superclass_name = superclass_name;
+            this._superclassName = superclassName;
         }
 
         /// <param name="superclass_name_index">.</param>
-        public virtual void SetSuperclassNameIndex(int superclass_name_index)
+        public virtual void SetSuperclassNameIndex(int superclassNameIndex)
         {
-            this.superclass_name_index = superclass_name_index;
+            this._superclassNameIndex = superclassNameIndex;
         }
 
         /// <returns>String representing class contents.</returns>
@@ -551,33 +551,33 @@ namespace Apache.NBCEL.ClassFile
             access = access.Length == 0 ? string.Empty : access + " ";
             var buf = new StringBuilder(128);
             buf.Append(access).Append(Utility.ClassOrInterface(GetAccessFlags
-                ())).Append(" ").Append(class_name).Append(" extends ").Append(Utility
-                .CompactClassName(superclass_name, false)).Append('\n');
-            var size = interfaces.Length;
+                ())).Append(" ").Append(_className).Append(" extends ").Append(Utility
+                .CompactClassName(_superclassName, false)).Append('\n');
+            var size = _interfaces.Length;
             if (size > 0)
             {
                 buf.Append("implements\t\t");
                 for (var i = 0; i < size; i++)
                 {
-                    buf.Append(interface_names[i]);
+                    buf.Append(_interfaceNames[i]);
                     if (i < size - 1) buf.Append(", ");
                 }
 
                 buf.Append('\n');
             }
 
-            buf.Append("file name\t\t").Append(file_name).Append('\n');
-            buf.Append("compiled from\t\t").Append(source_file_name).Append('\n');
-            buf.Append("compiler version\t").Append(major).Append(".").Append(minor).Append('\n'
+            buf.Append("file name\t\t").Append(_fileName).Append('\n');
+            buf.Append("compiled from\t\t").Append(_sourceFileName).Append('\n');
+            buf.Append("compiler version\t").Append(_major).Append(".").Append(_minor).Append('\n'
             );
             buf.Append("access flags\t\t").Append(GetAccessFlags()).Append('\n');
-            buf.Append("constant pool\t\t").Append(constant_pool.GetLength()).Append(" entries\n"
+            buf.Append("constant pool\t\t").Append(_constantPool.GetLength()).Append(" entries\n"
             );
             buf.Append("ACC_SUPER flag\t\t").Append(IsSuper()).Append("\n");
-            if (attributes.Length > 0)
+            if (_attributes.Length > 0)
             {
                 buf.Append("\nAttribute(s):\n");
-                foreach (var attribute in attributes) buf.Append(Indent(attribute));
+                foreach (var attribute in _attributes) buf.Append(Indent(attribute));
             }
 
             var annotations = GetAnnotationEntries();
@@ -587,16 +587,16 @@ namespace Apache.NBCEL.ClassFile
                 foreach (var annotation in annotations) buf.Append(Indent(annotation));
             }
 
-            if (fields.Length > 0)
+            if (_fields.Length > 0)
             {
-                buf.Append("\n").Append(fields.Length).Append(" fields:\n");
-                foreach (var field in fields) buf.Append("\t").Append(field).Append('\n');
+                buf.Append("\n").Append(_fields.Length).Append(" fields:\n");
+                foreach (var field in _fields) buf.Append("\t").Append(field).Append('\n');
             }
 
-            if (methods.Length > 0)
+            if (_methods.Length > 0)
             {
-                buf.Append("\n").Append(methods.Length).Append(" methods:\n");
-                foreach (var method in methods) buf.Append("\t").Append(method).Append('\n');
+                buf.Append("\n").Append(_methods.Length).Append(" methods:\n");
+                foreach (var method in _methods) buf.Append("\t").Append(method).Append('\n');
             }
 
             return buf.ToString();
@@ -612,15 +612,15 @@ namespace Apache.NBCEL.ClassFile
         {
             JavaClass c = null;
             c = (JavaClass) MemberwiseClone();
-            c.constant_pool = constant_pool.Copy();
-            c.interfaces = (int[]) interfaces.Clone();
-            c.interface_names = (string[]) interface_names.Clone();
-            c.fields = new Field[fields.Length];
-            for (var i = 0; i < fields.Length; i++) c.fields[i] = fields[i].Copy(c.constant_pool);
-            c.methods = new Method[methods.Length];
-            for (var i = 0; i < methods.Length; i++) c.methods[i] = methods[i].Copy(c.constant_pool);
-            c.attributes = new Attribute[attributes.Length];
-            for (var i = 0; i < attributes.Length; i++) c.attributes[i] = attributes[i].Copy(c.constant_pool);
+            c._constantPool = _constantPool.Copy();
+            c._interfaces = (int[]) _interfaces.Clone();
+            c._interfaceNames = (string[]) _interfaceNames.Clone();
+            c._fields = new Field[_fields.Length];
+            for (var i = 0; i < _fields.Length; i++) c._fields[i] = _fields[i].Copy(c._constantPool);
+            c._methods = new Method[_methods.Length];
+            for (var i = 0; i < _methods.Length; i++) c._methods[i] = _methods[i].Copy(c._constantPool);
+            c._attributes = new Attribute[_attributes.Length];
+            for (var i = 0; i < _attributes.Length; i++) c._attributes[i] = _attributes[i].Copy(c._constantPool);
             // TODO should this throw?
             return c;
         }
@@ -639,20 +639,20 @@ namespace Apache.NBCEL.ClassFile
         public bool IsAnonymous()
         {
             ComputeNestedTypeStatus();
-            return isAnonymous__;
+            return _isAnonymous;
         }
 
         /// <since>6.0</since>
         public bool IsNested()
         {
             ComputeNestedTypeStatus();
-            return isNested__;
+            return _isNested;
         }
 
         private void ComputeNestedTypeStatus()
         {
-            if (computedNestedTypeStatus) return;
-            foreach (var attribute in attributes)
+            if (_computedNestedTypeStatus) return;
+            foreach (var attribute in _attributes)
                 if (attribute is InnerClasses)
                 {
                     var innerClasses = ((InnerClasses) attribute
@@ -660,26 +660,26 @@ namespace Apache.NBCEL.ClassFile
                     foreach (var innerClasse in innerClasses)
                     {
                         var innerClassAttributeRefersToMe = false;
-                        var inner_class_name = constant_pool.GetConstantString(innerClasse.GetInnerClassIndex
+                        var innerClassName = _constantPool.GetConstantString(innerClasse.GetInnerClassIndex
                             (), Const.CONSTANT_Class);
-                        inner_class_name = Utility.CompactClassName(inner_class_name, false
+                        innerClassName = Utility.CompactClassName(innerClassName, false
                         );
-                        if (inner_class_name.Equals(GetClassName())) innerClassAttributeRefersToMe = true;
+                        if (innerClassName.Equals(GetClassName())) innerClassAttributeRefersToMe = true;
                         if (innerClassAttributeRefersToMe)
                         {
-                            isNested__ = true;
-                            if (innerClasse.GetInnerNameIndex() == 0) isAnonymous__ = true;
+                            _isNested = true;
+                            if (innerClasse.GetInnerNameIndex() == 0) _isAnonymous = true;
                         }
                     }
                 }
 
-            computedNestedTypeStatus = true;
+            _computedNestedTypeStatus = true;
         }
 
         /// <returns>returns either HEAP (generated), FILE, or ZIP</returns>
         public byte GetSource()
         {
-            return source;
+            return _source;
         }
 
         /// <summary>Gets the ClassRepository which holds its definition.</summary>
@@ -689,7 +689,7 @@ namespace Apache.NBCEL.ClassFile
         /// </remarks>
         public virtual Util.Repository GetRepository()
         {
-            return repository;
+            return _repository;
         }
 
         /// <summary>Sets the ClassRepository which loaded the JavaClass.</summary>
@@ -700,7 +700,7 @@ namespace Apache.NBCEL.ClassFile
         public virtual void SetRepository(Util.Repository repository)
         {
             // TODO make protected?
-            this.repository = repository;
+            this._repository = repository;
         }
 
         /// <summary>Equivalent to runtime "instanceof" operator.</summary>
@@ -709,14 +709,14 @@ namespace Apache.NBCEL.ClassFile
         ///     if superclasses or superinterfaces
         ///     of this object can't be found
         /// </exception>
-        public bool InstanceOf(JavaClass super_class)
+        public bool InstanceOf(JavaClass superClass)
         {
-            if (Equals(super_class)) return true;
-            var super_classes = GetSuperClasses();
-            foreach (var super_classe in super_classes)
-                if (super_classe.Equals(super_class))
+            if (Equals(superClass)) return true;
+            var superClasses = GetSuperClasses();
+            foreach (var superClasse in superClasses)
+                if (superClasse.Equals(superClass))
                     return true;
-            if (super_class.IsInterface()) return ImplementationOf(super_class);
+            if (superClass.IsInterface()) return ImplementationOf(superClass);
             return false;
         }
 
@@ -729,9 +729,9 @@ namespace Apache.NBCEL.ClassFile
         {
             if (!inter.IsInterface()) throw new ArgumentException(inter.GetClassName() + " is no interface");
             if (Equals(inter)) return true;
-            var super_interfaces = GetAllInterfaces();
-            foreach (var super_interface in super_interfaces)
-                if (super_interface.Equals(inter))
+            var superInterfaces = GetAllInterfaces();
+            foreach (var superInterface in superInterfaces)
+                if (superInterface.Equals(inter))
                     return true;
             return false;
         }
@@ -744,7 +744,7 @@ namespace Apache.NBCEL.ClassFile
         public virtual JavaClass GetSuperClass()
         {
             if ("java.lang.Object".Equals(GetClassName())) return null;
-            return repository.LoadClass(GetSuperclassName());
+            return _repository.LoadClass(GetSuperclassName());
         }
 
         /// <returns>
@@ -769,12 +769,113 @@ namespace Apache.NBCEL.ClassFile
         /// <exception cref="TypeLoadException" />
         public virtual JavaClass[] GetInterfaces()
         {
-            var _interfaces = GetInterfaceNames();
-            var classes = new JavaClass[_interfaces.Length
+            var interfaces = GetInterfaceNames();
+            var classes = new JavaClass[interfaces.Length
             ];
-            for (var i = 0; i < _interfaces.Length; i++) classes[i] = repository.LoadClass(_interfaces[i]);
+            for (var i = 0; i < interfaces.Length; i++) classes[i] = _repository.LoadClass(interfaces[i]);
             return classes;
         }
+
+        public byte[] Bytes => GetBytes();
+
+        public Attribute[] Attributes
+        {
+            get => GetAttributes();
+            set => SetAttributes(value);
+        }
+
+        public AnnotationEntry[] AnnotationEntries => GetAnnotationEntries();
+
+        public string ClassName
+        {
+            get => GetClassName();
+            set => SetClassName(value);
+        }
+
+        public string PackageName => GetPackageName();
+
+        public int ClassNameIndex
+        {
+            get => GetClassNameIndex();
+            set => SetClassNameIndex(value);
+        }
+
+        public ConstantPool ConstantPool
+        {
+            get => GetConstantPool();
+            set => SetConstantPool(value);
+        }
+
+        public Field[] Fields
+        {
+            get => GetFields();
+            set => SetFields(value);
+        }
+
+        public string FileName
+        {
+            get => GetFileName();
+            set => SetFileName(value);
+        }
+
+        public string[] InterfaceNames
+        {
+            get => GetInterfaceNames();
+            set => SetInterfaceNames(value);
+        }
+
+        public int[] InterfaceIndices => GetInterfaceIndices();
+
+        public int Major
+        {
+            get => GetMajor();
+            set => SetMajor(value);
+        }
+
+        public Method[] Methods
+        {
+            get => GetMethods();
+            set => SetMethods(value);
+        }
+
+        public int Minor
+        {
+            get => GetMinor();
+            set => SetMinor(value);
+        }
+
+        public string SourceFileName
+        {
+            get => GetSourceFileName();
+            set => SetSourceFileName(value);
+        }
+
+        public string SuperclassName
+        {
+            get => GetSuperclassName();
+            set => SetSuperclassName(value);
+        }
+
+        public int SuperclassNameIndex
+        {
+            get => GetSuperclassNameIndex();
+            set => SetSuperclassNameIndex(value);
+        }
+
+        public Util.Repository Repository
+        {
+            get => GetRepository();
+            set => SetRepository(value);
+        }
+
+        public JavaClass SuperClass => GetSuperClass();
+
+        public JavaClass[] SuperClasses => GetSuperClasses();
+
+        public JavaClass[] Interfaces => GetInterfaces();
+
+        public JavaClass[] AllInterfaces => GetAllInterfaces();
+
 
         /// <summary>Get all interfaces implemented by this JavaClass (transitively).</summary>
         /// <exception cref="TypeLoadException" />
@@ -788,11 +889,11 @@ namespace Apache.NBCEL.ClassFile
             {
                 var clazz = queue.Dequeue();
                 var souper = clazz.GetSuperClass();
-                var _interfaces = clazz.GetInterfaces();
+                var interfaces = clazz.GetInterfaces();
                 if (clazz.IsInterface())
                     allInterfaces.Add(clazz);
                 else if (souper != null) queue.Enqueue(souper);
-                foreach (var _interface in _interfaces) queue.Enqueue(_interface);
+                foreach (var @interface in interfaces) queue.Enqueue(@interface);
             }
 
             return Collections.ToArray(allInterfaces, new JavaClass[allInterfaces
@@ -802,13 +903,13 @@ namespace Apache.NBCEL.ClassFile
         /// <returns>Comparison strategy object</returns>
         public static BCELComparator GetComparator()
         {
-            return bcelComparator;
+            return _bcelComparator;
         }
 
         /// <param name="comparator">Comparison strategy object</param>
         public static void SetComparator(BCELComparator comparator)
         {
-            bcelComparator = comparator;
+            _bcelComparator = comparator;
         }
 
         /// <summary>Return value as defined by given BCELComparator strategy.</summary>
@@ -820,7 +921,7 @@ namespace Apache.NBCEL.ClassFile
         /// <seealso cref="object.Equals(object)" />
         public override bool Equals(object obj)
         {
-            return bcelComparator.Equals(this, obj);
+            return _bcelComparator.Equals(this, obj);
         }
 
         /// <summary>Return value as defined by given BCELComparator strategy.</summary>
@@ -831,10 +932,10 @@ namespace Apache.NBCEL.ClassFile
         /// <seealso cref="object.GetHashCode()" />
         public override int GetHashCode()
         {
-            return bcelComparator.HashCode(this);
+            return _bcelComparator.HashCode(this);
         }
 
-        private sealed class _BCELComparator_76 : BCELComparator
+        private sealed class BcelComparator76 : BCELComparator
         {
             // Compiler version
             // Constant pool
@@ -847,15 +948,15 @@ namespace Apache.NBCEL.ClassFile
             // Debugging on/off
             public bool Equals(object o1, object o2)
             {
-                var THIS = (JavaClass) o1;
-                var THAT = (JavaClass) o2;
-                return System.Equals(THIS.GetClassName(), THAT.GetClassName());
+                var @this = (JavaClass) o1;
+                var that = (JavaClass) o2;
+                return System.Equals(@this.GetClassName(), that.GetClassName());
             }
 
             public int HashCode(object o)
             {
-                var THIS = (JavaClass) o;
-                return THIS.GetClassName().GetHashCode();
+                var @this = (JavaClass) o;
+                return @this.GetClassName().GetHashCode();
             }
         }
     }

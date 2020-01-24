@@ -180,6 +180,11 @@ namespace Apache.NBCEL.ClassFile
                 var THIS = (Field) o;
                 return THIS.GetSignature().GetHashCode() ^ THIS.GetName().GetHashCode();
             }
+            
+            public BCELComparator Comparator {
+                get => GetComparator();
+                set => SetComparator(value);
+            }
         }
     }
 }

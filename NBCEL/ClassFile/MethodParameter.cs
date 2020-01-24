@@ -56,14 +56,10 @@ namespace Apache.NBCEL.ClassFile
             return MemberwiseClone();
         }
 
-        public virtual int GetNameIndex()
+        public virtual int NameIndex
         {
-            return name_index;
-        }
-
-        public virtual void SetNameIndex(int name_index)
-        {
-            this.name_index = name_index;
+            get => name_index;
+            set => this.name_index = value;
         }
 
         /// <summary>Returns the name of the parameter.</summary>
@@ -75,30 +71,17 @@ namespace Apache.NBCEL.ClassFile
                 .CONSTANT_Utf8)).GetBytes();
         }
 
-        public virtual int GetAccessFlags()
+        public virtual int AccessFlags
         {
-            return access_flags;
+            get => access_flags;
+            set => this.access_flags = value;
         }
 
-        public virtual void SetAccessFlags(int access_flags)
-        {
-            this.access_flags = access_flags;
-        }
+        public virtual bool IsFinal => (access_flags & Const.ACC_FINAL) != 0;
 
-        public virtual bool IsFinal()
-        {
-            return (access_flags & Const.ACC_FINAL) != 0;
-        }
+        public virtual bool IsSynthetic => (access_flags & Const.ACC_SYNTHETIC) != 0;
 
-        public virtual bool IsSynthetic()
-        {
-            return (access_flags & Const.ACC_SYNTHETIC) != 0;
-        }
-
-        public virtual bool IsMandated()
-        {
-            return (access_flags & Const.ACC_MANDATED) != 0;
-        }
+        public virtual bool IsMandated => (access_flags & Const.ACC_MANDATED) != 0;
 
         public virtual void Accept(Visitor v)
         {

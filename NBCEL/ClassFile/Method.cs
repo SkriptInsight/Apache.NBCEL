@@ -252,5 +252,26 @@ namespace Apache.NBCEL.ClassFile
                 return THIS.GetSignature().GetHashCode() ^ THIS.GetName().GetHashCode();
             }
         }
+        
+        public Code Code => GetCode();
+
+        public ExceptionTable ExceptionTable => GetExceptionTable();
+
+        public LocalVariableTable LocalVariableTable => GetLocalVariableTable();
+
+        public LineNumberTable LineNumberTable => GetLineNumberTable();
+
+        public Type ReturnType => GetReturnType();
+
+        public Type[] ArgumentTypes => GetArgumentTypes();
+
+        public static BCELComparator Comparator {
+            get => GetComparator();
+            set => SetComparator(value);
+        }
+
+        public int HashCode => GetHashCode();
+
+        public ParameterAnnotationEntry[] ParameterAnnotationEntries => GetParameterAnnotationEntries();
     }
 }
