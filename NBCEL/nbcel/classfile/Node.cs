@@ -15,13 +15,12 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.classfile
 {
-	/// <summary>Denote class to have an accept method();</summary>
-	public interface Node
-	{
-		void Accept(NBCEL.classfile.Visitor obj);
-	}
+    /// <summary>Denote class to have an accept method();</summary>
+    public interface Node
+    {
+        void Accept(Visitor obj);
+    }
 }

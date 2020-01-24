@@ -15,57 +15,55 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
+
+using NBCEL.generic;
 
 namespace NBCEL.verifier.structurals
 {
 	/// <summary>
-	/// This class represents an uninitialized object type; see The Java
-	/// Virtual Machine Specification, Second Edition, page 147: 4.9.4 for
-	/// more details.
+	///     This class represents an uninitialized object type; see The Java
+	///     Virtual Machine Specification, Second Edition, page 147: 4.9.4 for
+	///     more details.
 	/// </summary>
-	public class UninitializedObjectType : NBCEL.generic.ReferenceType
-	{
-		/// <summary>The "initialized" version.</summary>
-		private readonly NBCEL.generic.ObjectType initialized;
+	public class UninitializedObjectType : ReferenceType
+    {
+        /// <summary>The "initialized" version.</summary>
+        private readonly ObjectType initialized;
 
-		/// <summary>Creates a new instance.</summary>
-		public UninitializedObjectType(NBCEL.generic.ObjectType t)
-			: base(NBCEL.Const.T_UNKNOWN, "<UNINITIALIZED OBJECT OF TYPE '" + t.GetClassName(
-				) + "'>")
-		{
-			initialized = t;
-		}
+        /// <summary>Creates a new instance.</summary>
+        public UninitializedObjectType(ObjectType t)
+            : base(Const.T_UNKNOWN, "<UNINITIALIZED OBJECT OF TYPE '" + t.GetClassName(
+                                    ) + "'>")
+        {
+            initialized = t;
+        }
 
-		/// <summary>
-		/// Returns the ObjectType of the same class as the one of the uninitialized object
-		/// represented by this UninitializedObjectType instance.
-		/// </summary>
-		public virtual NBCEL.generic.ObjectType GetInitialized()
-		{
-			return initialized;
-		}
+        /// <summary>
+        ///     Returns the ObjectType of the same class as the one of the uninitialized object
+        ///     represented by this UninitializedObjectType instance.
+        /// </summary>
+        public virtual ObjectType GetInitialized()
+        {
+            return initialized;
+        }
 
-		/// <returns>a hash code value for the object.</returns>
-		public override int GetHashCode()
-		{
-			return initialized.GetHashCode();
-		}
+        /// <returns>a hash code value for the object.</returns>
+        public override int GetHashCode()
+        {
+            return initialized.GetHashCode();
+        }
 
-		/// <summary>Returns true on equality of this and o.</summary>
-		/// <remarks>
-		/// Returns true on equality of this and o.
-		/// Equality means the ObjectType instances of "initialized"
-		/// equal one another in this and the o instance.
-		/// </remarks>
-		public override bool Equals(object o)
-		{
-			if (!(o is NBCEL.verifier.structurals.UninitializedObjectType))
-			{
-				return false;
-			}
-			return initialized.Equals(((NBCEL.verifier.structurals.UninitializedObjectType)o)
-				.initialized);
-		}
-	}
+        /// <summary>Returns true on equality of this and o.</summary>
+        /// <remarks>
+        ///     Returns true on equality of this and o.
+        ///     Equality means the ObjectType instances of "initialized"
+        ///     equal one another in this and the o instance.
+        /// </remarks>
+        public override bool Equals(object o)
+        {
+            if (!(o is UninitializedObjectType)) return false;
+            return initialized.Equals(((UninitializedObjectType) o)
+                .initialized);
+        }
+    }
 }

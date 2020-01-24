@@ -15,50 +15,49 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// IFLT - Branch if int comparison with zero succeeds
-	/// <PRE>Stack: ..., value -&gt; ...</PRE>
+	///     IFLT - Branch if int comparison with zero succeeds
+	///     <PRE>Stack: ..., value -&gt; ...</PRE>
 	/// </summary>
-	public class IFLT : NBCEL.generic.IfInstruction
-	{
-		/// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
-		/// <remarks>
-		/// Empty constructor needed for Instruction.readInstruction.
-		/// Not to be used otherwise.
-		/// </remarks>
-		internal IFLT()
-		{
-		}
+	public class IFLT : IfInstruction
+    {
+	    /// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
+	    /// <remarks>
+	    ///     Empty constructor needed for Instruction.readInstruction.
+	    ///     Not to be used otherwise.
+	    /// </remarks>
+	    internal IFLT()
+        {
+        }
 
-		public IFLT(NBCEL.generic.InstructionHandle target)
-			: base(NBCEL.Const.IFLT, target)
-		{
-		}
+        public IFLT(InstructionHandle target)
+            : base(Const.IFLT, target)
+        {
+        }
 
-		/// <returns>negation of instruction</returns>
-		public override NBCEL.generic.IfInstruction Negate()
-		{
-			return new NBCEL.generic.IFGE(base.GetTarget());
-		}
+        /// <returns>negation of instruction</returns>
+        public override IfInstruction Negate()
+        {
+            return new IFGE(base.GetTarget());
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitStackConsumer(this);
-			v.VisitBranchInstruction(this);
-			v.VisitIfInstruction(this);
-			v.VisitIFLT(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitStackConsumer(this);
+            v.VisitBranchInstruction(this);
+            v.VisitIfInstruction(this);
+            v.VisitIFLT(this);
+        }
+    }
 }

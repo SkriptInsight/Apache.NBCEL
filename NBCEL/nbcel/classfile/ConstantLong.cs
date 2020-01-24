@@ -15,87 +15,89 @@
 *  limitations under the License.
 *
 */
+
+using java.io;
 using Sharpen;
 
 namespace NBCEL.classfile
 {
 	/// <summary>
-	/// This class is derived from the abstract
-	/// <see cref="Constant"/>
-	/// and represents a reference to a long object.
+	///     This class is derived from the abstract
+	///     <see cref="Constant" />
+	///     and represents a reference to a long object.
 	/// </summary>
-	/// <seealso cref="Constant"/>
-	public sealed class ConstantLong : NBCEL.classfile.Constant, NBCEL.classfile.ConstantObject
-	{
-		private long bytes;
+	/// <seealso cref="Constant" />
+	public sealed class ConstantLong : Constant, ConstantObject
+    {
+        private long bytes;
 
-		/// <param name="bytes">Data</param>
-		public ConstantLong(long bytes)
-			: base(NBCEL.Const.CONSTANT_Long)
-		{
-			this.bytes = bytes;
-		}
+        /// <param name="bytes">Data</param>
+        public ConstantLong(long bytes)
+            : base(Const.CONSTANT_Long)
+        {
+            this.bytes = bytes;
+        }
 
-		/// <summary>Initialize from another object.</summary>
-		public ConstantLong(NBCEL.classfile.ConstantLong c)
-			: this(c.GetBytes())
-		{
-		}
+        /// <summary>Initialize from another object.</summary>
+        public ConstantLong(ConstantLong c)
+            : this(c.GetBytes())
+        {
+        }
 
-		/// <summary>Initialize instance from file data.</summary>
-		/// <param name="file">Input stream</param>
-		/// <exception cref="System.IO.IOException"/>
-		internal ConstantLong(java.io.DataInput file)
-			: this(file.ReadLong())
-		{
-		}
+        /// <summary>Initialize instance from file data.</summary>
+        /// <param name="file">Input stream</param>
+        /// <exception cref="System.IO.IOException" />
+        internal ConstantLong(DataInput file)
+            : this(file.ReadLong())
+        {
+        }
 
-		/// <summary>
-		/// Called by objects that are traversing the nodes of the tree implicitely
-		/// defined by the contents of a Java class.
-		/// </summary>
-		/// <remarks>
-		/// Called by objects that are traversing the nodes of the tree implicitely
-		/// defined by the contents of a Java class. I.e., the hierarchy of methods,
-		/// fields, attributes, etc. spawns a tree of objects.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.classfile.Visitor v)
-		{
-			v.VisitConstantLong(this);
-		}
+        /// <returns>Long object</returns>
+        public object GetConstantValue(ConstantPool cp)
+        {
+            return bytes;
+        }
 
-		/// <summary>Dump constant long to file stream in binary format.</summary>
-		/// <param name="file">Output file stream</param>
-		/// <exception cref="System.IO.IOException"/>
-		public override void Dump(java.io.DataOutputStream file)
-		{
-			file.WriteByte(base.GetTag());
-			file.WriteLong(bytes);
-		}
+        /// <summary>
+        ///     Called by objects that are traversing the nodes of the tree implicitely
+        ///     defined by the contents of a Java class.
+        /// </summary>
+        /// <remarks>
+        ///     Called by objects that are traversing the nodes of the tree implicitely
+        ///     defined by the contents of a Java class. I.e., the hierarchy of methods,
+        ///     fields, attributes, etc. spawns a tree of objects.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitConstantLong(this);
+        }
 
-		/// <returns>data, i.e., 8 bytes.</returns>
-		public long GetBytes()
-		{
-			return bytes;
-		}
+        /// <summary>Dump constant long to file stream in binary format.</summary>
+        /// <param name="file">Output file stream</param>
+        /// <exception cref="System.IO.IOException" />
+        public override void Dump(DataOutputStream file)
+        {
+            file.WriteByte(GetTag());
+            file.WriteLong(bytes);
+        }
 
-		/// <param name="bytes">the raw bytes that represent this long</param>
-		public void SetBytes(long bytes)
-		{
-			this.bytes = bytes;
-		}
+        /// <returns>data, i.e., 8 bytes.</returns>
+        public long GetBytes()
+        {
+            return bytes;
+        }
 
-		/// <returns>String representation.</returns>
-		public override string ToString()
-		{
-			return base.ToString() + "(bytes = " + bytes + ")";
-		}
+        /// <param name="bytes">the raw bytes that represent this long</param>
+        public void SetBytes(long bytes)
+        {
+            this.bytes = bytes;
+        }
 
-		/// <returns>Long object</returns>
-		public object GetConstantValue(NBCEL.classfile.ConstantPool cp)
-		{
-			return bytes;
-		}
-	}
+        /// <returns>String representation.</returns>
+        public override string ToString()
+        {
+            return base.ToString() + "(bytes = " + bytes + ")";
+        }
+    }
 }

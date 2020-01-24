@@ -15,6 +15,9 @@
 *  limitations under the License.
 *
 */
+
+using System.Text;
+using java.io;
 using Sharpen;
 
 namespace NBCEL.classfile
@@ -22,51 +25,50 @@ namespace NBCEL.classfile
 	/// <summary>an annotation's element value pair</summary>
 	/// <since>6.0</since>
 	public class ElementValuePair
-	{
-		private readonly NBCEL.classfile.ElementValue elementValue;
+    {
+        private readonly ConstantPool constantPool;
 
-		private readonly NBCEL.classfile.ConstantPool constantPool;
+        private readonly int elementNameIndex;
+        private readonly ElementValue elementValue;
 
-		private readonly int elementNameIndex;
+        public ElementValuePair(int elementNameIndex, ElementValue elementValue
+            , ConstantPool constantPool)
+        {
+            this.elementValue = elementValue;
+            this.elementNameIndex = elementNameIndex;
+            this.constantPool = constantPool;
+        }
 
-		public ElementValuePair(int elementNameIndex, NBCEL.classfile.ElementValue elementValue
-			, NBCEL.classfile.ConstantPool constantPool)
-		{
-			this.elementValue = elementValue;
-			this.elementNameIndex = elementNameIndex;
-			this.constantPool = constantPool;
-		}
+        public virtual string GetNameString()
+        {
+            var c = (ConstantUtf8) constantPool.GetConstant
+                (elementNameIndex, Const.CONSTANT_Utf8);
+            return c.GetBytes();
+        }
 
-		public virtual string GetNameString()
-		{
-			NBCEL.classfile.ConstantUtf8 c = (NBCEL.classfile.ConstantUtf8)constantPool.GetConstant
-				(elementNameIndex, NBCEL.Const.CONSTANT_Utf8);
-			return c.GetBytes();
-		}
+        public ElementValue GetValue()
+        {
+            return elementValue;
+        }
 
-		public NBCEL.classfile.ElementValue GetValue()
-		{
-			return elementValue;
-		}
+        public virtual int GetNameIndex()
+        {
+            return elementNameIndex;
+        }
 
-		public virtual int GetNameIndex()
-		{
-			return elementNameIndex;
-		}
+        public virtual string ToShortString()
+        {
+            var result = new StringBuilder();
+            result.Append(GetNameString()).Append("=").Append(GetValue().ToShortString());
+            return result.ToString();
+        }
 
-		public virtual string ToShortString()
-		{
-			System.Text.StringBuilder result = new System.Text.StringBuilder();
-			result.Append(GetNameString()).Append("=").Append(GetValue().ToShortString());
-			return result.ToString();
-		}
-
-		/// <exception cref="System.IO.IOException"/>
-		protected internal virtual void Dump(java.io.DataOutputStream dos)
-		{
-			dos.WriteShort(elementNameIndex);
-			// u2 name of the element
-			elementValue.Dump(dos);
-		}
-	}
+        /// <exception cref="System.IO.IOException" />
+        protected internal virtual void Dump(DataOutputStream dos)
+        {
+            dos.WriteShort(elementNameIndex);
+            // u2 name of the element
+            elementValue.Dump(dos);
+        }
+    }
 }

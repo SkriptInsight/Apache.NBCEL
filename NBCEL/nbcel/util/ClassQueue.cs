@@ -15,39 +15,43 @@
 *  limitations under the License.
 *
 */
+
+using System;
+using System.Collections.Generic;
+using NBCEL.classfile;
 using Sharpen;
 
 namespace NBCEL.util
 {
 	/// <summary>
-	/// Utility class implementing a (typesafe) queue of JavaClass
-	/// objects.
+	///     Utility class implementing a (typesafe) queue of JavaClass
+	///     objects.
 	/// </summary>
 	public class ClassQueue
-	{
-		[System.ObsoleteAttribute(@"(since 6.0) will be made private; do not access")]
-		protected internal System.Collections.Generic.LinkedList<NBCEL.classfile.JavaClass
-			> vec = new System.Collections.Generic.LinkedList<NBCEL.classfile.JavaClass>();
+    {
+        [Obsolete(@"(since 6.0) will be made private; do not access")]
+        protected internal LinkedList<JavaClass
+        > vec = new LinkedList<JavaClass>();
 
-		// TODO not used externally
-		public virtual void Enqueue(NBCEL.classfile.JavaClass clazz)
-		{
-			vec.AddLast(clazz);
-		}
+        // TODO not used externally
+        public virtual void Enqueue(JavaClass clazz)
+        {
+            vec.AddLast(clazz);
+        }
 
-		public virtual NBCEL.classfile.JavaClass Dequeue()
-		{
-			return Sharpen.Collections.RemoveFirst(vec);
-		}
+        public virtual JavaClass Dequeue()
+        {
+            return Collections.RemoveFirst(vec);
+        }
 
-		public virtual bool Empty()
-		{
-			return (vec.Count == 0);
-		}
+        public virtual bool Empty()
+        {
+            return vec.Count == 0;
+        }
 
-		public override string ToString()
-		{
-			return vec.ToString();
-		}
-	}
+        public override string ToString()
+        {
+            return vec.ToString();
+        }
+    }
 }

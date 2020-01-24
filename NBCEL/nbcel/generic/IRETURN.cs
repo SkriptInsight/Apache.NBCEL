@@ -15,37 +15,36 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// IRETURN -  Return int from method
-	/// <PRE>Stack: ..., value -&gt; &lt;empty&gt;</PRE>
+	///     IRETURN -  Return int from method
+	///     <PRE>Stack: ..., value -&gt; &lt;empty&gt;</PRE>
 	/// </summary>
-	public class IRETURN : NBCEL.generic.ReturnInstruction
-	{
-		/// <summary>Return int from method</summary>
-		public IRETURN()
-			: base(NBCEL.Const.IRETURN)
-		{
-		}
+	public class IRETURN : ReturnInstruction
+    {
+        /// <summary>Return int from method</summary>
+        public IRETURN()
+            : base(Const.IRETURN)
+        {
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitExceptionThrower(this);
-			v.VisitTypedInstruction(this);
-			v.VisitStackConsumer(this);
-			v.VisitReturnInstruction(this);
-			v.VisitIRETURN(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitExceptionThrower(this);
+            v.VisitTypedInstruction(this);
+            v.VisitStackConsumer(this);
+            v.VisitReturnInstruction(this);
+            v.VisitIRETURN(this);
+        }
+    }
 }

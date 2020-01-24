@@ -816,7 +816,7 @@ namespace ObjectWeb.Misc.Java.Nio
 
         private static int Compare(long x, long y)
         {
-	        return x.CompareTo(y);
+            return x.CompareTo(y);
         }
 
         // -- Other char stuff --

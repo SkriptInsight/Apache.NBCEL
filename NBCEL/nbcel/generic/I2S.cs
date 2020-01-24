@@ -15,36 +15,35 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// I2S - Convert int to short
-	/// <PRE>Stack: ..., value -&gt; ..., result</PRE>
+	///     I2S - Convert int to short
+	///     <PRE>Stack: ..., value -&gt; ..., result</PRE>
 	/// </summary>
-	public class I2S : NBCEL.generic.ConversionInstruction
-	{
-		public I2S()
-			: base(NBCEL.Const.I2S)
-		{
-		}
+	public class I2S : ConversionInstruction
+    {
+        public I2S()
+            : base(Const.I2S)
+        {
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitTypedInstruction(this);
-			v.VisitStackProducer(this);
-			v.VisitStackConsumer(this);
-			v.VisitConversionInstruction(this);
-			v.VisitI2S(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitTypedInstruction(this);
+            v.VisitStackProducer(this);
+            v.VisitStackConsumer(this);
+            v.VisitConversionInstruction(this);
+            v.VisitI2S(this);
+        }
+    }
 }

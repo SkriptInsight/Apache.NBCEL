@@ -15,66 +15,69 @@
 *  limitations under the License.
 *
 */
+
+using System;
+using java.io;
+using NBCEL.classfile;
 using Sharpen;
 
 namespace NBCEL.generic
 {
-	/// <since>6.0</since>
-	public class AnnotationElementValueGen : NBCEL.generic.ElementValueGen
-	{
-		private readonly NBCEL.generic.AnnotationEntryGen a;
+    /// <since>6.0</since>
+    public class AnnotationElementValueGen : ElementValueGen
+    {
+        private readonly AnnotationEntryGen a;
 
-		public AnnotationElementValueGen(NBCEL.generic.AnnotationEntryGen a, NBCEL.generic.ConstantPoolGen
-			 cpool)
-			: base(ANNOTATION, cpool)
-		{
-			// For annotation element values, this is the annotation
-			this.a = a;
-		}
+        public AnnotationElementValueGen(AnnotationEntryGen a, ConstantPoolGen
+            cpool)
+            : base(ANNOTATION, cpool)
+        {
+            // For annotation element values, this is the annotation
+            this.a = a;
+        }
 
-		public AnnotationElementValueGen(int type, NBCEL.generic.AnnotationEntryGen annotation
-			, NBCEL.generic.ConstantPoolGen cpool)
-			: base(type, cpool)
-		{
-			if (type != ANNOTATION)
-			{
-				throw new System.Exception("Only element values of type annotation can be built with this ctor - type specified: "
-					 + type);
-			}
-			this.a = annotation;
-		}
+        public AnnotationElementValueGen(int type, AnnotationEntryGen annotation
+            , ConstantPoolGen cpool)
+            : base(type, cpool)
+        {
+            if (type != ANNOTATION)
+                throw new Exception(
+                    "Only element values of type annotation can be built with this ctor - type specified: "
+                    + type);
+            a = annotation;
+        }
 
-		public AnnotationElementValueGen(NBCEL.classfile.AnnotationElementValue value, NBCEL.generic.ConstantPoolGen
-			 cpool, bool copyPoolEntries)
-			: base(ANNOTATION, cpool)
-		{
-			a = new NBCEL.generic.AnnotationEntryGen(value.GetAnnotationEntry(), cpool, copyPoolEntries
-				);
-		}
+        public AnnotationElementValueGen(AnnotationElementValue value, ConstantPoolGen
+            cpool, bool copyPoolEntries)
+            : base(ANNOTATION, cpool)
+        {
+            a = new AnnotationEntryGen(value.GetAnnotationEntry(), cpool, copyPoolEntries
+            );
+        }
 
-		/// <exception cref="System.IO.IOException"/>
-		public override void Dump(java.io.DataOutputStream dos)
-		{
-			dos.WriteByte(base.GetElementValueType());
-			// u1 type of value (ANNOTATION == '@')
-			a.Dump(dos);
-		}
+        /// <exception cref="System.IO.IOException" />
+        public override void Dump(DataOutputStream dos)
+        {
+            dos.WriteByte(base.GetElementValueType());
+            // u1 type of value (ANNOTATION == '@')
+            a.Dump(dos);
+        }
 
-		public override string StringifyValue()
-		{
-			throw new System.Exception("Not implemented yet");
-		}
+        public override string StringifyValue()
+        {
+            throw new Exception("Not implemented yet");
+        }
 
-		/// <summary>Return immutable variant of this AnnotationElementValueGen</summary>
-		public override NBCEL.classfile.ElementValue GetElementValue()
-		{
-			return new NBCEL.classfile.AnnotationElementValue(base.GetElementValueType(), a.GetAnnotation
-				(), GetConstantPool().GetConstantPool());
-		}
+        /// <summary>Return immutable variant of this AnnotationElementValueGen</summary>
+        public override ElementValue GetElementValue()
+        {
+            return new AnnotationElementValue(base.GetElementValueType(), a.GetAnnotation
+                (), GetConstantPool().GetConstantPool());
+        }
 
-		public virtual NBCEL.generic.AnnotationEntryGen GetAnnotation()
-		{
-			return a;
-		}
-	}
+        public virtual AnnotationEntryGen GetAnnotation()
+        {
+            return a;
+        }
+    }
 }

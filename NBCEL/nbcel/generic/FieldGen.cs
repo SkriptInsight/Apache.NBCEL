@@ -17,405 +17,349 @@
 */
 
 using System;
-using Sharpen;
+using System.Collections.Generic;
+using System.Text;
+using NBCEL.classfile;
+using NBCEL.util;
 
 namespace NBCEL.generic
 {
 	/// <summary>Template class for building up a field.</summary>
 	/// <remarks>
-	/// Template class for building up a field.  The only extraordinary thing
-	/// one can do is to add a constant value attribute to a field (which must of
-	/// course be compatible with to the declared type).
+	///     Template class for building up a field.  The only extraordinary thing
+	///     one can do is to add a constant value attribute to a field (which must of
+	///     course be compatible with to the declared type).
 	/// </remarks>
-	/// <seealso cref="NBCEL.classfile.Field"/>
-	public class FieldGen : NBCEL.generic.FieldGenOrMethodGen
-	{
-		private object value = null;
+	/// <seealso cref="NBCEL.classfile.Field" />
+	public class FieldGen : FieldGenOrMethodGen
+    {
+        private static BCELComparator bcelComparator = new _BCELComparator_46(
+        );
 
-		private sealed class _BCELComparator_46 : NBCEL.util.BCELComparator
-		{
-			public _BCELComparator_46()
-			{
-			}
+        private List<FieldObserver> observers;
+        private object value;
 
-			public bool Equals(object o1, object o2)
-			{
-				NBCEL.generic.FieldGen THIS = (NBCEL.generic.FieldGen)o1;
-				NBCEL.generic.FieldGen THAT = (NBCEL.generic.FieldGen)o2;
-				return Sharpen.System.Equals(THIS.GetName(), THAT.GetName()) && Sharpen.System
-					.Equals(THIS.GetSignature(), THAT.GetSignature());
-			}
+        /// <summary>Declare a field.</summary>
+        /// <remarks>
+        ///     Declare a field. If it is static (isStatic() == true) and has a
+        ///     basic type like int or String it may have an initial value
+        ///     associated with it as defined by setInitValue().
+        /// </remarks>
+        /// <param name="access_flags">access qualifiers</param>
+        /// <param name="type">field type</param>
+        /// <param name="name">field name</param>
+        /// <param name="cp">constant pool</param>
+        public FieldGen(int access_flags, Type type, string name, ConstantPoolGen
+            cp)
+            : base(access_flags)
+        {
+            SetType(type);
+            SetName(name);
+            SetConstantPool(cp);
+        }
 
-			public int HashCode(object o)
-			{
-				NBCEL.generic.FieldGen THIS = (NBCEL.generic.FieldGen)o;
-				return THIS.GetSignature().GetHashCode() ^ THIS.GetName().GetHashCode();
-			}
-		}
+        /// <summary>Instantiate from existing field.</summary>
+        /// <param name="field">Field object</param>
+        /// <param name="cp">
+        ///     constant pool (must contain the same entries as the field's constant pool)
+        /// </param>
+        public FieldGen(Field field, ConstantPoolGen cp)
+            : this(field.GetAccessFlags(), Type.GetType(field.GetSignature()),
+                field.GetName(), cp)
+        {
+            var attrs = field.GetAttributes();
+            foreach (var attr in attrs)
+                if (attr is ConstantValue)
+                {
+                    SetValue(((ConstantValue) attr).GetConstantValueIndex());
+                }
+                else if (attr is Annotations)
+                {
+                    var runtimeAnnotations = (Annotations) attr;
+                    var annotationEntries = runtimeAnnotations.GetAnnotationEntries
+                        ();
+                    foreach (var element in annotationEntries)
+                        AddAnnotationEntry(new AnnotationEntryGen(element, cp, false));
+                }
+                else
+                {
+                    AddAttribute(attr);
+                }
+        }
 
-		private static NBCEL.util.BCELComparator bcelComparator = new _BCELComparator_46(
-			);
+        private void SetValue(int index)
+        {
+            var cp = base.GetConstantPool().GetConstantPool();
+            var c = cp.GetConstant(index);
+            value = ((ConstantObject) c).GetConstantValue(cp);
+        }
 
-		/// <summary>Declare a field.</summary>
-		/// <remarks>
-		/// Declare a field. If it is static (isStatic() == true) and has a
-		/// basic type like int or String it may have an initial value
-		/// associated with it as defined by setInitValue().
-		/// </remarks>
-		/// <param name="access_flags">access qualifiers</param>
-		/// <param name="type">field type</param>
-		/// <param name="name">field name</param>
-		/// <param name="cp">constant pool</param>
-		public FieldGen(int access_flags, NBCEL.generic.Type type, string name, NBCEL.generic.ConstantPoolGen
-			 cp)
-			: base(access_flags)
-		{
-			SetType(type);
-			SetName(name);
-			SetConstantPool(cp);
-		}
+        /// <summary>
+        ///     Set (optional) initial value of field, otherwise it will be set to null/0/false
+        ///     by the JVM automatically.
+        /// </summary>
+        public virtual void SetInitValue(string str)
+        {
+            CheckType(ObjectType.GetInstance("java.lang.String"));
+            if (str != null) value = str;
+        }
 
-		/// <summary>Instantiate from existing field.</summary>
-		/// <param name="field">Field object</param>
-		/// <param name="cp">constant pool (must contain the same entries as the field's constant pool)
-		/// 	</param>
-		public FieldGen(NBCEL.classfile.Field field, NBCEL.generic.ConstantPoolGen cp)
-			: this(field.GetAccessFlags(), NBCEL.generic.Type.GetType(field.GetSignature()), 
-				field.GetName(), cp)
-		{
-			NBCEL.classfile.Attribute[] attrs = field.GetAttributes();
-			foreach (NBCEL.classfile.Attribute attr in attrs)
-			{
-				if (attr is NBCEL.classfile.ConstantValue)
-				{
-					SetValue(((NBCEL.classfile.ConstantValue)attr).GetConstantValueIndex());
-				}
-				else if (attr is NBCEL.classfile.Annotations)
-				{
-					NBCEL.classfile.Annotations runtimeAnnotations = (NBCEL.classfile.Annotations)attr;
-					NBCEL.classfile.AnnotationEntry[] annotationEntries = runtimeAnnotations.GetAnnotationEntries
-						();
-					foreach (NBCEL.classfile.AnnotationEntry element in annotationEntries)
-					{
-						AddAnnotationEntry(new NBCEL.generic.AnnotationEntryGen(element, cp, false));
-					}
-				}
-				else
-				{
-					AddAttribute(attr);
-				}
-			}
-		}
+        public virtual void SetInitValue(long l)
+        {
+            CheckType(Type.LONG);
+            if (l != 0L) value = l;
+        }
 
-		private void SetValue(int index)
-		{
-			NBCEL.classfile.ConstantPool cp = base.GetConstantPool().GetConstantPool();
-			NBCEL.classfile.Constant c = cp.GetConstant(index);
-			value = ((NBCEL.classfile.ConstantObject)c).GetConstantValue(cp);
-		}
+        public virtual void SetInitValue(int i)
+        {
+            CheckType(Type.INT);
+            if (i != 0) value = i;
+        }
 
-		/// <summary>
-		/// Set (optional) initial value of field, otherwise it will be set to null/0/false
-		/// by the JVM automatically.
-		/// </summary>
-		public virtual void SetInitValue(string str)
-		{
-			CheckType(NBCEL.generic.ObjectType.GetInstance("java.lang.String"));
-			if (str != null)
-			{
-				value = str;
-			}
-		}
+        public virtual void SetInitValue(short s)
+        {
+            CheckType(Type.SHORT);
+            if (s != 0) value = s;
+        }
 
-		public virtual void SetInitValue(long l)
-		{
-			CheckType(NBCEL.generic.Type.LONG);
-			if (l != 0L)
-			{
-				value = l;
-			}
-		}
+        public virtual void SetInitValue(char c)
+        {
+            CheckType(Type.CHAR);
+            if (c != 0) value = c;
+        }
 
-		public virtual void SetInitValue(int i)
-		{
-			CheckType(NBCEL.generic.Type.INT);
-			if (i != 0)
-			{
-				value = i;
-			}
-		}
+        public virtual void SetInitValue(byte b)
+        {
+            CheckType(Type.BYTE);
+            if (b != 0) value = b;
+        }
 
-		public virtual void SetInitValue(short s)
-		{
-			CheckType(NBCEL.generic.Type.SHORT);
-			if (s != 0)
-			{
-				value = s;
-			}
-		}
+        public virtual void SetInitValue(bool b)
+        {
+            CheckType(Type.BOOLEAN);
+            if (b) value = 1;
+        }
 
-		public virtual void SetInitValue(char c)
-		{
-			CheckType(NBCEL.generic.Type.CHAR);
-			if (c != 0)
-			{
-				value = c;
-			}
-		}
+        public virtual void SetInitValue(float f)
+        {
+            CheckType(Type.FLOAT);
+            if (Math.Abs(f) > float.Epsilon) value = f;
+        }
 
-		public virtual void SetInitValue(byte b)
-		{
-			CheckType(NBCEL.generic.Type.BYTE);
-			if (b != 0)
-			{
-				value = b;
-			}
-		}
+        public virtual void SetInitValue(double d)
+        {
+            CheckType(Type.DOUBLE);
+            if (Math.Abs(d) > float.Epsilon) value = d;
+        }
 
-		public virtual void SetInitValue(bool b)
-		{
-			CheckType(NBCEL.generic.Type.BOOLEAN);
-			if (b)
-			{
-				value = 1;
-			}
-		}
+        /// <summary>Remove any initial value.</summary>
+        public virtual void CancelInitValue()
+        {
+            value = null;
+        }
 
-		public virtual void SetInitValue(float f)
-		{
-			CheckType(NBCEL.generic.Type.FLOAT);
-			if (Math.Abs(f) > float.Epsilon)
-			{
-				value = f;
-			}
-		}
+        private void CheckType(Type atype)
+        {
+            var superType = base.GetType();
+            if (superType == null)
+                throw new ClassGenException("You haven't defined the type of the field yet"
+                );
+            if (!IsFinal())
+                throw new ClassGenException("Only final fields may have an initial value!"
+                );
+            if (!superType.Equals(atype))
+                throw new ClassGenException("Types are not compatible: " + superType
+                                                                         + " vs. " + atype);
+        }
 
-		public virtual void SetInitValue(double d)
-		{
-			CheckType(NBCEL.generic.Type.DOUBLE);
-			if (Math.Abs(d) > float.Epsilon)
-			{
-				value = d;
-			}
-		}
+        /// <summary>Get field object after having set up all necessary values.</summary>
+        public virtual Field GetField()
+        {
+            var signature = GetSignature();
+            var name_index = base.GetConstantPool().AddUtf8(base.GetName());
+            var signature_index = base.GetConstantPool().AddUtf8(signature);
+            if (value != null)
+            {
+                CheckType(base.GetType());
+                var index = AddConstant();
+                AddAttribute(new ConstantValue(base.GetConstantPool().AddUtf8("ConstantValue"
+                ), 2, index, base.GetConstantPool().GetConstantPool()));
+            }
 
-		/// <summary>Remove any initial value.</summary>
-		public virtual void CancelInitValue()
-		{
-			value = null;
-		}
+            // sic
+            AddAnnotationsAsAttribute(base.GetConstantPool());
+            return new Field(GetAccessFlags(), name_index, signature_index
+                , GetAttributes(), base.GetConstantPool().GetConstantPool());
+        }
 
-		private void CheckType(NBCEL.generic.Type atype)
-		{
-			NBCEL.generic.Type superType = base.GetType();
-			if (superType == null)
-			{
-				throw new NBCEL.generic.ClassGenException("You haven't defined the type of the field yet"
-					);
-			}
-			if (!IsFinal())
-			{
-				throw new NBCEL.generic.ClassGenException("Only final fields may have an initial value!"
-					);
-			}
-			if (!superType.Equals(atype))
-			{
-				throw new NBCEL.generic.ClassGenException("Types are not compatible: " + superType
-					 + " vs. " + atype);
-			}
-		}
+        // sic
+        private void AddAnnotationsAsAttribute(ConstantPoolGen cp)
+        {
+            var attrs = AnnotationEntryGen.GetAnnotationAttributes
+                (cp, base.GetAnnotationEntries());
+            foreach (var attr in attrs) AddAttribute(attr);
+        }
 
-		/// <summary>Get field object after having set up all necessary values.</summary>
-		public virtual NBCEL.classfile.Field GetField()
-		{
-			string signature = GetSignature();
-			int name_index = base.GetConstantPool().AddUtf8(base.GetName());
-			int signature_index = base.GetConstantPool().AddUtf8(signature);
-			if (value != null)
-			{
-				CheckType(base.GetType());
-				int index = AddConstant();
-				AddAttribute(new NBCEL.classfile.ConstantValue(base.GetConstantPool().AddUtf8("ConstantValue"
-					), 2, index, base.GetConstantPool().GetConstantPool()));
-			}
-			// sic
-			AddAnnotationsAsAttribute(base.GetConstantPool());
-			return new NBCEL.classfile.Field(base.GetAccessFlags(), name_index, signature_index
-				, GetAttributes(), base.GetConstantPool().GetConstantPool());
-		}
+        private int AddConstant()
+        {
+            switch (base.GetType().GetType())
+            {
+                case Const.T_INT:
+                case Const.T_CHAR:
+                case Const.T_BYTE:
+                case Const.T_BOOLEAN:
+                case Const.T_SHORT:
+                {
+                    // sic
+                    return base.GetConstantPool().AddInteger((int) value);
+                }
 
-		// sic
-		private void AddAnnotationsAsAttribute(NBCEL.generic.ConstantPoolGen cp)
-		{
-			NBCEL.classfile.Attribute[] attrs = NBCEL.generic.AnnotationEntryGen.GetAnnotationAttributes
-				(cp, base.GetAnnotationEntries());
-			foreach (NBCEL.classfile.Attribute attr in attrs)
-			{
-				AddAttribute(attr);
-			}
-		}
+                case Const.T_FLOAT:
+                {
+                    return base.GetConstantPool().AddFloat((float) value);
+                }
 
-		private int AddConstant()
-		{
-			switch (base.GetType().GetType())
-			{
-				case NBCEL.Const.T_INT:
-				case NBCEL.Const.T_CHAR:
-				case NBCEL.Const.T_BYTE:
-				case NBCEL.Const.T_BOOLEAN:
-				case NBCEL.Const.T_SHORT:
-				{
-					// sic
-					return base.GetConstantPool().AddInteger(((int)value));
-				}
+                case Const.T_DOUBLE:
+                {
+                    return base.GetConstantPool().AddDouble((double) value);
+                }
 
-				case NBCEL.Const.T_FLOAT:
-				{
-					return base.GetConstantPool().AddFloat(((float)value));
-				}
+                case Const.T_LONG:
+                {
+                    return base.GetConstantPool().AddLong((long) value);
+                }
 
-				case NBCEL.Const.T_DOUBLE:
-				{
-					return base.GetConstantPool().AddDouble(((double)value));
-				}
+                case Const.T_REFERENCE:
+                {
+                    return base.GetConstantPool().AddString((string) value);
+                }
 
-				case NBCEL.Const.T_LONG:
-				{
-					return base.GetConstantPool().AddLong(((long)value));
-				}
+                default:
+                {
+                    throw new Exception("Oops: Unhandled : " + base.GetType().GetType());
+                }
+            }
+        }
 
-				case NBCEL.Const.T_REFERENCE:
-				{
-					return base.GetConstantPool().AddString((string)value);
-				}
+        // sic
+        public override string GetSignature()
+        {
+            return base.GetType().GetSignature();
+        }
 
-				default:
-				{
-					throw new System.Exception("Oops: Unhandled : " + base.GetType().GetType());
-				}
-			}
-		}
+        /// <summary>Add observer for this object.</summary>
+        public virtual void AddObserver(FieldObserver o)
+        {
+            if (observers == null) observers = new List<FieldObserver>();
+            observers.Add(o);
+        }
 
-		// sic
-		public override string GetSignature()
-		{
-			return base.GetType().GetSignature();
-		}
+        /// <summary>Remove observer for this object.</summary>
+        public virtual void RemoveObserver(FieldObserver o)
+        {
+            if (observers != null) observers.Remove(o);
+        }
 
-		private System.Collections.Generic.List<NBCEL.generic.FieldObserver> observers;
+        /// <summary>Call notify() method on all observers.</summary>
+        /// <remarks>
+        ///     Call notify() method on all observers. This method is not called
+        ///     automatically whenever the state has changed, but has to be
+        ///     called by the user after he has finished editing the object.
+        /// </remarks>
+        public virtual void Update()
+        {
+            if (observers != null)
+                foreach (var observer in observers)
+                    observer.Notify(this);
+        }
 
-		/// <summary>Add observer for this object.</summary>
-		public virtual void AddObserver(NBCEL.generic.FieldObserver o)
-		{
-			if (observers == null)
-			{
-				observers = new System.Collections.Generic.List<NBCEL.generic.FieldObserver>();
-			}
-			observers.Add(o);
-		}
+        public virtual string GetInitValue()
+        {
+            if (value != null) return value.ToString();
+            return null;
+        }
 
-		/// <summary>Remove observer for this object.</summary>
-		public virtual void RemoveObserver(NBCEL.generic.FieldObserver o)
-		{
-			if (observers != null)
-			{
-				observers.Remove(o);
-			}
-		}
+        /// <summary>
+        ///     Return string representation close to declaration format,
+        ///     `public static final short MAX = 100', e.g..
+        /// </summary>
+        /// <returns>String representation of field</returns>
+        public sealed override string ToString()
+        {
+            string name;
+            string signature;
+            string access;
+            // Short cuts to constant pool
+            access = Utility.AccessToString(GetAccessFlags());
+            access = access.Length == 0 ? string.Empty : access + " ";
+            signature = base.GetType().ToString();
+            name = GetName();
+            var buf = new StringBuilder(32);
+            // CHECKSTYLE IGNORE MagicNumber
+            buf.Append(access).Append(signature).Append(" ").Append(name);
+            var value = GetInitValue();
+            if (value != null) buf.Append(" = ").Append(value);
+            return buf.ToString();
+        }
 
-		/// <summary>Call notify() method on all observers.</summary>
-		/// <remarks>
-		/// Call notify() method on all observers. This method is not called
-		/// automatically whenever the state has changed, but has to be
-		/// called by the user after he has finished editing the object.
-		/// </remarks>
-		public virtual void Update()
-		{
-			if (observers != null)
-			{
-				foreach (NBCEL.generic.FieldObserver observer in observers)
-				{
-					observer.Notify(this);
-				}
-			}
-		}
+        /// <returns>deep copy of this field</returns>
+        public virtual FieldGen Copy(ConstantPoolGen cp)
+        {
+            var fg = (FieldGen) Clone();
+            fg.SetConstantPool(cp);
+            return fg;
+        }
 
-		public virtual string GetInitValue()
-		{
-			if (value != null)
-			{
-				return value.ToString();
-			}
-			return null;
-		}
+        /// <returns>Comparison strategy object</returns>
+        public static BCELComparator GetComparator()
+        {
+            return bcelComparator;
+        }
 
-		/// <summary>
-		/// Return string representation close to declaration format,
-		/// `public static final short MAX = 100', e.g..
-		/// </summary>
-		/// <returns>String representation of field</returns>
-		public sealed override string ToString()
-		{
-			string name;
-			string signature;
-			string access;
-			// Short cuts to constant pool
-			access = NBCEL.classfile.Utility.AccessToString(base.GetAccessFlags());
-			access = (access.Length == 0) ? string.Empty : (access + " ");
-			signature = base.GetType().ToString();
-			name = GetName();
-			System.Text.StringBuilder buf = new System.Text.StringBuilder(32);
-			// CHECKSTYLE IGNORE MagicNumber
-			buf.Append(access).Append(signature).Append(" ").Append(name);
-			string value = GetInitValue();
-			if (value != null)
-			{
-				buf.Append(" = ").Append(value);
-			}
-			return buf.ToString();
-		}
+        /// <param name="comparator">Comparison strategy object</param>
+        public static void SetComparator(BCELComparator comparator)
+        {
+            bcelComparator = comparator;
+        }
 
-		/// <returns>deep copy of this field</returns>
-		public virtual NBCEL.generic.FieldGen Copy(NBCEL.generic.ConstantPoolGen cp)
-		{
-			NBCEL.generic.FieldGen fg = (NBCEL.generic.FieldGen)Clone();
-			fg.SetConstantPool(cp);
-			return fg;
-		}
+        /// <summary>Return value as defined by given BCELComparator strategy.</summary>
+        /// <remarks>
+        ///     Return value as defined by given BCELComparator strategy.
+        ///     By default two FieldGen objects are said to be equal when
+        ///     their names and signatures are equal.
+        /// </remarks>
+        /// <seealso cref="object.Equals(object)" />
+        public override bool Equals(object obj)
+        {
+            return bcelComparator.Equals(this, obj);
+        }
 
-		/// <returns>Comparison strategy object</returns>
-		public static NBCEL.util.BCELComparator GetComparator()
-		{
-			return bcelComparator;
-		}
+        /// <summary>Return value as defined by given BCELComparator strategy.</summary>
+        /// <remarks>
+        ///     Return value as defined by given BCELComparator strategy.
+        ///     By default return the hashcode of the field's name XOR signature.
+        /// </remarks>
+        /// <seealso cref="object.GetHashCode()" />
+        public override int GetHashCode()
+        {
+            return bcelComparator.HashCode(this);
+        }
 
-		/// <param name="comparator">Comparison strategy object</param>
-		public static void SetComparator(NBCEL.util.BCELComparator comparator)
-		{
-			bcelComparator = comparator;
-		}
+        private sealed class _BCELComparator_46 : BCELComparator
+        {
+            public bool Equals(object o1, object o2)
+            {
+                var THIS = (FieldGen) o1;
+                var THAT = (FieldGen) o2;
+                return Sharpen.System.Equals(THIS.GetName(), THAT.GetName()) && Sharpen.System
+                           .Equals(THIS.GetSignature(), THAT.GetSignature());
+            }
 
-		/// <summary>Return value as defined by given BCELComparator strategy.</summary>
-		/// <remarks>
-		/// Return value as defined by given BCELComparator strategy.
-		/// By default two FieldGen objects are said to be equal when
-		/// their names and signatures are equal.
-		/// </remarks>
-		/// <seealso cref="object.Equals(object)"/>
-		public override bool Equals(object obj)
-		{
-			return bcelComparator.Equals(this, obj);
-		}
-
-		/// <summary>Return value as defined by given BCELComparator strategy.</summary>
-		/// <remarks>
-		/// Return value as defined by given BCELComparator strategy.
-		/// By default return the hashcode of the field's name XOR signature.
-		/// </remarks>
-		/// <seealso cref="object.GetHashCode()"/>
-		public override int GetHashCode()
-		{
-			return bcelComparator.HashCode(this);
-		}
-	}
+            public int HashCode(object o)
+            {
+                var THIS = (FieldGen) o;
+                return THIS.GetSignature().GetHashCode() ^ THIS.GetName().GetHashCode();
+            }
+        }
+    }
 }

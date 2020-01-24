@@ -16,60 +16,58 @@
 *
 */
 
+using java.io;
 using ObjectWeb.Misc.Java.Nio;
 using Sharpen;
 
 namespace NBCEL.util
 {
 	/// <summary>
-	/// Utility class that implements a sequence of bytes which can be read
-	/// via the `readByte()' method.
+	///     Utility class that implements a sequence of bytes which can be read
+	///     via the `readByte()' method.
 	/// </summary>
 	/// <remarks>
-	/// Utility class that implements a sequence of bytes which can be read
-	/// via the `readByte()' method. This is used to implement a wrapper for the
-	/// Java byte code stream to gain some more readability.
+	///     Utility class that implements a sequence of bytes which can be read
+	///     via the `readByte()' method. This is used to implement a wrapper for the
+	///     Java byte code stream to gain some more readability.
 	/// </remarks>
-	public sealed class ByteSequence : java.io.DataInputStream
-	{
-		private readonly NBCEL.util.ByteSequence.ByteArrayStream byteStream;
+	public sealed class ByteSequence : DataInputStream
+    {
+        private readonly ByteArrayStream byteStream;
 
-		public ByteSequence(byte[] bytes)
-			: base(bytes.ToInputStream())
-		{
-			byteStream = (NBCEL.util.ByteSequence.ByteArrayStream)@in;
-		}
+        public ByteSequence(byte[] bytes)
+            : base(bytes.ToInputStream())
+        {
+            byteStream = (ByteArrayStream) @in;
+        }
 
-		public int GetIndex()
-		{
-			return (int) byteStream.GetPosition();
-		}
+        public int GetIndex()
+        {
+            return (int) byteStream.GetPosition();
+        }
 
-		internal void UnreadByte()
-		{
-			byteStream.UnreadByte();
-		}
+        internal void UnreadByte()
+        {
+            byteStream.UnreadByte();
+        }
 
-		private sealed class ByteArrayStream : MemoryInputStream
-		{
-			internal ByteArrayStream(byte[] bytes)
-				: base(bytes)
-			{
-			}
+        private sealed class ByteArrayStream : MemoryInputStream
+        {
+            internal ByteArrayStream(byte[] bytes)
+                : base(bytes)
+            {
+            }
 
-			internal long GetPosition()
-			{
-				// pos is protected in ByteArrayInputStream
-				return Stream.Position;
-			}
+            internal long GetPosition()
+            {
+                // pos is protected in ByteArrayInputStream
+                return Stream.Position;
+            }
 
-			internal void UnreadByte()
-			{
-				if (Stream.Position > 0)
-				{
-					Stream.Position--;
-				}
-			}
-		}
-	}
+            internal void UnreadByte()
+            {
+                if (Stream.Position > 0) Stream.Position--;
+            }
+        }
+    }
 }

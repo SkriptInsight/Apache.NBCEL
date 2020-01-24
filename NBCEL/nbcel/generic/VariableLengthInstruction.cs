@@ -15,19 +15,18 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// Denotes an instruction to be a variable length instruction, such as
-	/// GOTO, JSR, LOOKUPSWITCH and TABLESWITCH.
+	///     Denotes an instruction to be a variable length instruction, such as
+	///     GOTO, JSR, LOOKUPSWITCH and TABLESWITCH.
 	/// </summary>
-	/// <seealso cref="GOTO"/>
-	/// <seealso cref="JSR"/>
-	/// <seealso cref="LOOKUPSWITCH"/>
-	/// <seealso cref="TABLESWITCH"/>
+	/// <seealso cref="GOTO" />
+	/// <seealso cref="JSR" />
+	/// <seealso cref="LOOKUPSWITCH" />
+	/// <seealso cref="TABLESWITCH" />
 	public interface VariableLengthInstruction
-	{
-	}
+    {
+    }
 }

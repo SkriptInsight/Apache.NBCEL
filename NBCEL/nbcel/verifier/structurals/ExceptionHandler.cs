@@ -15,44 +15,46 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
+
+using NBCEL.generic;
 
 namespace NBCEL.verifier.structurals
 {
 	/// <summary>
-	/// This class represents an exception handler; that is, an ObjectType
-	/// representing a subclass of java.lang.Throwable and the instruction
-	/// the handler starts off (represented by an InstructionContext).
+	///     This class represents an exception handler; that is, an ObjectType
+	///     representing a subclass of java.lang.Throwable and the instruction
+	///     the handler starts off (represented by an InstructionContext).
 	/// </summary>
 	public class ExceptionHandler
-	{
-		/// <summary>The type of the exception to catch.</summary>
-		/// <remarks>The type of the exception to catch. NULL means ANY.</remarks>
-		private readonly NBCEL.generic.ObjectType catchtype;
+    {
+	    /// <summary>The type of the exception to catch.</summary>
+	    /// <remarks>The type of the exception to catch. NULL means ANY.</remarks>
+	    private readonly ObjectType catchtype;
 
-		/// <summary>The InstructionHandle where the handling begins.</summary>
-		private readonly NBCEL.generic.InstructionHandle handlerpc;
+        /// <summary>The InstructionHandle where the handling begins.</summary>
+        private readonly InstructionHandle handlerpc;
 
-		/// <summary>Leave instance creation to JustIce.</summary>
-		internal ExceptionHandler(NBCEL.generic.ObjectType catch_type, NBCEL.generic.InstructionHandle
-			 handler_pc)
-		{
-			catchtype = catch_type;
-			handlerpc = handler_pc;
-		}
+        /// <summary>Leave instance creation to JustIce.</summary>
+        internal ExceptionHandler(ObjectType catch_type, InstructionHandle
+            handler_pc)
+        {
+            catchtype = catch_type;
+            handlerpc = handler_pc;
+        }
 
-		/// <summary>Returns the type of the exception that's handled.</summary>
-		/// <remarks>Returns the type of the exception that's handled. <B>'null' means 'ANY'.</B>
-		/// 	</remarks>
-		public virtual NBCEL.generic.ObjectType GetExceptionType()
-		{
-			return catchtype;
-		}
+        /// <summary>Returns the type of the exception that's handled.</summary>
+        /// <remarks>
+        ///     Returns the type of the exception that's handled. <B>'null' means 'ANY'.</B>
+        /// </remarks>
+        public virtual ObjectType GetExceptionType()
+        {
+            return catchtype;
+        }
 
-		/// <summary>Returns the InstructionHandle where the handler starts off.</summary>
-		public virtual NBCEL.generic.InstructionHandle GetHandlerStart()
-		{
-			return handlerpc;
-		}
-	}
+        /// <summary>Returns the InstructionHandle where the handler starts off.</summary>
+        public virtual InstructionHandle GetHandlerStart()
+        {
+            return handlerpc;
+        }
+    }
 }

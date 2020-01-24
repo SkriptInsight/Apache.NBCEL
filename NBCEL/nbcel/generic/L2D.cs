@@ -15,36 +15,35 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// L2D - Convert long to double
-	/// <PRE>Stack: ..., value.word1, value.word2 -&gt; ..., result.word1, result.word2</PRE>
+	///     L2D - Convert long to double
+	///     <PRE>Stack: ..., value.word1, value.word2 -&gt; ..., result.word1, result.word2</PRE>
 	/// </summary>
-	public class L2D : NBCEL.generic.ConversionInstruction
-	{
-		public L2D()
-			: base(NBCEL.Const.L2D)
-		{
-		}
+	public class L2D : ConversionInstruction
+    {
+        public L2D()
+            : base(Const.L2D)
+        {
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitTypedInstruction(this);
-			v.VisitStackProducer(this);
-			v.VisitStackConsumer(this);
-			v.VisitConversionInstruction(this);
-			v.VisitL2D(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitTypedInstruction(this);
+            v.VisitStackProducer(this);
+            v.VisitStackConsumer(this);
+            v.VisitConversionInstruction(this);
+            v.VisitL2D(this);
+        }
+    }
 }

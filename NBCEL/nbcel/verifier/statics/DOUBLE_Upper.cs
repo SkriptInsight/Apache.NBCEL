@@ -15,28 +15,29 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
+
+using NBCEL.generic;
 
 namespace NBCEL.verifier.statics
 {
-	/// <summary>This class represents the upper half of a DOUBLE variable.</summary>
-	public sealed class DOUBLE_Upper : NBCEL.generic.Type
-	{
-		/// <summary>The one and only instance of this class.</summary>
-		private static readonly NBCEL.verifier.statics.DOUBLE_Upper singleton = new NBCEL.verifier.statics.DOUBLE_Upper
-			();
+    /// <summary>This class represents the upper half of a DOUBLE variable.</summary>
+    public sealed class DOUBLE_Upper : Type
+    {
+        /// <summary>The one and only instance of this class.</summary>
+        private static readonly DOUBLE_Upper singleton = new DOUBLE_Upper
+            ();
 
-		/// <summary>The constructor; this class must not be instantiated from the outside.</summary>
-		private DOUBLE_Upper()
-			: base(NBCEL.Const.T_UNKNOWN, "Double_Upper")
-		{
-		}
+        /// <summary>The constructor; this class must not be instantiated from the outside.</summary>
+        private DOUBLE_Upper()
+            : base(Const.T_UNKNOWN, "Double_Upper")
+        {
+        }
 
-		/// <summary>Gets the single instance of this class.</summary>
-		/// <returns>the single instance of this class.</returns>
-		public static NBCEL.verifier.statics.DOUBLE_Upper TheInstance()
-		{
-			return singleton;
-		}
-	}
+        /// <summary>Gets the single instance of this class.</summary>
+        /// <returns>the single instance of this class.</returns>
+        public static DOUBLE_Upper TheInstance()
+        {
+            return singleton;
+        }
+    }
 }

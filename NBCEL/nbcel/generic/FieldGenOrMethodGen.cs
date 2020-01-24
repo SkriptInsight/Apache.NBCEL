@@ -15,163 +15,166 @@
 *  limitations under the License.
 *
 */
+
+using System;
+using System.Collections.Generic;
+using NBCEL.classfile;
 using Sharpen;
+using Attribute = NBCEL.classfile.Attribute;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// Super class for FieldGen and MethodGen objects, since they have
-	/// some methods in common!
+	///     Super class for FieldGen and MethodGen objects, since they have
+	///     some methods in common!
 	/// </summary>
-	public abstract class FieldGenOrMethodGen : NBCEL.classfile.AccessFlags, NBCEL.generic.NamedAndTyped
-		, System.ICloneable
-	{
-		[System.ObsoleteAttribute(@"(since 6.0) will be made private; do not access directly, use getter/setter"
-			)]
-		protected internal string name;
+	public abstract class FieldGenOrMethodGen : AccessFlags, NamedAndTyped
+        , ICloneable
+    {
+        private readonly List<AnnotationEntryGen
+        > annotation_vec = new List<AnnotationEntryGen
+        >();
 
-		[System.ObsoleteAttribute(@"(since 6.0) will be made private; do not access directly, use getter/setter"
-			)]
-		protected internal NBCEL.generic.Type type;
+        private readonly List<Attribute> attribute_vec
+            = new List<Attribute>();
 
-		[System.ObsoleteAttribute(@"(since 6.0) will be made private; do not access directly, use getter/setter"
-			)]
-		protected internal NBCEL.generic.ConstantPoolGen cp;
+        [Obsolete(@"(since 6.0) will be made private; do not access directly, use getter/setter"
+        )]
+        protected internal ConstantPoolGen cp;
 
-		private readonly System.Collections.Generic.List<NBCEL.classfile.Attribute> attribute_vec
-			 = new System.Collections.Generic.List<NBCEL.classfile.Attribute>();
+        [Obsolete(@"(since 6.0) will be made private; do not access directly, use getter/setter"
+        )]
+        protected internal string name;
 
-		private readonly System.Collections.Generic.List<NBCEL.generic.AnnotationEntryGen
-			> annotation_vec = new System.Collections.Generic.List<NBCEL.generic.AnnotationEntryGen
-			>();
+        [Obsolete(@"(since 6.0) will be made private; do not access directly, use getter/setter"
+        )]
+        protected internal Type type;
 
-		protected internal FieldGenOrMethodGen()
-		{
-		}
+        protected internal FieldGenOrMethodGen()
+        {
+        }
 
-		/// <since>6.0</since>
-		protected internal FieldGenOrMethodGen(int access_flags)
-			: base(access_flags)
-		{
-		}
+        /// <since>6.0</since>
+        protected internal FieldGenOrMethodGen(int access_flags)
+            : base(access_flags)
+        {
+        }
 
-		// @since 6.0
-		// TODO could this be package protected?
-		public virtual void SetType(NBCEL.generic.Type type)
-		{
-			// TODO could be package-protected?
-			if (type.GetType() == NBCEL.Const.T_ADDRESS)
-			{
-				throw new System.ArgumentException("Type can not be " + type);
-			}
-			this.type = type;
-		}
+        object ICloneable.Clone()
+        {
+            return MemberwiseClone();
+        }
 
-		public virtual NBCEL.generic.Type GetType()
-		{
-			return type;
-		}
+        // @since 6.0
+        // TODO could this be package protected?
+        public virtual void SetType(Type type)
+        {
+            // TODO could be package-protected?
+            if (type.GetType() == Const.T_ADDRESS) throw new ArgumentException("Type can not be " + type);
+            this.type = type;
+        }
 
-		/// <returns>name of method/field.</returns>
-		public virtual string GetName()
-		{
-			return name;
-		}
+        public virtual Type GetType()
+        {
+            return type;
+        }
 
-		public virtual void SetName(string name)
-		{
-			// TODO could be package-protected?
-			this.name = name;
-		}
+        /// <returns>name of method/field.</returns>
+        public virtual string GetName()
+        {
+            return name;
+        }
 
-		public virtual NBCEL.generic.ConstantPoolGen GetConstantPool()
-		{
-			return cp;
-		}
+        public virtual void SetName(string name)
+        {
+            // TODO could be package-protected?
+            this.name = name;
+        }
 
-		public virtual void SetConstantPool(NBCEL.generic.ConstantPoolGen cp)
-		{
-			// TODO could be package-protected?
-			this.cp = cp;
-		}
+        public virtual ConstantPoolGen GetConstantPool()
+        {
+            return cp;
+        }
 
-		/// <summary>Add an attribute to this method.</summary>
-		/// <remarks>
-		/// Add an attribute to this method. Currently, the JVM knows about
-		/// the `Code', `ConstantValue', `Synthetic' and `Exceptions'
-		/// attributes. Other attributes will be ignored by the JVM but do no
-		/// harm.
-		/// </remarks>
-		/// <param name="a">attribute to be added</param>
-		public virtual void AddAttribute(NBCEL.classfile.Attribute a)
-		{
-			attribute_vec.Add(a);
-		}
+        public virtual void SetConstantPool(ConstantPoolGen cp)
+        {
+            // TODO could be package-protected?
+            this.cp = cp;
+        }
 
-		/// <since>6.0</since>
-		protected internal virtual void AddAnnotationEntry(NBCEL.generic.AnnotationEntryGen
-			 ag)
-		{
-			// TODO could this be package protected?
-			annotation_vec.Add(ag);
-		}
+        /// <summary>Add an attribute to this method.</summary>
+        /// <remarks>
+        ///     Add an attribute to this method. Currently, the JVM knows about
+        ///     the `Code', `ConstantValue', `Synthetic' and `Exceptions'
+        ///     attributes. Other attributes will be ignored by the JVM but do no
+        ///     harm.
+        /// </remarks>
+        /// <param name="a">attribute to be added</param>
+        public virtual void AddAttribute(Attribute a)
+        {
+            attribute_vec.Add(a);
+        }
 
-		/// <summary>Remove an attribute.</summary>
-		public virtual void RemoveAttribute(NBCEL.classfile.Attribute a)
-		{
-			attribute_vec.Remove(a);
-		}
+        /// <since>6.0</since>
+        protected internal virtual void AddAnnotationEntry(AnnotationEntryGen
+            ag)
+        {
+            // TODO could this be package protected?
+            annotation_vec.Add(ag);
+        }
 
-		/// <since>6.0</since>
-		protected internal virtual void RemoveAnnotationEntry(NBCEL.generic.AnnotationEntryGen
-			 ag)
-		{
-			// TODO could this be package protected?
-			annotation_vec.Remove(ag);
-		}
+        /// <summary>Remove an attribute.</summary>
+        public virtual void RemoveAttribute(Attribute a)
+        {
+            attribute_vec.Remove(a);
+        }
 
-		/// <summary>Remove all attributes.</summary>
-		public virtual void RemoveAttributes()
-		{
-			attribute_vec.Clear();
-		}
+        /// <since>6.0</since>
+        protected internal virtual void RemoveAnnotationEntry(AnnotationEntryGen
+            ag)
+        {
+            // TODO could this be package protected?
+            annotation_vec.Remove(ag);
+        }
 
-		/// <since>6.0</since>
-		protected internal virtual void RemoveAnnotationEntries()
-		{
-			// TODO could this be package protected?
-			annotation_vec.Clear();
-		}
+        /// <summary>Remove all attributes.</summary>
+        public virtual void RemoveAttributes()
+        {
+            attribute_vec.Clear();
+        }
 
-		/// <returns>all attributes of this method.</returns>
-		public virtual NBCEL.classfile.Attribute[] GetAttributes()
-		{
-			NBCEL.classfile.Attribute[] attributes = new NBCEL.classfile.Attribute[attribute_vec
-				.Count];
-			Sharpen.Collections.ToArray(attribute_vec, attributes);
-			return attributes;
-		}
+        /// <since>6.0</since>
+        protected internal virtual void RemoveAnnotationEntries()
+        {
+            // TODO could this be package protected?
+            annotation_vec.Clear();
+        }
 
-		public virtual NBCEL.generic.AnnotationEntryGen[] GetAnnotationEntries()
-		{
-			NBCEL.generic.AnnotationEntryGen[] annotations = new NBCEL.generic.AnnotationEntryGen
-				[annotation_vec.Count];
-			Sharpen.Collections.ToArray(annotation_vec, annotations);
-			return annotations;
-		}
+        /// <returns>all attributes of this method.</returns>
+        public virtual Attribute[] GetAttributes()
+        {
+            var attributes = new Attribute[attribute_vec
+                .Count];
+            Collections.ToArray(attribute_vec, attributes);
+            return attributes;
+        }
 
-		/// <returns>signature of method/field.</returns>
-		public abstract string GetSignature();
+        public virtual AnnotationEntryGen[] GetAnnotationEntries()
+        {
+            var annotations = new AnnotationEntryGen
+                [annotation_vec.Count];
+            Collections.ToArray(annotation_vec, annotations);
+            return annotations;
+        }
 
-		public virtual object Clone()
-		{
-			return base.MemberwiseClone();
-		}
+        /// <returns>signature of method/field.</returns>
+        public abstract string GetSignature();
 
-		object System.ICloneable.Clone()
-		{
-			return MemberwiseClone();
-		}
-		// never happens
-	}
+        public virtual object Clone()
+        {
+            return MemberwiseClone();
+        }
+
+        // never happens
+    }
 }

@@ -15,64 +15,54 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>Returnaddress, the type JSR or JSR_W instructions push upon the stack.</summary>
 	/// <remarks>
-	/// Returnaddress, the type JSR or JSR_W instructions push upon the stack.
-	/// see vmspec2 �3.3.3
+	///     Returnaddress, the type JSR or JSR_W instructions push upon the stack.
+	///     see vmspec2 �3.3.3
 	/// </remarks>
-	public class ReturnaddressType : NBCEL.generic.Type
-	{
-		public static readonly NBCEL.generic.ReturnaddressType NO_TARGET = new NBCEL.generic.ReturnaddressType
-			();
+	public class ReturnaddressType : Type
+    {
+        public static readonly ReturnaddressType NO_TARGET = new ReturnaddressType
+            ();
 
-		private NBCEL.generic.InstructionHandle returnTarget;
+        private readonly InstructionHandle returnTarget;
 
-		/// <summary>A Returnaddress [that doesn't know where to return to].</summary>
-		private ReturnaddressType()
-			: base(NBCEL.Const.T_ADDRESS, "<return address>")
-		{
-		}
+        /// <summary>A Returnaddress [that doesn't know where to return to].</summary>
+        private ReturnaddressType()
+            : base(Const.T_ADDRESS, "<return address>")
+        {
+        }
 
-		/// <summary>Creates a ReturnaddressType object with a target.</summary>
-		public ReturnaddressType(NBCEL.generic.InstructionHandle returnTarget)
-			: base(NBCEL.Const.T_ADDRESS, "<return address targeting " + returnTarget + ">")
-		{
-			this.returnTarget = returnTarget;
-		}
+        /// <summary>Creates a ReturnaddressType object with a target.</summary>
+        public ReturnaddressType(InstructionHandle returnTarget)
+            : base(Const.T_ADDRESS, "<return address targeting " + returnTarget + ">")
+        {
+            this.returnTarget = returnTarget;
+        }
 
-		/// <returns>a hash code value for the object.</returns>
-		public override int GetHashCode()
-		{
-			if (returnTarget == null)
-			{
-				return 0;
-			}
-			return returnTarget.GetHashCode();
-		}
+        /// <returns>a hash code value for the object.</returns>
+        public override int GetHashCode()
+        {
+            if (returnTarget == null) return 0;
+            return returnTarget.GetHashCode();
+        }
 
-		/// <summary>Returns if the two Returnaddresses refer to the same target.</summary>
-		public override bool Equals(object rat)
-		{
-			if (!(rat is NBCEL.generic.ReturnaddressType))
-			{
-				return false;
-			}
-			NBCEL.generic.ReturnaddressType that = (NBCEL.generic.ReturnaddressType)rat;
-			if (this.returnTarget == null || that.returnTarget == null)
-			{
-				return that.returnTarget == this.returnTarget;
-			}
-			return that.returnTarget.Equals(this.returnTarget);
-		}
+        /// <summary>Returns if the two Returnaddresses refer to the same target.</summary>
+        public override bool Equals(object rat)
+        {
+            if (!(rat is ReturnaddressType)) return false;
+            var that = (ReturnaddressType) rat;
+            if (returnTarget == null || that.returnTarget == null) return that.returnTarget == returnTarget;
+            return that.returnTarget.Equals(returnTarget);
+        }
 
-		/// <returns>the target of this ReturnaddressType</returns>
-		public virtual NBCEL.generic.InstructionHandle GetTarget()
-		{
-			return returnTarget;
-		}
-	}
+        /// <returns>the target of this ReturnaddressType</returns>
+        public virtual InstructionHandle GetTarget()
+        {
+            return returnTarget;
+        }
+    }
 }

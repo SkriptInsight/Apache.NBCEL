@@ -15,76 +15,73 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
+
+using System;
 
 namespace NBCEL.generic
 {
-	/// <summary>Super class for JSR - Jump to subroutine</summary>
-	public abstract class JsrInstruction : NBCEL.generic.BranchInstruction, NBCEL.generic.UnconditionalBranch
-		, NBCEL.generic.TypedInstruction, NBCEL.generic.StackProducer
-	{
-		internal JsrInstruction(short opcode, NBCEL.generic.InstructionHandle target)
-			: base(opcode, target)
-		{
-		}
+    /// <summary>Super class for JSR - Jump to subroutine</summary>
+    public abstract class JsrInstruction : BranchInstruction, UnconditionalBranch
+        , TypedInstruction, StackProducer
+    {
+        internal JsrInstruction(short opcode, InstructionHandle target)
+            : base(opcode, target)
+        {
+        }
 
-		/// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
-		/// <remarks>
-		/// Empty constructor needed for Instruction.readInstruction.
-		/// Not to be used otherwise.
-		/// </remarks>
-		internal JsrInstruction()
-		{
-		}
+        /// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
+        /// <remarks>
+        ///     Empty constructor needed for Instruction.readInstruction.
+        ///     Not to be used otherwise.
+        /// </remarks>
+        internal JsrInstruction()
+        {
+        }
 
-		/// <returns>return address type</returns>
-		public virtual NBCEL.generic.Type GetType(NBCEL.generic.ConstantPoolGen cp)
-		{
-			return new NBCEL.generic.ReturnaddressType(PhysicalSuccessor());
-		}
+        /// <returns>return address type</returns>
+        public virtual Type GetType(ConstantPoolGen cp)
+        {
+            return new ReturnaddressType(PhysicalSuccessor());
+        }
 
-		/// <summary>
-		/// Returns an InstructionHandle to the physical successor
-		/// of this JsrInstruction.
-		/// </summary>
-		/// <remarks>
-		/// Returns an InstructionHandle to the physical successor
-		/// of this JsrInstruction. <B>For this method to work,
-		/// this JsrInstruction object must not be shared between
-		/// multiple InstructionHandle objects!</B>
-		/// Formally, there must not be InstructionHandle objects
-		/// i, j where i != j and i.getInstruction() == this ==
-		/// j.getInstruction().
-		/// </remarks>
-		/// <returns>
-		/// an InstructionHandle to the "next" instruction that
-		/// will be executed when RETurned from a subroutine.
-		/// </returns>
-		public virtual NBCEL.generic.InstructionHandle PhysicalSuccessor()
-		{
-			NBCEL.generic.InstructionHandle ih = base.GetTarget();
-			// Rewind!
-			while (ih.GetPrev() != null)
-			{
-				ih = ih.GetPrev();
-			}
-			// Find the handle for "this" JsrInstruction object.
-			while (ih.GetInstruction() != this)
-			{
-				ih = ih.GetNext();
-			}
-			NBCEL.generic.InstructionHandle toThis = ih;
-			while (ih != null)
-			{
-				ih = ih.GetNext();
-				if ((ih != null) && (ih.GetInstruction() == this))
-				{
-					throw new System.Exception("physicalSuccessor() called on a shared JsrInstruction."
-						);
-				}
-			}
-			// Return the physical successor
-			return toThis.GetNext();
-		}
-	}
+        /// <summary>
+        ///     Returns an InstructionHandle to the physical successor
+        ///     of this JsrInstruction.
+        /// </summary>
+        /// <remarks>
+        ///     Returns an InstructionHandle to the physical successor
+        ///     of this JsrInstruction.
+        ///     <B>
+        ///         For this method to work,
+        ///         this JsrInstruction object must not be shared between
+        ///         multiple InstructionHandle objects!
+        ///     </B>
+        ///     Formally, there must not be InstructionHandle objects
+        ///     i, j where i != j and i.getInstruction() == this ==
+        ///     j.getInstruction().
+        /// </remarks>
+        /// <returns>
+        ///     an InstructionHandle to the "next" instruction that
+        ///     will be executed when RETurned from a subroutine.
+        /// </returns>
+        public virtual InstructionHandle PhysicalSuccessor()
+        {
+            var ih = base.GetTarget();
+            // Rewind!
+            while (ih.GetPrev() != null) ih = ih.GetPrev();
+            // Find the handle for "this" JsrInstruction object.
+            while (ih.GetInstruction() != this) ih = ih.GetNext();
+            var toThis = ih;
+            while (ih != null)
+            {
+                ih = ih.GetNext();
+                if (ih != null && ih.GetInstruction() == this)
+                    throw new Exception("physicalSuccessor() called on a shared JsrInstruction."
+                    );
+            }
+
+            // Return the physical successor
+            return toThis.GetNext();
+        }
+    }
 }

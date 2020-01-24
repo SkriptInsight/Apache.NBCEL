@@ -15,72 +15,77 @@
 *  limitations under the License.
 *
 */
+
+using java.io;
 using Sharpen;
 
 namespace NBCEL.classfile
 {
 	/// <summary>
-	/// This class is derived from the abstract
-	/// <see cref="Constant"/>
-	/// and represents a reference to a dynamically computed constant.
+	///     This class is derived from the abstract
+	///     <see cref="Constant" />
+	///     and represents a reference to a dynamically computed constant.
 	/// </summary>
-	/// <seealso cref="Constant"/>
-	/// <seealso><a href="https://bugs.openjdk.java.net/secure/attachment/74618/constant-dynamic.html">
-	/// * Change request for JEP 309</a></seealso>
+	/// <seealso cref="Constant" />
+	/// <seealso>
+	///     <a href="https://bugs.openjdk.java.net/secure/attachment/74618/constant-dynamic.html">
+	///         * Change request for JEP 309
+	///     </a>
+	/// </seealso>
 	/// <since>6.3</since>
-	public sealed class ConstantDynamic : NBCEL.classfile.ConstantCP
-	{
-		/// <summary>Initialize from another object.</summary>
-		public ConstantDynamic(NBCEL.classfile.ConstantDynamic c)
-			: this(c.GetBootstrapMethodAttrIndex(), c.GetNameAndTypeIndex())
-		{
-		}
+	public sealed class ConstantDynamic : ConstantCP
+    {
+        /// <summary>Initialize from another object.</summary>
+        public ConstantDynamic(ConstantDynamic c)
+            : this(c.GetBootstrapMethodAttrIndex(), c.GetNameAndTypeIndex())
+        {
+        }
 
-		/// <summary>Initialize instance from file data.</summary>
-		/// <param name="file">Input stream</param>
-		/// <exception cref="System.IO.IOException"/>
-		internal ConstantDynamic(java.io.DataInput file)
-			: this(file.ReadShort(), file.ReadShort())
-		{
-		}
+        /// <summary>Initialize instance from file data.</summary>
+        /// <param name="file">Input stream</param>
+        /// <exception cref="System.IO.IOException" />
+        internal ConstantDynamic(DataInput file)
+            : this(file.ReadShort(), file.ReadShort())
+        {
+        }
 
-		public ConstantDynamic(int bootstrap_method_attr_index, int name_and_type_index)
-			: base(NBCEL.Const.CONSTANT_Dynamic, bootstrap_method_attr_index, name_and_type_index
-				)
-		{
-		}
+        public ConstantDynamic(int bootstrap_method_attr_index, int name_and_type_index)
+            : base(Const.CONSTANT_Dynamic, bootstrap_method_attr_index, name_and_type_index
+            )
+        {
+        }
 
-		/// <summary>
-		/// Called by objects that are traversing the nodes of the tree implicitly
-		/// defined by the contents of a Java class.
-		/// </summary>
-		/// <remarks>
-		/// Called by objects that are traversing the nodes of the tree implicitly
-		/// defined by the contents of a Java class. I.e., the hierarchy of methods,
-		/// fields, attributes, etc. spawns a tree of objects.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.classfile.Visitor v)
-		{
-			v.VisitConstantDynamic(this);
-		}
+        /// <summary>
+        ///     Called by objects that are traversing the nodes of the tree implicitly
+        ///     defined by the contents of a Java class.
+        /// </summary>
+        /// <remarks>
+        ///     Called by objects that are traversing the nodes of the tree implicitly
+        ///     defined by the contents of a Java class. I.e., the hierarchy of methods,
+        ///     fields, attributes, etc. spawns a tree of objects.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitConstantDynamic(this);
+        }
 
-		/// <returns>
-		/// Reference (index) to bootstrap method this constant refers to.
-		/// Note that this method is a functional duplicate of getClassIndex
-		/// for use by ConstantInvokeDynamic.
-		/// </returns>
-		/// <since>6.0</since>
-		public int GetBootstrapMethodAttrIndex()
-		{
-			return base.GetClassIndex();
-		}
+        /// <returns>
+        ///     Reference (index) to bootstrap method this constant refers to.
+        ///     Note that this method is a functional duplicate of getClassIndex
+        ///     for use by ConstantInvokeDynamic.
+        /// </returns>
+        /// <since>6.0</since>
+        public int GetBootstrapMethodAttrIndex()
+        {
+            return GetClassIndex();
+        }
 
-		// AKA bootstrap_method_attr_index
-		/// <returns>String representation</returns>
-		public override string ToString()
-		{
-			return base.ToString().Replace("class_index", "bootstrap_method_attr_index");
-		}
-	}
+        // AKA bootstrap_method_attr_index
+        /// <returns>String representation</returns>
+        public override string ToString()
+        {
+            return base.ToString().Replace("class_index", "bootstrap_method_attr_index");
+        }
+    }
 }

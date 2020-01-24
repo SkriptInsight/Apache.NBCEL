@@ -15,47 +15,46 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// ACONST_NULL - Push null reference
-	/// <PRE>Stack: ...
+	///     ACONST_NULL - Push null reference
+	///     <PRE>Stack: ...
 	/// </summary>
 	/// <remarks>
-	/// ACONST_NULL - Push null reference
-	/// <PRE>Stack: ... -&gt; ..., null</PRE>
+	///     ACONST_NULL - Push null reference
+	///     <PRE>Stack: ... -&gt; ..., null</PRE>
 	/// </remarks>
-	public class ACONST_NULL : NBCEL.generic.Instruction, NBCEL.generic.PushInstruction
-		, NBCEL.generic.TypedInstruction
-	{
-		/// <summary>Push null reference</summary>
-		public ACONST_NULL()
-			: base(NBCEL.Const.ACONST_NULL, (short)1)
-		{
-		}
+	public class ACONST_NULL : Instruction, PushInstruction
+        , TypedInstruction
+    {
+        /// <summary>Push null reference</summary>
+        public ACONST_NULL()
+            : base(Const.ACONST_NULL, 1)
+        {
+        }
 
-		/// <returns>Type.NULL</returns>
-		public virtual NBCEL.generic.Type GetType(NBCEL.generic.ConstantPoolGen cp)
-		{
-			return NBCEL.generic.Type.NULL;
-		}
+        /// <returns>Type.NULL</returns>
+        public virtual Type GetType(ConstantPoolGen cp)
+        {
+            return Type.NULL;
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitStackProducer(this);
-			v.VisitPushInstruction(this);
-			v.VisitTypedInstruction(this);
-			v.VisitACONST_NULL(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitStackProducer(this);
+            v.VisitPushInstruction(this);
+            v.VisitTypedInstruction(this);
+            v.VisitACONST_NULL(this);
+        }
+    }
 }

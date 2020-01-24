@@ -15,16 +15,15 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// Imnplement this interface if you're interested in changes to a FieldGen object
-	/// and register yourself with addObserver().
+	///     Imnplement this interface if you're interested in changes to a FieldGen object
+	///     and register yourself with addObserver().
 	/// </summary>
 	public interface FieldObserver
-	{
-		void Notify(NBCEL.generic.FieldGen field);
-	}
+    {
+        void Notify(FieldGen field);
+    }
 }

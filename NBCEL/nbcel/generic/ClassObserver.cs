@@ -15,16 +15,15 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// Implement this interface if you're interested in changes to a ClassGen object
-	/// and register yourself with addObserver().
+	///     Implement this interface if you're interested in changes to a ClassGen object
+	///     and register yourself with addObserver().
 	/// </summary>
 	public interface ClassObserver
-	{
-		void Notify(NBCEL.generic.ClassGen clazz);
-	}
+    {
+        void Notify(ClassGen clazz);
+    }
 }

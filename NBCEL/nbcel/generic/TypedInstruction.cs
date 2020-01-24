@@ -15,16 +15,15 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// Get the type associated with an instruction, int for ILOAD, or the type
-	/// of the field of a PUTFIELD instruction, e.g..
+	///     Get the type associated with an instruction, int for ILOAD, or the type
+	///     of the field of a PUTFIELD instruction, e.g..
 	/// </summary>
 	public interface TypedInstruction
-	{
-		NBCEL.generic.Type GetType(NBCEL.generic.ConstantPoolGen cpg);
-	}
+    {
+        Type GetType(ConstantPoolGen cpg);
+    }
 }

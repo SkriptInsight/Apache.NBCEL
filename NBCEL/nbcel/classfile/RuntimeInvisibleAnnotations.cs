@@ -15,41 +15,43 @@
 *  limitations under the License.
 *
 */
+
+using java.io;
 using Sharpen;
 
 namespace NBCEL.classfile
 {
 	/// <summary>
-	/// represents an annotation that is represented in the class file but is not
-	/// provided to the JVM.
+	///     represents an annotation that is represented in the class file but is not
+	///     provided to the JVM.
 	/// </summary>
 	/// <since>6.0</since>
-	public class RuntimeInvisibleAnnotations : NBCEL.classfile.Annotations
-	{
-		/// <param name="name_index">Index pointing to the name <em>Code</em></param>
-		/// <param name="length">Content length in bytes</param>
-		/// <param name="input">Input stream</param>
-		/// <param name="constant_pool">Array of constants</param>
-		/// <exception cref="System.IO.IOException"/>
-		public RuntimeInvisibleAnnotations(int name_index, int length, java.io.DataInput 
-			input, NBCEL.classfile.ConstantPool constant_pool)
-			: base(NBCEL.Const.ATTR_RUNTIME_INVISIBLE_ANNOTATIONS, name_index, length, input, 
-				constant_pool, false)
-		{
-		}
+	public class RuntimeInvisibleAnnotations : Annotations
+    {
+	    /// <param name="name_index">Index pointing to the name <em>Code</em></param>
+	    /// <param name="length">Content length in bytes</param>
+	    /// <param name="input">Input stream</param>
+	    /// <param name="constant_pool">Array of constants</param>
+	    /// <exception cref="System.IO.IOException" />
+	    public RuntimeInvisibleAnnotations(int name_index, int length, DataInput
+            input, ConstantPool constant_pool)
+            : base(Const.ATTR_RUNTIME_INVISIBLE_ANNOTATIONS, name_index, length, input,
+                constant_pool, false)
+        {
+        }
 
-		/// <returns>deep copy of this attribute</returns>
-		public override NBCEL.classfile.Attribute Copy(NBCEL.classfile.ConstantPool constant_pool
-			)
-		{
-			return (NBCEL.classfile.Attribute)Clone();
-		}
+        /// <returns>deep copy of this attribute</returns>
+        public override Attribute Copy(ConstantPool constant_pool
+        )
+        {
+            return (Attribute) Clone();
+        }
 
-		/// <exception cref="System.IO.IOException"/>
-		public sealed override void Dump(java.io.DataOutputStream dos)
-		{
-			base.Dump(dos);
-			WriteAnnotations(dos);
-		}
-	}
+        /// <exception cref="System.IO.IOException" />
+        public sealed override void Dump(DataOutputStream dos)
+        {
+            base.Dump(dos);
+            WriteAnnotations(dos);
+        }
+    }
 }

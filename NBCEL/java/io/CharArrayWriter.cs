@@ -106,9 +106,9 @@ namespace java.io
          * Converts input data to a string.
          * @return the string.
          */
-        public override String ToString()
+        public override string ToString()
         {
-            return new String(buffer, 0, count);
+            return new string(buffer, 0, count);
         }
     }
 }

@@ -15,37 +15,36 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// D2I - Convert double to int
-	/// <PRE>Stack: ..., value.word1, value.word2 -&gt; ..., result</PRE>
+	///     D2I - Convert double to int
+	///     <PRE>Stack: ..., value.word1, value.word2 -&gt; ..., result</PRE>
 	/// </summary>
-	public class D2I : NBCEL.generic.ConversionInstruction
-	{
-		/// <summary>Convert double to int</summary>
-		public D2I()
-			: base(NBCEL.Const.D2I)
-		{
-		}
+	public class D2I : ConversionInstruction
+    {
+        /// <summary>Convert double to int</summary>
+        public D2I()
+            : base(Const.D2I)
+        {
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitTypedInstruction(this);
-			v.VisitStackProducer(this);
-			v.VisitStackConsumer(this);
-			v.VisitConversionInstruction(this);
-			v.VisitD2I(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitTypedInstruction(this);
+            v.VisitStackProducer(this);
+            v.VisitStackConsumer(this);
+            v.VisitConversionInstruction(this);
+            v.VisitD2I(this);
+        }
+    }
 }

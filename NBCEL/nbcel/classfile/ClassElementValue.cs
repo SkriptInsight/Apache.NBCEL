@@ -15,49 +15,51 @@
 *  limitations under the License.
 *
 */
+
+using java.io;
 using Sharpen;
 
 namespace NBCEL.classfile
 {
-	/// <since>6.0</since>
-	public class ClassElementValue : NBCEL.classfile.ElementValue
-	{
-		private readonly int idx;
+    /// <since>6.0</since>
+    public class ClassElementValue : ElementValue
+    {
+        private readonly int idx;
 
-		public ClassElementValue(int type, int idx, NBCEL.classfile.ConstantPool cpool)
-			: base(type, cpool)
-		{
-			// For primitive types and string type, this points to the value entry in
-			// the cpool
-			// For 'class' this points to the class entry in the cpool
-			this.idx = idx;
-		}
+        public ClassElementValue(int type, int idx, ConstantPool cpool)
+            : base(type, cpool)
+        {
+            // For primitive types and string type, this points to the value entry in
+            // the cpool
+            // For 'class' this points to the class entry in the cpool
+            this.idx = idx;
+        }
 
-		public virtual int GetIndex()
-		{
-			return idx;
-		}
+        public virtual int GetIndex()
+        {
+            return idx;
+        }
 
-		public virtual string GetClassString()
-		{
-			NBCEL.classfile.ConstantUtf8 c = (NBCEL.classfile.ConstantUtf8)base.GetConstantPool
-				().GetConstant(idx, NBCEL.Const.CONSTANT_Utf8);
-			return c.GetBytes();
-		}
+        public virtual string GetClassString()
+        {
+            var c = (ConstantUtf8) GetConstantPool
+                ().GetConstant(idx, Const.CONSTANT_Utf8);
+            return c.GetBytes();
+        }
 
-		public override string StringifyValue()
-		{
-			NBCEL.classfile.ConstantUtf8 cu8 = (NBCEL.classfile.ConstantUtf8)base.GetConstantPool
-				().GetConstant(idx, NBCEL.Const.CONSTANT_Utf8);
-			return cu8.GetBytes();
-		}
+        public override string StringifyValue()
+        {
+            var cu8 = (ConstantUtf8) GetConstantPool
+                ().GetConstant(idx, Const.CONSTANT_Utf8);
+            return cu8.GetBytes();
+        }
 
-		/// <exception cref="System.IO.IOException"/>
-		public override void Dump(java.io.DataOutputStream dos)
-		{
-			dos.WriteByte(base.GetType());
-			// u1 kind of value
-			dos.WriteShort(idx);
-		}
-	}
+        /// <exception cref="System.IO.IOException" />
+        public override void Dump(DataOutputStream dos)
+        {
+            dos.WriteByte(GetType());
+            // u1 kind of value
+            dos.WriteShort(idx);
+        }
+    }
 }

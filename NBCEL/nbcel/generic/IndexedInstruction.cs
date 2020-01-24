@@ -15,19 +15,18 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>Denote entity that refers to an index, e.g.</summary>
 	/// <remarks>
-	/// Denote entity that refers to an index, e.g. local variable instructions,
-	/// RET, CPInstruction, etc.
+	///     Denote entity that refers to an index, e.g. local variable instructions,
+	///     RET, CPInstruction, etc.
 	/// </remarks>
 	public interface IndexedInstruction
-	{
-		int GetIndex();
+    {
+        int GetIndex();
 
-		void SetIndex(int index);
-	}
+        void SetIndex(int index);
+    }
 }

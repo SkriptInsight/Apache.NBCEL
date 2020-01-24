@@ -15,36 +15,35 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// LRETURN -  Return long from method
-	/// <PRE>Stack: ..., value.word1, value.word2 -&gt; &lt;empty&gt;</PRE>
+	///     LRETURN -  Return long from method
+	///     <PRE>Stack: ..., value.word1, value.word2 -&gt; &lt;empty&gt;</PRE>
 	/// </summary>
-	public class LRETURN : NBCEL.generic.ReturnInstruction
-	{
-		public LRETURN()
-			: base(NBCEL.Const.LRETURN)
-		{
-		}
+	public class LRETURN : ReturnInstruction
+    {
+        public LRETURN()
+            : base(Const.LRETURN)
+        {
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitExceptionThrower(this);
-			v.VisitTypedInstruction(this);
-			v.VisitStackConsumer(this);
-			v.VisitReturnInstruction(this);
-			v.VisitLRETURN(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitExceptionThrower(this);
+            v.VisitTypedInstruction(this);
+            v.VisitStackConsumer(this);
+            v.VisitReturnInstruction(this);
+            v.VisitLRETURN(this);
+        }
+    }
 }

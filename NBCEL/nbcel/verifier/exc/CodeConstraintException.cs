@@ -15,36 +15,38 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
+
+using System;
 
 namespace NBCEL.verifier.exc
 {
 	/// <summary>
-	/// Instances of this class are thrown by BCEL's class file verifier "JustIce" when
-	/// a class file does not pass the verification pass 3.
+	///     Instances of this class are thrown by BCEL's class file verifier "JustIce" when
+	///     a class file does not pass the verification pass 3.
 	/// </summary>
 	/// <remarks>
-	/// Instances of this class are thrown by BCEL's class file verifier "JustIce" when
-	/// a class file does not pass the verification pass 3. Note that the pass 3 used by
-	/// "JustIce" involves verification that is usually delayed to pass 4.
+	///     Instances of this class are thrown by BCEL's class file verifier "JustIce" when
+	///     a class file does not pass the verification pass 3. Note that the pass 3 used by
+	///     "JustIce" involves verification that is usually delayed to pass 4.
 	/// </remarks>
-	[System.Serializable]
-	public abstract class CodeConstraintException : NBCEL.verifier.exc.VerificationException
-	{
-		private const long serialVersionUID = -7265388214714996640L;
+	[Serializable]
+    public abstract class CodeConstraintException : VerificationException
+    {
+        private const long serialVersionUID = -7265388214714996640L;
 
-		/// <summary>Constructs a new CodeConstraintException with null as its error message string.
-		/// 	</summary>
-		internal CodeConstraintException()
-			: base()
-		{
-		}
+        /// <summary>
+        ///     Constructs a new CodeConstraintException with null as its error message string.
+        /// </summary>
+        internal CodeConstraintException()
+        {
+        }
 
-		/// <summary>Constructs a new CodeConstraintException with the specified error message.
-		/// 	</summary>
-		internal CodeConstraintException(string message)
-			: base(message)
-		{
-		}
-	}
+        /// <summary>
+        ///     Constructs a new CodeConstraintException with the specified error message.
+        /// </summary>
+        internal CodeConstraintException(string message)
+            : base(message)
+        {
+        }
+    }
 }

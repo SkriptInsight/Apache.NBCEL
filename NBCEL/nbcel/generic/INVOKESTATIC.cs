@@ -15,68 +15,73 @@
 *  limitations under the License.
 *
 */
+
+using java.io;
 using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// INVOKESTATIC - Invoke a class (static) method
-	/// <PRE>Stack: ..., [arg1, [arg2 ...]] -&gt; ...</PRE>
+	///     INVOKESTATIC - Invoke a class (static) method
+	///     <PRE>Stack: ..., [arg1, [arg2 ...]] -&gt; ...</PRE>
 	/// </summary>
 	/// <seealso>
-	/// * <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html#jvms-6.5.invokestatic">
-	/// * The invokestatic instruction in The Java Virtual Machine Specification</a></seealso>
-	public class INVOKESTATIC : NBCEL.generic.InvokeInstruction
-	{
-		/// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
-		/// <remarks>
-		/// Empty constructor needed for Instruction.readInstruction.
-		/// Not to be used otherwise.
-		/// </remarks>
-		internal INVOKESTATIC()
-		{
-		}
+	///     *
+	///     <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html#jvms-6.5.invokestatic">
+	///         * The invokestatic instruction in The Java Virtual Machine Specification
+	///     </a>
+	/// </seealso>
+	public class INVOKESTATIC : InvokeInstruction
+    {
+	    /// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
+	    /// <remarks>
+	    ///     Empty constructor needed for Instruction.readInstruction.
+	    ///     Not to be used otherwise.
+	    /// </remarks>
+	    internal INVOKESTATIC()
+        {
+        }
 
-		public INVOKESTATIC(int index)
-			: base(NBCEL.Const.INVOKESTATIC, index)
-		{
-		}
+        public INVOKESTATIC(int index)
+            : base(Const.INVOKESTATIC, index)
+        {
+        }
 
-		/// <summary>Dump instruction as byte code to stream out.</summary>
-		/// <param name="out">Output stream</param>
-		/// <exception cref="System.IO.IOException"/>
-		public override void Dump(java.io.DataOutputStream @out)
-		{
-			@out.WriteByte(base.GetOpcode());
-			@out.WriteShort(base.GetIndex());
-		}
+        /// <summary>Dump instruction as byte code to stream out.</summary>
+        /// <param name="out">Output stream</param>
+        /// <exception cref="System.IO.IOException" />
+        public override void Dump(DataOutputStream @out)
+        {
+            @out.WriteByte(base.GetOpcode());
+            @out.WriteShort(GetIndex());
+        }
 
-		public override System.Type[] GetExceptions()
-		{
-			return NBCEL.ExceptionConst.CreateExceptions(NBCEL.ExceptionConst.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION
-				, NBCEL.ExceptionConst.UNSATISFIED_LINK_ERROR, NBCEL.ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR
-				);
-		}
+        public override System.Type[] GetExceptions()
+        {
+            return ExceptionConst.CreateExceptions(ExceptionConst.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION
+                , ExceptionConst.UNSATISFIED_LINK_ERROR, ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR
+            );
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitExceptionThrower(this);
-			v.VisitTypedInstruction(this);
-			v.VisitStackConsumer(this);
-			v.VisitStackProducer(this);
-			v.VisitLoadClass(this);
-			v.VisitCPInstruction(this);
-			v.VisitFieldOrMethod(this);
-			v.VisitInvokeInstruction(this);
-			v.VisitINVOKESTATIC(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitExceptionThrower(this);
+            v.VisitTypedInstruction(this);
+            v.VisitStackConsumer(this);
+            v.VisitStackProducer(this);
+            v.VisitLoadClass(this);
+            v.VisitCPInstruction(this);
+            v.VisitFieldOrMethod(this);
+            v.VisitInvokeInstruction(this);
+            v.VisitINVOKESTATIC(this);
+        }
+    }
 }

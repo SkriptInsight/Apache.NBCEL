@@ -104,7 +104,7 @@ namespace ObjectWeb.Misc.Java.Nio
         {
             CheckBounds(offset, length, dst.Length);
             if (length > Remaining()) throw new BufferUnderflowException();
-            global::System.Array.Copy(hb, Ix(Position()), dst, offset, length);
+            System.Array.Copy(hb, Ix(Position()), dst, offset, length);
             Position(Position() + length);
             return this;
         }
@@ -135,7 +135,7 @@ namespace ObjectWeb.Misc.Java.Nio
         {
             CheckBounds(offset, length, src.Length);
             if (length > Remaining()) throw new BufferOverflowException();
-            global::System.Array.Copy(src, offset, hb, Ix(Position()), length);
+            System.Array.Copy(src, offset, hb, Ix(Position()), length);
             Position(Position() + length);
             return this;
         }
@@ -148,7 +148,7 @@ namespace ObjectWeb.Misc.Java.Nio
                 var sb = (HeapLongBuffer) src;
                 var n = sb.Remaining();
                 if (n > Remaining()) throw new BufferOverflowException();
-                global::System.Array.Copy(sb.hb, sb.Ix(sb.Position()), hb, Ix(Position()), n);
+                System.Array.Copy(sb.hb, sb.Ix(sb.Position()), hb, Ix(Position()), n);
                 sb.Position(sb.Position() + n);
                 Position(Position() + n);
             }
@@ -169,7 +169,7 @@ namespace ObjectWeb.Misc.Java.Nio
 
         public override LongBuffer Compact()
         {
-            global::System.Array.Copy(hb, Ix(Position()), hb, Ix(0), Remaining());
+            System.Array.Copy(hb, Ix(Position()), hb, Ix(0), Remaining());
             Position(Remaining());
             Limit(Capacity());
             DiscardMark();

@@ -15,31 +15,32 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
+
+using System;
 
 namespace NBCEL.verifier.exc
 {
 	/// <summary>
-	/// Instances of this class are thrown by BCEL's class file verifier "JustIce" when
-	/// a class file to verify does not pass the verification pass 3 because of a violation
-	/// of a static constraint as described in the Java Virtual Machine Specification,
-	/// 2nd edition, 4.8.1, pages 133-137.
+	///     Instances of this class are thrown by BCEL's class file verifier "JustIce" when
+	///     a class file to verify does not pass the verification pass 3 because of a violation
+	///     of a static constraint as described in the Java Virtual Machine Specification,
+	///     2nd edition, 4.8.1, pages 133-137.
 	/// </summary>
 	/// <remarks>
-	/// Instances of this class are thrown by BCEL's class file verifier "JustIce" when
-	/// a class file to verify does not pass the verification pass 3 because of a violation
-	/// of a static constraint as described in the Java Virtual Machine Specification,
-	/// 2nd edition, 4.8.1, pages 133-137. The static constraints checking part of pass 3
-	/// is called pass 3a in JustIce.
+	///     Instances of this class are thrown by BCEL's class file verifier "JustIce" when
+	///     a class file to verify does not pass the verification pass 3 because of a violation
+	///     of a static constraint as described in the Java Virtual Machine Specification,
+	///     2nd edition, 4.8.1, pages 133-137. The static constraints checking part of pass 3
+	///     is called pass 3a in JustIce.
 	/// </remarks>
-	[System.Serializable]
-	public abstract class StaticCodeConstraintException : NBCEL.verifier.exc.CodeConstraintException
-	{
-		private const long serialVersionUID = 3858523065007725128L;
+	[Serializable]
+    public abstract class StaticCodeConstraintException : CodeConstraintException
+    {
+        private const long serialVersionUID = 3858523065007725128L;
 
-		public StaticCodeConstraintException(string message)
-			: base(message)
-		{
-		}
-	}
+        public StaticCodeConstraintException(string message)
+            : base(message)
+        {
+        }
+    }
 }

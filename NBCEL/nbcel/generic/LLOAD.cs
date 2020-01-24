@@ -15,47 +15,46 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// LLOAD - Load long from local variable
-	/// <PRE>Stack ...
+	///     LLOAD - Load long from local variable
+	///     <PRE>Stack ...
 	/// </summary>
 	/// <remarks>
-	/// LLOAD - Load long from local variable
-	/// <PRE>Stack ... -&gt; ..., result.word1, result.word2</PRE>
+	///     LLOAD - Load long from local variable
+	///     <PRE>Stack ... -&gt; ..., result.word1, result.word2</PRE>
 	/// </remarks>
-	public class LLOAD : NBCEL.generic.LoadInstruction
-	{
-		/// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
-		/// <remarks>
-		/// Empty constructor needed for Instruction.readInstruction.
-		/// Not to be used otherwise.
-		/// </remarks>
-		internal LLOAD()
-			: base(NBCEL.Const.LLOAD, NBCEL.Const.LLOAD_0)
-		{
-		}
+	public class LLOAD : LoadInstruction
+    {
+	    /// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
+	    /// <remarks>
+	    ///     Empty constructor needed for Instruction.readInstruction.
+	    ///     Not to be used otherwise.
+	    /// </remarks>
+	    internal LLOAD()
+            : base(Const.LLOAD, Const.LLOAD_0)
+        {
+        }
 
-		public LLOAD(int n)
-			: base(NBCEL.Const.LLOAD, NBCEL.Const.LLOAD_0, n)
-		{
-		}
+        public LLOAD(int n)
+            : base(Const.LLOAD, Const.LLOAD_0, n)
+        {
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			base.Accept(v);
-			v.VisitLLOAD(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            base.Accept(v);
+            v.VisitLLOAD(this);
+        }
+    }
 }

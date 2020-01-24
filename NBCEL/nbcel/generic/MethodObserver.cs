@@ -15,16 +15,15 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// Implement this interface if you're interested in changes to a MethodGen object
-	/// and register yourself with addObserver().
+	///     Implement this interface if you're interested in changes to a MethodGen object
+	///     and register yourself with addObserver().
 	/// </summary>
 	public interface MethodObserver
-	{
-		void Notify(NBCEL.generic.MethodGen method);
-	}
+    {
+        void Notify(MethodGen method);
+    }
 }

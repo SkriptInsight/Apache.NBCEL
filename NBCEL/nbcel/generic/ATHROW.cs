@@ -15,42 +15,41 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// ATHROW -  Throw exception
-	/// <PRE>Stack: ..., objectref -&gt; objectref</PRE>
+	///     ATHROW -  Throw exception
+	///     <PRE>Stack: ..., objectref -&gt; objectref</PRE>
 	/// </summary>
-	public class ATHROW : NBCEL.generic.Instruction, NBCEL.generic.UnconditionalBranch
-		, NBCEL.generic.ExceptionThrower
-	{
-		/// <summary>Throw exception</summary>
-		public ATHROW()
-			: base(NBCEL.Const.ATHROW, (short)1)
-		{
-		}
+	public class ATHROW : Instruction, UnconditionalBranch
+        , ExceptionThrower
+    {
+        /// <summary>Throw exception</summary>
+        public ATHROW()
+            : base(Const.ATHROW, 1)
+        {
+        }
 
-		/// <returns>exceptions this instruction may cause</returns>
-		public virtual System.Type[] GetExceptions()
-		{
-			return new System.Type[] { NBCEL.ExceptionConst.THROWABLE };
-		}
+        /// <returns>exceptions this instruction may cause</returns>
+        public virtual System.Type[] GetExceptions()
+        {
+            return new[] {ExceptionConst.THROWABLE};
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitUnconditionalBranch(this);
-			v.VisitExceptionThrower(this);
-			v.VisitATHROW(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitUnconditionalBranch(this);
+            v.VisitExceptionThrower(this);
+            v.VisitATHROW(this);
+        }
+    }
 }

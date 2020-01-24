@@ -15,286 +15,285 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.classfile
 {
 	/// <summary>
-	/// Visitor with empty method bodies, can be extended and used in conjunction
-	/// with the DescendingVisitor class, e.g.
+	///     Visitor with empty method bodies, can be extended and used in conjunction
+	///     with the DescendingVisitor class, e.g.
 	/// </summary>
 	/// <remarks>
-	/// Visitor with empty method bodies, can be extended and used in conjunction
-	/// with the DescendingVisitor class, e.g. By courtesy of David Spencer.
+	///     Visitor with empty method bodies, can be extended and used in conjunction
+	///     with the DescendingVisitor class, e.g. By courtesy of David Spencer.
 	/// </remarks>
-	/// <seealso cref="DescendingVisitor"/>
-	public class EmptyVisitor : NBCEL.classfile.Visitor
-	{
-		protected internal EmptyVisitor()
-		{
-		}
+	/// <seealso cref="DescendingVisitor" />
+	public class EmptyVisitor : Visitor
+    {
+        protected internal EmptyVisitor()
+        {
+        }
 
-		/// <since>6.0</since>
-		public virtual void VisitAnnotation(NBCEL.classfile.Annotations obj)
-		{
-		}
+        /// <since>6.0</since>
+        public virtual void VisitAnnotation(Annotations obj)
+        {
+        }
 
-		/// <since>6.0</since>
-		public virtual void VisitParameterAnnotation(NBCEL.classfile.ParameterAnnotations
-			 obj)
-		{
-		}
+        /// <since>6.0</since>
+        public virtual void VisitParameterAnnotation(ParameterAnnotations
+            obj)
+        {
+        }
 
-		/// <since>6.0</since>
-		public virtual void VisitAnnotationEntry(NBCEL.classfile.AnnotationEntry obj)
-		{
-		}
+        /// <since>6.0</since>
+        public virtual void VisitAnnotationEntry(AnnotationEntry obj)
+        {
+        }
 
-		/// <since>6.0</since>
-		public virtual void VisitAnnotationDefault(NBCEL.classfile.AnnotationDefault obj)
-		{
-		}
+        /// <since>6.0</since>
+        public virtual void VisitAnnotationDefault(AnnotationDefault obj)
+        {
+        }
 
-		public virtual void VisitCode(NBCEL.classfile.Code obj)
-		{
-		}
+        public virtual void VisitCode(Code obj)
+        {
+        }
 
-		public virtual void VisitCodeException(NBCEL.classfile.CodeException obj)
-		{
-		}
+        public virtual void VisitCodeException(CodeException obj)
+        {
+        }
 
-		public virtual void VisitConstantClass(NBCEL.classfile.ConstantClass obj)
-		{
-		}
+        public virtual void VisitConstantClass(ConstantClass obj)
+        {
+        }
 
-		public virtual void VisitConstantDouble(NBCEL.classfile.ConstantDouble obj)
-		{
-		}
+        public virtual void VisitConstantDouble(ConstantDouble obj)
+        {
+        }
 
-		public virtual void VisitConstantFieldref(NBCEL.classfile.ConstantFieldref obj)
-		{
-		}
+        public virtual void VisitConstantFieldref(ConstantFieldref obj)
+        {
+        }
 
-		public virtual void VisitConstantFloat(NBCEL.classfile.ConstantFloat obj)
-		{
-		}
+        public virtual void VisitConstantFloat(ConstantFloat obj)
+        {
+        }
 
-		public virtual void VisitConstantInteger(NBCEL.classfile.ConstantInteger obj)
-		{
-		}
+        public virtual void VisitConstantInteger(ConstantInteger obj)
+        {
+        }
 
-		public virtual void VisitConstantInterfaceMethodref(NBCEL.classfile.ConstantInterfaceMethodref
-			 obj)
-		{
-		}
+        public virtual void VisitConstantInterfaceMethodref(ConstantInterfaceMethodref
+            obj)
+        {
+        }
 
-		public virtual void VisitConstantInvokeDynamic(NBCEL.classfile.ConstantInvokeDynamic
-			 obj)
-		{
-		}
+        public virtual void VisitConstantInvokeDynamic(ConstantInvokeDynamic
+            obj)
+        {
+        }
 
-		public virtual void VisitConstantLong(NBCEL.classfile.ConstantLong obj)
-		{
-		}
+        public virtual void VisitConstantLong(ConstantLong obj)
+        {
+        }
 
-		public virtual void VisitConstantMethodref(NBCEL.classfile.ConstantMethodref obj)
-		{
-		}
+        public virtual void VisitConstantMethodref(ConstantMethodref obj)
+        {
+        }
 
-		public virtual void VisitConstantNameAndType(NBCEL.classfile.ConstantNameAndType 
-			obj)
-		{
-		}
+        public virtual void VisitConstantNameAndType(ConstantNameAndType
+            obj)
+        {
+        }
 
-		public virtual void VisitConstantPool(NBCEL.classfile.ConstantPool obj)
-		{
-		}
+        public virtual void VisitConstantPool(ConstantPool obj)
+        {
+        }
 
-		public virtual void VisitConstantString(NBCEL.classfile.ConstantString obj)
-		{
-		}
+        public virtual void VisitConstantString(ConstantString obj)
+        {
+        }
 
-		public virtual void VisitConstantUtf8(NBCEL.classfile.ConstantUtf8 obj)
-		{
-		}
+        public virtual void VisitConstantUtf8(ConstantUtf8 obj)
+        {
+        }
 
-		public virtual void VisitConstantValue(NBCEL.classfile.ConstantValue obj)
-		{
-		}
+        public virtual void VisitConstantValue(ConstantValue obj)
+        {
+        }
 
-		public virtual void VisitDeprecated(NBCEL.classfile.Deprecated obj)
-		{
-		}
+        public virtual void VisitDeprecated(Deprecated obj)
+        {
+        }
 
-		public virtual void VisitExceptionTable(NBCEL.classfile.ExceptionTable obj)
-		{
-		}
+        public virtual void VisitExceptionTable(ExceptionTable obj)
+        {
+        }
 
-		public virtual void VisitField(NBCEL.classfile.Field obj)
-		{
-		}
+        public virtual void VisitField(Field obj)
+        {
+        }
 
-		public virtual void VisitInnerClass(NBCEL.classfile.InnerClass obj)
-		{
-		}
+        public virtual void VisitInnerClass(InnerClass obj)
+        {
+        }
 
-		public virtual void VisitInnerClasses(NBCEL.classfile.InnerClasses obj)
-		{
-		}
+        public virtual void VisitInnerClasses(InnerClasses obj)
+        {
+        }
 
-		/// <since>6.0</since>
-		public virtual void VisitBootstrapMethods(NBCEL.classfile.BootstrapMethods obj)
-		{
-		}
+        /// <since>6.0</since>
+        public virtual void VisitBootstrapMethods(BootstrapMethods obj)
+        {
+        }
 
-		public virtual void VisitJavaClass(NBCEL.classfile.JavaClass obj)
-		{
-		}
+        public virtual void VisitJavaClass(JavaClass obj)
+        {
+        }
 
-		public virtual void VisitLineNumber(NBCEL.classfile.LineNumber obj)
-		{
-		}
+        public virtual void VisitLineNumber(LineNumber obj)
+        {
+        }
 
-		public virtual void VisitLineNumberTable(NBCEL.classfile.LineNumberTable obj)
-		{
-		}
+        public virtual void VisitLineNumberTable(LineNumberTable obj)
+        {
+        }
 
-		public virtual void VisitLocalVariable(NBCEL.classfile.LocalVariable obj)
-		{
-		}
+        public virtual void VisitLocalVariable(LocalVariable obj)
+        {
+        }
 
-		public virtual void VisitLocalVariableTable(NBCEL.classfile.LocalVariableTable obj
-			)
-		{
-		}
+        public virtual void VisitLocalVariableTable(LocalVariableTable obj
+        )
+        {
+        }
 
-		public virtual void VisitMethod(NBCEL.classfile.Method obj)
-		{
-		}
+        public virtual void VisitMethod(Method obj)
+        {
+        }
 
-		public virtual void VisitSignature(NBCEL.classfile.Signature obj)
-		{
-		}
+        public virtual void VisitSignature(Signature obj)
+        {
+        }
 
-		public virtual void VisitSourceFile(NBCEL.classfile.SourceFile obj)
-		{
-		}
+        public virtual void VisitSourceFile(SourceFile obj)
+        {
+        }
 
-		public virtual void VisitSynthetic(NBCEL.classfile.Synthetic obj)
-		{
-		}
+        public virtual void VisitSynthetic(Synthetic obj)
+        {
+        }
 
-		public virtual void VisitUnknown(NBCEL.classfile.Unknown obj)
-		{
-		}
+        public virtual void VisitUnknown(Unknown obj)
+        {
+        }
 
-		public virtual void VisitStackMap(NBCEL.classfile.StackMap obj)
-		{
-		}
+        public virtual void VisitStackMap(StackMap obj)
+        {
+        }
 
-		public virtual void VisitStackMapEntry(NBCEL.classfile.StackMapEntry obj)
-		{
-		}
+        public virtual void VisitStackMapEntry(StackMapEntry obj)
+        {
+        }
 
-		/// <since>6.0</since>
-		public virtual void VisitEnclosingMethod(NBCEL.classfile.EnclosingMethod obj)
-		{
-		}
+        /// <since>6.0</since>
+        public virtual void VisitEnclosingMethod(EnclosingMethod obj)
+        {
+        }
 
-		/// <since>6.0</since>
-		public virtual void VisitLocalVariableTypeTable(NBCEL.classfile.LocalVariableTypeTable
-			 obj)
-		{
-		}
+        /// <since>6.0</since>
+        public virtual void VisitLocalVariableTypeTable(LocalVariableTypeTable
+            obj)
+        {
+        }
 
-		/// <since>6.0</since>
-		public virtual void VisitMethodParameters(NBCEL.classfile.MethodParameters obj)
-		{
-		}
+        /// <since>6.0</since>
+        public virtual void VisitMethodParameters(MethodParameters obj)
+        {
+        }
 
-		/// <since>6.4.0</since>
-		public virtual void VisitMethodParameter(NBCEL.classfile.MethodParameter obj)
-		{
-		}
+        /// <since>6.4.0</since>
+        public virtual void VisitMethodParameter(MethodParameter obj)
+        {
+        }
 
-		/// <since>6.0</since>
-		public virtual void VisitConstantMethodType(NBCEL.classfile.ConstantMethodType obj
-			)
-		{
-		}
+        /// <since>6.0</since>
+        public virtual void VisitConstantMethodType(ConstantMethodType obj
+        )
+        {
+        }
 
-		/// <since>6.0</since>
-		public virtual void VisitConstantMethodHandle(NBCEL.classfile.ConstantMethodHandle
-			 constantMethodHandle)
-		{
-		}
+        /// <since>6.0</since>
+        public virtual void VisitConstantMethodHandle(ConstantMethodHandle
+            constantMethodHandle)
+        {
+        }
 
-		/// <since>6.0</since>
-		public virtual void VisitParameterAnnotationEntry(NBCEL.classfile.ParameterAnnotationEntry
-			 parameterAnnotationEntry)
-		{
-		}
+        /// <since>6.0</since>
+        public virtual void VisitParameterAnnotationEntry(ParameterAnnotationEntry
+            parameterAnnotationEntry)
+        {
+        }
 
-		/// <since>6.1</since>
-		public virtual void VisitConstantPackage(NBCEL.classfile.ConstantPackage constantPackage
-			)
-		{
-		}
+        /// <since>6.1</since>
+        public virtual void VisitConstantPackage(ConstantPackage constantPackage
+        )
+        {
+        }
 
-		/// <since>6.1</since>
-		public virtual void VisitConstantModule(NBCEL.classfile.ConstantModule constantModule
-			)
-		{
-		}
+        /// <since>6.1</since>
+        public virtual void VisitConstantModule(ConstantModule constantModule
+        )
+        {
+        }
 
-		/// <since>6.3</since>
-		public virtual void VisitConstantDynamic(NBCEL.classfile.ConstantDynamic obj)
-		{
-		}
+        /// <since>6.3</since>
+        public virtual void VisitConstantDynamic(ConstantDynamic obj)
+        {
+        }
 
-		/// <since>6.4.0</since>
-		public virtual void VisitModule(NBCEL.classfile.Module obj)
-		{
-		}
+        /// <since>6.4.0</since>
+        public virtual void VisitModule(Module obj)
+        {
+        }
 
-		/// <since>6.4.0</since>
-		public virtual void VisitModuleRequires(NBCEL.classfile.ModuleRequires obj)
-		{
-		}
+        /// <since>6.4.0</since>
+        public virtual void VisitModuleRequires(ModuleRequires obj)
+        {
+        }
 
-		/// <since>6.4.0</since>
-		public virtual void VisitModuleExports(NBCEL.classfile.ModuleExports obj)
-		{
-		}
+        /// <since>6.4.0</since>
+        public virtual void VisitModuleExports(ModuleExports obj)
+        {
+        }
 
-		/// <since>6.4.0</since>
-		public virtual void VisitModuleOpens(NBCEL.classfile.ModuleOpens obj)
-		{
-		}
+        /// <since>6.4.0</since>
+        public virtual void VisitModuleOpens(ModuleOpens obj)
+        {
+        }
 
-		/// <since>6.4.0</since>
-		public virtual void VisitModuleProvides(NBCEL.classfile.ModuleProvides obj)
-		{
-		}
+        /// <since>6.4.0</since>
+        public virtual void VisitModuleProvides(ModuleProvides obj)
+        {
+        }
 
-		/// <since>6.4.0</since>
-		public virtual void VisitModulePackages(NBCEL.classfile.ModulePackages obj)
-		{
-		}
+        /// <since>6.4.0</since>
+        public virtual void VisitModulePackages(ModulePackages obj)
+        {
+        }
 
-		/// <since>6.4.0</since>
-		public virtual void VisitModuleMainClass(NBCEL.classfile.ModuleMainClass obj)
-		{
-		}
+        /// <since>6.4.0</since>
+        public virtual void VisitModuleMainClass(ModuleMainClass obj)
+        {
+        }
 
-		/// <since>6.4.0</since>
-		public virtual void VisitNestHost(NBCEL.classfile.NestHost obj)
-		{
-		}
+        /// <since>6.4.0</since>
+        public virtual void VisitNestHost(NestHost obj)
+        {
+        }
 
-		/// <since>6.4.0</since>
-		public virtual void VisitNestMembers(NBCEL.classfile.NestMembers obj)
-		{
-		}
-	}
+        /// <since>6.4.0</since>
+        public virtual void VisitNestMembers(NestMembers obj)
+        {
+        }
+    }
 }

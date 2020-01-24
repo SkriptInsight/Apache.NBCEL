@@ -15,37 +15,36 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// ISUB - Substract ints
-	/// <PRE>Stack: ..., value1, value2 -&gt; result</PRE>
+	///     ISUB - Substract ints
+	///     <PRE>Stack: ..., value1, value2 -&gt; result</PRE>
 	/// </summary>
-	public class ISUB : NBCEL.generic.ArithmeticInstruction
-	{
-		/// <summary>Substract ints</summary>
-		public ISUB()
-			: base(NBCEL.Const.ISUB)
-		{
-		}
+	public class ISUB : ArithmeticInstruction
+    {
+        /// <summary>Substract ints</summary>
+        public ISUB()
+            : base(Const.ISUB)
+        {
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitTypedInstruction(this);
-			v.VisitStackProducer(this);
-			v.VisitStackConsumer(this);
-			v.VisitArithmeticInstruction(this);
-			v.VisitISUB(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitTypedInstruction(this);
+            v.VisitStackProducer(this);
+            v.VisitStackConsumer(this);
+            v.VisitArithmeticInstruction(this);
+            v.VisitISUB(this);
+        }
+    }
 }

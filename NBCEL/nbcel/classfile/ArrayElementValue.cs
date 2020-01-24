@@ -15,80 +15,75 @@
 *  limitations under the License.
 *
 */
+
+using System;
+using System.Text;
+using java.io;
 using Sharpen;
 
 namespace NBCEL.classfile
 {
-	/// <since>6.0</since>
-	public class ArrayElementValue : NBCEL.classfile.ElementValue
-	{
-		private readonly NBCEL.classfile.ElementValue[] evalues;
+    /// <since>6.0</since>
+    public class ArrayElementValue : ElementValue
+    {
+        private readonly ElementValue[] evalues;
 
-		// For array types, this is the array
-		public override string ToString()
-		{
-			System.Text.StringBuilder sb = new System.Text.StringBuilder();
-			sb.Append("{");
-			for (int i = 0; i < evalues.Length; i++)
-			{
-				sb.Append(evalues[i]);
-				if ((i + 1) < evalues.Length)
-				{
-					sb.Append(",");
-				}
-			}
-			sb.Append("}");
-			return sb.ToString();
-		}
+        public ArrayElementValue(int type, ElementValue[] datums, ConstantPool
+            cpool)
+            : base(type, cpool)
+        {
+            if (type != ARRAY)
+                throw new Exception("Only element values of type array can be built with this ctor - type specified: "
+                                    + type);
+            evalues = datums;
+        }
 
-		public ArrayElementValue(int type, NBCEL.classfile.ElementValue[] datums, NBCEL.classfile.ConstantPool
-			 cpool)
-			: base(type, cpool)
-		{
-			if (type != ARRAY)
-			{
-				throw new System.Exception("Only element values of type array can be built with this ctor - type specified: "
-					 + type);
-			}
-			this.evalues = datums;
-		}
+        // For array types, this is the array
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            sb.Append("{");
+            for (var i = 0; i < evalues.Length; i++)
+            {
+                sb.Append(evalues[i]);
+                if (i + 1 < evalues.Length) sb.Append(",");
+            }
 
-		/// <exception cref="System.IO.IOException"/>
-		public override void Dump(java.io.DataOutputStream dos)
-		{
-			dos.WriteByte(base.GetType());
-			// u1 type of value (ARRAY == '[')
-			dos.WriteShort(evalues.Length);
-			foreach (NBCEL.classfile.ElementValue evalue in evalues)
-			{
-				evalue.Dump(dos);
-			}
-		}
+            sb.Append("}");
+            return sb.ToString();
+        }
 
-		public override string StringifyValue()
-		{
-			System.Text.StringBuilder sb = new System.Text.StringBuilder();
-			sb.Append("[");
-			for (int i = 0; i < evalues.Length; i++)
-			{
-				sb.Append(evalues[i].StringifyValue());
-				if ((i + 1) < evalues.Length)
-				{
-					sb.Append(",");
-				}
-			}
-			sb.Append("]");
-			return sb.ToString();
-		}
+        /// <exception cref="System.IO.IOException" />
+        public override void Dump(DataOutputStream dos)
+        {
+            dos.WriteByte(GetType());
+            // u1 type of value (ARRAY == '[')
+            dos.WriteShort(evalues.Length);
+            foreach (var evalue in evalues) evalue.Dump(dos);
+        }
 
-		public virtual NBCEL.classfile.ElementValue[] GetElementValuesArray()
-		{
-			return evalues;
-		}
+        public override string StringifyValue()
+        {
+            var sb = new StringBuilder();
+            sb.Append("[");
+            for (var i = 0; i < evalues.Length; i++)
+            {
+                sb.Append(evalues[i].StringifyValue());
+                if (i + 1 < evalues.Length) sb.Append(",");
+            }
 
-		public virtual int GetElementValuesArraySize()
-		{
-			return evalues.Length;
-		}
-	}
+            sb.Append("]");
+            return sb.ToString();
+        }
+
+        public virtual ElementValue[] GetElementValuesArray()
+        {
+            return evalues;
+        }
+
+        public virtual int GetElementValuesArraySize()
+        {
+            return evalues.Length;
+        }
+    }
 }

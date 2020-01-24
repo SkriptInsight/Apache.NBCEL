@@ -15,84 +15,83 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
-	/// <summary>Super class for the x2y family of instructions.</summary>
-	public abstract class ConversionInstruction : NBCEL.generic.Instruction, NBCEL.generic.TypedInstruction
-		, NBCEL.generic.StackProducer, NBCEL.generic.StackConsumer
-	{
-		/// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
-		/// <remarks>
-		/// Empty constructor needed for Instruction.readInstruction.
-		/// Not to be used otherwise.
-		/// </remarks>
-		internal ConversionInstruction()
-		{
-		}
+    /// <summary>Super class for the x2y family of instructions.</summary>
+    public abstract class ConversionInstruction : Instruction, TypedInstruction
+        , StackProducer, StackConsumer
+    {
+	    /// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
+	    /// <remarks>
+	    ///     Empty constructor needed for Instruction.readInstruction.
+	    ///     Not to be used otherwise.
+	    /// </remarks>
+	    internal ConversionInstruction()
+        {
+        }
 
-		/// <param name="opcode">opcode of instruction</param>
-		protected internal ConversionInstruction(short opcode)
-			: base(opcode, (short)1)
-		{
-		}
+        /// <param name="opcode">opcode of instruction</param>
+        protected internal ConversionInstruction(short opcode)
+            : base(opcode, 1)
+        {
+        }
 
-		/// <returns>type associated with the instruction</returns>
-		public virtual NBCEL.generic.Type GetType(NBCEL.generic.ConstantPoolGen cp)
-		{
-			short _opcode = base.GetOpcode();
-			switch (_opcode)
-			{
-				case NBCEL.Const.D2I:
-				case NBCEL.Const.F2I:
-				case NBCEL.Const.L2I:
-				{
-					return NBCEL.generic.Type.INT;
-				}
+        /// <returns>type associated with the instruction</returns>
+        public virtual Type GetType(ConstantPoolGen cp)
+        {
+            var _opcode = base.GetOpcode();
+            switch (_opcode)
+            {
+                case Const.D2I:
+                case Const.F2I:
+                case Const.L2I:
+                {
+                    return Type.INT;
+                }
 
-				case NBCEL.Const.D2F:
-				case NBCEL.Const.I2F:
-				case NBCEL.Const.L2F:
-				{
-					return NBCEL.generic.Type.FLOAT;
-				}
+                case Const.D2F:
+                case Const.I2F:
+                case Const.L2F:
+                {
+                    return Type.FLOAT;
+                }
 
-				case NBCEL.Const.D2L:
-				case NBCEL.Const.F2L:
-				case NBCEL.Const.I2L:
-				{
-					return NBCEL.generic.Type.LONG;
-				}
+                case Const.D2L:
+                case Const.F2L:
+                case Const.I2L:
+                {
+                    return Type.LONG;
+                }
 
-				case NBCEL.Const.F2D:
-				case NBCEL.Const.I2D:
-				case NBCEL.Const.L2D:
-				{
-					return NBCEL.generic.Type.DOUBLE;
-				}
+                case Const.F2D:
+                case Const.I2D:
+                case Const.L2D:
+                {
+                    return Type.DOUBLE;
+                }
 
-				case NBCEL.Const.I2B:
-				{
-					return NBCEL.generic.Type.BYTE;
-				}
+                case Const.I2B:
+                {
+                    return Type.BYTE;
+                }
 
-				case NBCEL.Const.I2C:
-				{
-					return NBCEL.generic.Type.CHAR;
-				}
+                case Const.I2C:
+                {
+                    return Type.CHAR;
+                }
 
-				case NBCEL.Const.I2S:
-				{
-					return NBCEL.generic.Type.SHORT;
-				}
+                case Const.I2S:
+                {
+                    return Type.SHORT;
+                }
 
-				default:
-				{
-					// Never reached
-					throw new NBCEL.generic.ClassGenException("Unknown type " + _opcode);
-				}
-			}
-		}
-	}
+                default:
+                {
+                    // Never reached
+                    throw new ClassGenException("Unknown type " + _opcode);
+                }
+            }
+        }
+    }
 }

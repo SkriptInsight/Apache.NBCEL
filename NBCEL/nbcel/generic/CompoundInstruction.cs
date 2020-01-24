@@ -15,28 +15,27 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// Wrapper class for `compound' operations, virtual instructions that
-	/// don't exist as byte code, but give a useful meaning.
+	///     Wrapper class for `compound' operations, virtual instructions that
+	///     don't exist as byte code, but give a useful meaning.
 	/// </summary>
 	/// <remarks>
-	/// Wrapper class for `compound' operations, virtual instructions that
-	/// don't exist as byte code, but give a useful meaning. For example,
-	/// the (virtual) PUSH instruction takes an arbitray argument and produces the
-	/// appropiate code at dump time (ICONST, LDC, BIPUSH, ...). Also you can use the
-	/// SWITCH instruction as a useful template for either LOOKUPSWITCH or
-	/// TABLESWITCH.
-	/// The interface provides the possibilty for the user to write
-	/// `templates' or `macros' for such reuseable code patterns.
+	///     Wrapper class for `compound' operations, virtual instructions that
+	///     don't exist as byte code, but give a useful meaning. For example,
+	///     the (virtual) PUSH instruction takes an arbitray argument and produces the
+	///     appropiate code at dump time (ICONST, LDC, BIPUSH, ...). Also you can use the
+	///     SWITCH instruction as a useful template for either LOOKUPSWITCH or
+	///     TABLESWITCH.
+	///     The interface provides the possibilty for the user to write
+	///     `templates' or `macros' for such reuseable code patterns.
 	/// </remarks>
-	/// <seealso cref="PUSH"/>
-	/// <seealso cref="SWITCH"/>
+	/// <seealso cref="PUSH" />
+	/// <seealso cref="SWITCH" />
 	public interface CompoundInstruction
-	{
-		NBCEL.generic.InstructionList GetInstructionList();
-	}
+    {
+        InstructionList GetInstructionList();
+    }
 }

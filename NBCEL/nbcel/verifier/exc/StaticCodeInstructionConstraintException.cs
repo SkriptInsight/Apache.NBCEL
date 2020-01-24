@@ -15,34 +15,35 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
+
+using System;
 
 namespace NBCEL.verifier.exc
 {
 	/// <summary>
-	/// Instances of this class are thrown by BCEL's class file verifier "JustIce" when
-	/// a class file to verify does not pass the verification pass 3 because of a violation
-	/// of a static constraint as described in the Java Virtual Machine Specification,
-	/// Second edition, 4.8.1, pages 133-137.
+	///     Instances of this class are thrown by BCEL's class file verifier "JustIce" when
+	///     a class file to verify does not pass the verification pass 3 because of a violation
+	///     of a static constraint as described in the Java Virtual Machine Specification,
+	///     Second edition, 4.8.1, pages 133-137.
 	/// </summary>
 	/// <remarks>
-	/// Instances of this class are thrown by BCEL's class file verifier "JustIce" when
-	/// a class file to verify does not pass the verification pass 3 because of a violation
-	/// of a static constraint as described in the Java Virtual Machine Specification,
-	/// Second edition, 4.8.1, pages 133-137. The static constraints checking part of pass 3
-	/// is called pass 3a in JustIce.
-	/// Static constraints on the instructions in the code array are checked early in
-	/// pass 3a and are described on page 134 in the Java Virtual Machine Specification,
-	/// Second Edition.
+	///     Instances of this class are thrown by BCEL's class file verifier "JustIce" when
+	///     a class file to verify does not pass the verification pass 3 because of a violation
+	///     of a static constraint as described in the Java Virtual Machine Specification,
+	///     Second edition, 4.8.1, pages 133-137. The static constraints checking part of pass 3
+	///     is called pass 3a in JustIce.
+	///     Static constraints on the instructions in the code array are checked early in
+	///     pass 3a and are described on page 134 in the Java Virtual Machine Specification,
+	///     Second Edition.
 	/// </remarks>
-	[System.Serializable]
-	public class StaticCodeInstructionConstraintException : NBCEL.verifier.exc.StaticCodeConstraintException
-	{
-		private const long serialVersionUID = 4987255974346614794L;
+	[Serializable]
+    public class StaticCodeInstructionConstraintException : StaticCodeConstraintException
+    {
+        private const long serialVersionUID = 4987255974346614794L;
 
-		public StaticCodeInstructionConstraintException(string message)
-			: base(message)
-		{
-		}
-	}
+        public StaticCodeInstructionConstraintException(string message)
+            : base(message)
+        {
+        }
+    }
 }

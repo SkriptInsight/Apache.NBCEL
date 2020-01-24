@@ -15,23 +15,24 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
+
+using System;
 
 namespace NBCEL.verifier.exc
 {
 	/// <summary>
-	/// Instances of this class are thrown by BCEL's class file verifier "JustIce"
-	/// when the verification of a method is requested that does not exist.
+	///     Instances of this class are thrown by BCEL's class file verifier "JustIce"
+	///     when the verification of a method is requested that does not exist.
 	/// </summary>
-	[System.Serializable]
-	public class InvalidMethodException : System.Exception
-	{
-		private const long serialVersionUID = -7060302743724808051L;
+	[Serializable]
+    public class InvalidMethodException : Exception
+    {
+        private const long serialVersionUID = -7060302743724808051L;
 
-		/// <summary>Constructs an InvalidMethodException with the specified detail message.</summary>
-		public InvalidMethodException(string message)
-			: base(message)
-		{
-		}
-	}
+        /// <summary>Constructs an InvalidMethodException with the specified detail message.</summary>
+        public InvalidMethodException(string message)
+            : base(message)
+        {
+        }
+    }
 }

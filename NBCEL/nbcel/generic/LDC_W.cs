@@ -15,43 +15,45 @@
 *  limitations under the License.
 *
 */
+
+using NBCEL.util;
 using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// LDC_W - Push item from constant pool (wide index)
-	/// <PRE>Stack: ...
+	///     LDC_W - Push item from constant pool (wide index)
+	///     <PRE>Stack: ...
 	/// </summary>
 	/// <remarks>
-	/// LDC_W - Push item from constant pool (wide index)
-	/// <PRE>Stack: ... -&gt; ..., item.word1, item.word2</PRE>
+	///     LDC_W - Push item from constant pool (wide index)
+	///     <PRE>Stack: ... -&gt; ..., item.word1, item.word2</PRE>
 	/// </remarks>
-	public class LDC_W : NBCEL.generic.LDC
-	{
-		/// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
-		/// <remarks>
-		/// Empty constructor needed for Instruction.readInstruction.
-		/// Not to be used otherwise.
-		/// </remarks>
-		internal LDC_W()
-		{
-		}
+	public class LDC_W : LDC
+    {
+	    /// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
+	    /// <remarks>
+	    ///     Empty constructor needed for Instruction.readInstruction.
+	    ///     Not to be used otherwise.
+	    /// </remarks>
+	    internal LDC_W()
+        {
+        }
 
-		public LDC_W(int index)
-			: base(index)
-		{
-		}
+        public LDC_W(int index)
+            : base(index)
+        {
+        }
 
-		/// <summary>Read needed data (i.e., index) from file.</summary>
-		/// <exception cref="System.IO.IOException"/>
-		protected internal override void InitFromFile(NBCEL.util.ByteSequence bytes, bool
-			 wide)
-		{
-			SetIndex(bytes.ReadUnsignedShort());
-			// Override just in case it has been changed
-			base.SetOpcode(NBCEL.Const.LDC_W);
-			base.SetLength(3);
-		}
-	}
+        /// <summary>Read needed data (i.e., index) from file.</summary>
+        /// <exception cref="System.IO.IOException" />
+        protected internal override void InitFromFile(ByteSequence bytes, bool
+            wide)
+        {
+            SetIndex(bytes.ReadUnsignedShort());
+            // Override just in case it has been changed
+            SetOpcode(Const.LDC_W);
+            SetLength(3);
+        }
+    }
 }

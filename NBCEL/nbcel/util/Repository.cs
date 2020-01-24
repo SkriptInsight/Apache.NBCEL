@@ -15,41 +15,46 @@
 *  limitations under the License.
 *
 */
+
+using System;
+using NBCEL.classfile;
 using Sharpen;
 
 namespace NBCEL.util
 {
 	/// <summary>Abstract definition of a class repository.</summary>
 	/// <remarks>
-	/// Abstract definition of a class repository. Instances may be used to load classes from different sources and may be
-	/// used in the Repository.setRepository method.
+	///     Abstract definition of a class repository. Instances may be used to load classes from different sources and may be
+	///     used in the Repository.setRepository method.
 	/// </remarks>
-	/// <seealso cref="NBCEL.Repository"/>
+	/// <seealso cref="NBCEL.Repository" />
 	public interface Repository
-	{
-		/// <summary>Stores the provided class under "clazz.getClassName()"</summary>
-		void StoreClass(NBCEL.classfile.JavaClass clazz);
+    {
+        /// <summary>Stores the provided class under "clazz.getClassName()"</summary>
+        void StoreClass(JavaClass clazz);
 
-		/// <summary>Removes class from repository</summary>
-		void RemoveClass(NBCEL.classfile.JavaClass clazz);
+        /// <summary>Removes class from repository</summary>
+        void RemoveClass(JavaClass clazz);
 
-		/// <summary>Finds the class with the name provided, if the class isn't there, return NULL.
-		/// 	</summary>
-		NBCEL.classfile.JavaClass FindClass(string className);
+        /// <summary>
+        ///     Finds the class with the name provided, if the class isn't there, return NULL.
+        /// </summary>
+        JavaClass FindClass(string className);
 
-		/// <summary>Finds the class with the name provided, if the class isn't there, make an attempt to load it.
-		/// 	</summary>
-		/// <exception cref="System.TypeLoadException"/>
-		NBCEL.classfile.JavaClass LoadClass(string className);
+        /// <summary>
+        ///     Finds the class with the name provided, if the class isn't there, make an attempt to load it.
+        /// </summary>
+        /// <exception cref="System.TypeLoadException" />
+        JavaClass LoadClass(string className);
 
-		/// <summary>Finds the JavaClass instance for the given run-time class object</summary>
-		/// <exception cref="System.TypeLoadException"/>
-		NBCEL.classfile.JavaClass LoadClass(System.Type clazz);
+        /// <summary>Finds the JavaClass instance for the given run-time class object</summary>
+        /// <exception cref="System.TypeLoadException" />
+        JavaClass LoadClass(Type clazz);
 
-		/// <summary>Clears all entries from cache.</summary>
-		void Clear();
+        /// <summary>Clears all entries from cache.</summary>
+        void Clear();
 
-		/// <summary>Gets the ClassPath associated with this Repository</summary>
-		NBCEL.util.ClassPath GetClassPath();
-	}
+        /// <summary>Gets the ClassPath associated with this Repository</summary>
+        ClassPath GetClassPath();
+    }
 }

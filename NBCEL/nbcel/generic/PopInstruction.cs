@@ -15,17 +15,16 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// Denotes an unparameterized instruction to pop a value on top from the stack,
-	/// such as ISTORE, POP, PUTSTATIC.
+	///     Denotes an unparameterized instruction to pop a value on top from the stack,
+	///     such as ISTORE, POP, PUTSTATIC.
 	/// </summary>
-	/// <seealso cref="ISTORE"/>
-	/// <seealso cref="POP"/>
-	public interface PopInstruction : NBCEL.generic.StackConsumer
-	{
-	}
+	/// <seealso cref="ISTORE" />
+	/// <seealso cref="POP" />
+	public interface PopInstruction : StackConsumer
+    {
+    }
 }

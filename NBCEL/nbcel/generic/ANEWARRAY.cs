@@ -15,65 +15,61 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// ANEWARRAY -  Create new array of references
-	/// <PRE>Stack: ..., count -&gt; ..., arrayref</PRE>
+	///     ANEWARRAY -  Create new array of references
+	///     <PRE>Stack: ..., count -&gt; ..., arrayref</PRE>
 	/// </summary>
-	public class ANEWARRAY : NBCEL.generic.CPInstruction, NBCEL.generic.LoadClass, NBCEL.generic.AllocationInstruction
-		, NBCEL.generic.ExceptionThrower, NBCEL.generic.StackConsumer, NBCEL.generic.StackProducer
-	{
-		/// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
-		/// <remarks>
-		/// Empty constructor needed for Instruction.readInstruction.
-		/// Not to be used otherwise.
-		/// </remarks>
-		internal ANEWARRAY()
-		{
-		}
+	public class ANEWARRAY : CPInstruction, LoadClass, AllocationInstruction
+        , ExceptionThrower, StackConsumer, StackProducer
+    {
+	    /// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
+	    /// <remarks>
+	    ///     Empty constructor needed for Instruction.readInstruction.
+	    ///     Not to be used otherwise.
+	    /// </remarks>
+	    internal ANEWARRAY()
+        {
+        }
 
-		public ANEWARRAY(int index)
-			: base(NBCEL.Const.ANEWARRAY, index)
-		{
-		}
+        public ANEWARRAY(int index)
+            : base(Const.ANEWARRAY, index)
+        {
+        }
 
-		public virtual System.Type[] GetExceptions()
-		{
-			return NBCEL.ExceptionConst.CreateExceptions(NBCEL.ExceptionConst.EXCS.EXCS_CLASS_AND_INTERFACE_RESOLUTION
-				, NBCEL.ExceptionConst.NEGATIVE_ARRAY_SIZE_EXCEPTION);
-		}
+        public virtual System.Type[] GetExceptions()
+        {
+            return ExceptionConst.CreateExceptions(ExceptionConst.EXCS.EXCS_CLASS_AND_INTERFACE_RESOLUTION
+                , ExceptionConst.NEGATIVE_ARRAY_SIZE_EXCEPTION);
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitLoadClass(this);
-			v.VisitAllocationInstruction(this);
-			v.VisitExceptionThrower(this);
-			v.VisitStackProducer(this);
-			v.VisitTypedInstruction(this);
-			v.VisitCPInstruction(this);
-			v.VisitANEWARRAY(this);
-		}
+        public virtual ObjectType GetLoadClassType(ConstantPoolGen
+            cpg)
+        {
+            var t = GetType(cpg);
+            if (t is ArrayType) t = ((ArrayType) t).GetBasicType();
+            return t is ObjectType ? (ObjectType) t : null;
+        }
 
-		public virtual NBCEL.generic.ObjectType GetLoadClassType(NBCEL.generic.ConstantPoolGen
-			 cpg)
-		{
-			NBCEL.generic.Type t = GetType(cpg);
-			if (t is NBCEL.generic.ArrayType)
-			{
-				t = ((NBCEL.generic.ArrayType)t).GetBasicType();
-			}
-			return (t is NBCEL.generic.ObjectType) ? (NBCEL.generic.ObjectType)t : null;
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitLoadClass(this);
+            v.VisitAllocationInstruction(this);
+            v.VisitExceptionThrower(this);
+            v.VisitStackProducer(this);
+            v.VisitTypedInstruction(this);
+            v.VisitCPInstruction(this);
+            v.VisitANEWARRAY(this);
+        }
+    }
 }

@@ -15,36 +15,35 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// SALOAD - Load short from array
-	/// <PRE>Stack: ..., arrayref, index -&gt; ..., value</PRE>
+	///     SALOAD - Load short from array
+	///     <PRE>Stack: ..., arrayref, index -&gt; ..., value</PRE>
 	/// </summary>
-	public class SALOAD : NBCEL.generic.ArrayInstruction, NBCEL.generic.StackProducer
-	{
-		public SALOAD()
-			: base(NBCEL.Const.SALOAD)
-		{
-		}
+	public class SALOAD : ArrayInstruction, StackProducer
+    {
+        public SALOAD()
+            : base(Const.SALOAD)
+        {
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitStackProducer(this);
-			v.VisitExceptionThrower(this);
-			v.VisitTypedInstruction(this);
-			v.VisitArrayInstruction(this);
-			v.VisitSALOAD(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitStackProducer(this);
+            v.VisitExceptionThrower(this);
+            v.VisitTypedInstruction(this);
+            v.VisitArrayInstruction(this);
+            v.VisitSALOAD(this);
+        }
+    }
 }

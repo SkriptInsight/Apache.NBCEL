@@ -14,109 +14,113 @@
 *  See the License for the specific language governing permissions and
 *  limitations under the License.
 */
+
+using System;
+using java.io;
 using Sharpen;
 
 namespace NBCEL.classfile
 {
 	/// <summary>Entry of the parameters table.</summary>
-	/// <seealso><a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.7.24">
-	/// * The class File Format : The MethodParameters Attribute</a></seealso>
+	/// <seealso>
+	///     <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.7.24">
+	///         * The class File Format : The MethodParameters Attribute
+	///     </a>
+	/// </seealso>
 	/// <since>6.0</since>
-	public class MethodParameter : System.ICloneable
-	{
-		/// <summary>Index of the CONSTANT_Utf8_info structure in the constant_pool table representing the name of the parameter
-		/// 	</summary>
-		private int name_index;
+	public class MethodParameter : ICloneable
+    {
+        /// <summary>The access flags</summary>
+        private int access_flags;
 
-		/// <summary>The access flags</summary>
-		private int access_flags;
+        /// <summary>
+        ///     Index of the CONSTANT_Utf8_info structure in the constant_pool table representing the name of the parameter
+        /// </summary>
+        private int name_index;
 
-		public MethodParameter()
-		{
-		}
+        public MethodParameter()
+        {
+        }
 
-		/// <summary>Construct object from input stream.</summary>
-		/// <param name="input">Input stream</param>
-		/// <exception cref="System.IO.IOException"/>
-		/// <exception cref="ClassFormatException"/>
-		internal MethodParameter(java.io.DataInput input)
-		{
-			name_index = input.ReadUnsignedShort();
-			access_flags = input.ReadUnsignedShort();
-		}
+        /// <summary>Construct object from input stream.</summary>
+        /// <param name="input">Input stream</param>
+        /// <exception cref="System.IO.IOException" />
+        /// <exception cref="ClassFormatException" />
+        internal MethodParameter(DataInput input)
+        {
+            name_index = input.ReadUnsignedShort();
+            access_flags = input.ReadUnsignedShort();
+        }
 
-		public virtual int GetNameIndex()
-		{
-			return name_index;
-		}
+        object ICloneable.Clone()
+        {
+            return MemberwiseClone();
+        }
 
-		public virtual void SetNameIndex(int name_index)
-		{
-			this.name_index = name_index;
-		}
+        public virtual int GetNameIndex()
+        {
+            return name_index;
+        }
 
-		/// <summary>Returns the name of the parameter.</summary>
-		public virtual string GetParameterName(NBCEL.classfile.ConstantPool constant_pool
-			)
-		{
-			if (name_index == 0)
-			{
-				return null;
-			}
-			return ((NBCEL.classfile.ConstantUtf8)constant_pool.GetConstant(name_index, NBCEL.Const
-				.CONSTANT_Utf8)).GetBytes();
-		}
+        public virtual void SetNameIndex(int name_index)
+        {
+            this.name_index = name_index;
+        }
 
-		public virtual int GetAccessFlags()
-		{
-			return access_flags;
-		}
+        /// <summary>Returns the name of the parameter.</summary>
+        public virtual string GetParameterName(ConstantPool constant_pool
+        )
+        {
+            if (name_index == 0) return null;
+            return ((ConstantUtf8) constant_pool.GetConstant(name_index, Const
+                .CONSTANT_Utf8)).GetBytes();
+        }
 
-		public virtual void SetAccessFlags(int access_flags)
-		{
-			this.access_flags = access_flags;
-		}
+        public virtual int GetAccessFlags()
+        {
+            return access_flags;
+        }
 
-		public virtual bool IsFinal()
-		{
-			return (access_flags & NBCEL.Const.ACC_FINAL) != 0;
-		}
+        public virtual void SetAccessFlags(int access_flags)
+        {
+            this.access_flags = access_flags;
+        }
 
-		public virtual bool IsSynthetic()
-		{
-			return (access_flags & NBCEL.Const.ACC_SYNTHETIC) != 0;
-		}
+        public virtual bool IsFinal()
+        {
+            return (access_flags & Const.ACC_FINAL) != 0;
+        }
 
-		public virtual bool IsMandated()
-		{
-			return (access_flags & NBCEL.Const.ACC_MANDATED) != 0;
-		}
+        public virtual bool IsSynthetic()
+        {
+            return (access_flags & Const.ACC_SYNTHETIC) != 0;
+        }
 
-		public virtual void Accept(NBCEL.classfile.Visitor v)
-		{
-			v.VisitMethodParameter(this);
-		}
+        public virtual bool IsMandated()
+        {
+            return (access_flags & Const.ACC_MANDATED) != 0;
+        }
 
-		/// <summary>Dump object to file stream on binary format.</summary>
-		/// <param name="file">Output file stream</param>
-		/// <exception cref="System.IO.IOException"/>
-		public void Dump(java.io.DataOutputStream file)
-		{
-			file.WriteShort(name_index);
-			file.WriteShort(access_flags);
-		}
+        public virtual void Accept(Visitor v)
+        {
+            v.VisitMethodParameter(this);
+        }
 
-		/// <returns>deep copy of this object</returns>
-		public virtual NBCEL.classfile.MethodParameter Copy()
-		{
-			return (NBCEL.classfile.MethodParameter)MemberwiseClone();
-			// TODO should this throw?
-			return null;
-		}
+        /// <summary>Dump object to file stream on binary format.</summary>
+        /// <param name="file">Output file stream</param>
+        /// <exception cref="System.IO.IOException" />
+        public void Dump(DataOutputStream file)
+        {
+            file.WriteShort(name_index);
+            file.WriteShort(access_flags);
+        }
 
-		object System.ICloneable.Clone()
-		{
-			return MemberwiseClone();
-		}
-	}
+        /// <returns>deep copy of this object</returns>
+        public virtual MethodParameter Copy()
+        {
+            return (MethodParameter) MemberwiseClone();
+            // TODO should this throw?
+            return null;
+        }
+    }
 }

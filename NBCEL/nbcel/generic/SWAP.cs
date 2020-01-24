@@ -15,36 +15,35 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// SWAP - Swa top operand stack word
-	/// <PRE>Stack: ..., word2, word1 -&gt; ..., word1, word2</PRE>
+	///     SWAP - Swa top operand stack word
+	///     <PRE>Stack: ..., word2, word1 -&gt; ..., word1, word2</PRE>
 	/// </summary>
-	public class SWAP : NBCEL.generic.StackInstruction, NBCEL.generic.StackConsumer, 
-		NBCEL.generic.StackProducer
-	{
-		public SWAP()
-			: base(NBCEL.Const.SWAP)
-		{
-		}
+	public class SWAP : StackInstruction, StackConsumer,
+        StackProducer
+    {
+        public SWAP()
+            : base(Const.SWAP)
+        {
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitStackConsumer(this);
-			v.VisitStackProducer(this);
-			v.VisitStackInstruction(this);
-			v.VisitSWAP(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitStackConsumer(this);
+            v.VisitStackProducer(this);
+            v.VisitStackInstruction(this);
+            v.VisitSWAP(this);
+        }
+    }
 }

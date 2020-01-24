@@ -15,36 +15,37 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
+
+using System;
 
 namespace NBCEL.verifier.exc
 {
 	/// <summary>
-	/// When loading a class file, BCEL will throw an instance of LoadingException if
-	/// the class file is malformed; so it is not conforming to the "Pass 1" verification
-	/// process as described in the Java Virtual Machine specification, 2nd.
+	///     When loading a class file, BCEL will throw an instance of LoadingException if
+	///     the class file is malformed; so it is not conforming to the "Pass 1" verification
+	///     process as described in the Java Virtual Machine specification, 2nd.
 	/// </summary>
 	/// <remarks>
-	/// When loading a class file, BCEL will throw an instance of LoadingException if
-	/// the class file is malformed; so it is not conforming to the "Pass 1" verification
-	/// process as described in the Java Virtual Machine specification, 2nd. edition.
+	///     When loading a class file, BCEL will throw an instance of LoadingException if
+	///     the class file is malformed; so it is not conforming to the "Pass 1" verification
+	///     process as described in the Java Virtual Machine specification, 2nd. edition.
 	/// </remarks>
-	[System.Serializable]
-	public class LoadingException : NBCEL.verifier.exc.VerifierConstraintViolatedException
-	{
-		private const long serialVersionUID = -7911901533049018823L;
+	[Serializable]
+    public class LoadingException : VerifierConstraintViolatedException
+    {
+        private const long serialVersionUID = -7911901533049018823L;
 
-		/// <summary>Constructs a new LoadingException with null as its error message string.
-		/// 	</summary>
-		public LoadingException()
-			: base()
-		{
-		}
+        /// <summary>
+        ///     Constructs a new LoadingException with null as its error message string.
+        /// </summary>
+        public LoadingException()
+        {
+        }
 
-		/// <summary>Constructs a new LoadingException with the specified error message.</summary>
-		public LoadingException(string message)
-			: base(message)
-		{
-		}
-	}
+        /// <summary>Constructs a new LoadingException with the specified error message.</summary>
+        public LoadingException(string message)
+            : base(message)
+        {
+        }
+    }
 }

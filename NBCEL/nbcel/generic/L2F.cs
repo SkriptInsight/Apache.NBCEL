@@ -15,36 +15,35 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// L2F - Convert long to float
-	/// <PRE>Stack: ..., value.word1, value.word2 -&gt; ..., result</PRE>
+	///     L2F - Convert long to float
+	///     <PRE>Stack: ..., value.word1, value.word2 -&gt; ..., result</PRE>
 	/// </summary>
-	public class L2F : NBCEL.generic.ConversionInstruction
-	{
-		public L2F()
-			: base(NBCEL.Const.L2F)
-		{
-		}
+	public class L2F : ConversionInstruction
+    {
+        public L2F()
+            : base(Const.L2F)
+        {
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitTypedInstruction(this);
-			v.VisitStackProducer(this);
-			v.VisitStackConsumer(this);
-			v.VisitConversionInstruction(this);
-			v.VisitL2F(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitTypedInstruction(this);
+            v.VisitStackProducer(this);
+            v.VisitStackConsumer(this);
+            v.VisitConversionInstruction(this);
+            v.VisitL2F(this);
+        }
+    }
 }

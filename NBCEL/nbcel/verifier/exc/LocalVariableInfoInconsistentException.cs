@@ -15,34 +15,36 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
+
+using System;
 
 namespace NBCEL.verifier.exc
 {
 	/// <summary>
-	/// A LocalVariableInfoInconsistentException instance is thrown by
-	/// the LocalVariableInfo class when it detects that the information
-	/// it holds is inconsistent; this is normally due to inconsistent
-	/// LocalVariableTable entries in the Code attribute of a certain
-	/// Method object.
+	///     A LocalVariableInfoInconsistentException instance is thrown by
+	///     the LocalVariableInfo class when it detects that the information
+	///     it holds is inconsistent; this is normally due to inconsistent
+	///     LocalVariableTable entries in the Code attribute of a certain
+	///     Method object.
 	/// </summary>
-	[System.Serializable]
-	public class LocalVariableInfoInconsistentException : NBCEL.verifier.exc.ClassConstraintException
-	{
-		private const long serialVersionUID = -2833180480144304190L;
+	[Serializable]
+    public class LocalVariableInfoInconsistentException : ClassConstraintException
+    {
+        private const long serialVersionUID = -2833180480144304190L;
 
-		/// <summary>Constructs a new LocalVariableInfoInconsistentException with null as its error message string.
-		/// 	</summary>
-		public LocalVariableInfoInconsistentException()
-			: base()
-		{
-		}
+        /// <summary>
+        ///     Constructs a new LocalVariableInfoInconsistentException with null as its error message string.
+        /// </summary>
+        public LocalVariableInfoInconsistentException()
+        {
+        }
 
-		/// <summary>Constructs a new LocalVariableInfoInconsistentException with the specified error message.
-		/// 	</summary>
-		public LocalVariableInfoInconsistentException(string message)
-			: base(message)
-		{
-		}
-	}
+        /// <summary>
+        ///     Constructs a new LocalVariableInfoInconsistentException with the specified error message.
+        /// </summary>
+        public LocalVariableInfoInconsistentException(string message)
+            : base(message)
+        {
+        }
+    }
 }

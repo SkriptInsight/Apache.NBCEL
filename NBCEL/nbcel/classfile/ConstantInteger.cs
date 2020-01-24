@@ -15,87 +15,89 @@
 *  limitations under the License.
 *
 */
+
+using java.io;
 using Sharpen;
 
 namespace NBCEL.classfile
 {
 	/// <summary>
-	/// This class is derived from the abstract
-	/// <see cref="Constant"/>
-	/// and represents a reference to an int object.
+	///     This class is derived from the abstract
+	///     <see cref="Constant" />
+	///     and represents a reference to an int object.
 	/// </summary>
-	/// <seealso cref="Constant"/>
-	public sealed class ConstantInteger : NBCEL.classfile.Constant, NBCEL.classfile.ConstantObject
-	{
-		private int bytes;
+	/// <seealso cref="Constant" />
+	public sealed class ConstantInteger : Constant, ConstantObject
+    {
+        private int bytes;
 
-		/// <param name="bytes">Data</param>
-		public ConstantInteger(int bytes)
-			: base(NBCEL.Const.CONSTANT_Integer)
-		{
-			this.bytes = bytes;
-		}
+        /// <param name="bytes">Data</param>
+        public ConstantInteger(int bytes)
+            : base(Const.CONSTANT_Integer)
+        {
+            this.bytes = bytes;
+        }
 
-		/// <summary>Initialize from another object.</summary>
-		public ConstantInteger(NBCEL.classfile.ConstantInteger c)
-			: this(c.GetBytes())
-		{
-		}
+        /// <summary>Initialize from another object.</summary>
+        public ConstantInteger(ConstantInteger c)
+            : this(c.GetBytes())
+        {
+        }
 
-		/// <summary>Initialize instance from file data.</summary>
-		/// <param name="file">Input stream</param>
-		/// <exception cref="System.IO.IOException"/>
-		internal ConstantInteger(java.io.DataInput file)
-			: this(file.ReadInt())
-		{
-		}
+        /// <summary>Initialize instance from file data.</summary>
+        /// <param name="file">Input stream</param>
+        /// <exception cref="System.IO.IOException" />
+        internal ConstantInteger(DataInput file)
+            : this(file.ReadInt())
+        {
+        }
 
-		/// <summary>
-		/// Called by objects that are traversing the nodes of the tree implicitely
-		/// defined by the contents of a Java class.
-		/// </summary>
-		/// <remarks>
-		/// Called by objects that are traversing the nodes of the tree implicitely
-		/// defined by the contents of a Java class. I.e., the hierarchy of methods,
-		/// fields, attributes, etc. spawns a tree of objects.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.classfile.Visitor v)
-		{
-			v.VisitConstantInteger(this);
-		}
+        /// <returns>Integer object</returns>
+        public object GetConstantValue(ConstantPool cp)
+        {
+            return bytes;
+        }
 
-		/// <summary>Dump constant integer to file stream in binary format.</summary>
-		/// <param name="file">Output file stream</param>
-		/// <exception cref="System.IO.IOException"/>
-		public override void Dump(java.io.DataOutputStream file)
-		{
-			file.WriteByte(base.GetTag());
-			file.WriteInt(bytes);
-		}
+        /// <summary>
+        ///     Called by objects that are traversing the nodes of the tree implicitely
+        ///     defined by the contents of a Java class.
+        /// </summary>
+        /// <remarks>
+        ///     Called by objects that are traversing the nodes of the tree implicitely
+        ///     defined by the contents of a Java class. I.e., the hierarchy of methods,
+        ///     fields, attributes, etc. spawns a tree of objects.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitConstantInteger(this);
+        }
 
-		/// <returns>data, i.e., 4 bytes.</returns>
-		public int GetBytes()
-		{
-			return bytes;
-		}
+        /// <summary>Dump constant integer to file stream in binary format.</summary>
+        /// <param name="file">Output file stream</param>
+        /// <exception cref="System.IO.IOException" />
+        public override void Dump(DataOutputStream file)
+        {
+            file.WriteByte(GetTag());
+            file.WriteInt(bytes);
+        }
 
-		/// <param name="bytes">the raw bytes that represent this integer</param>
-		public void SetBytes(int bytes)
-		{
-			this.bytes = bytes;
-		}
+        /// <returns>data, i.e., 4 bytes.</returns>
+        public int GetBytes()
+        {
+            return bytes;
+        }
 
-		/// <returns>String representation.</returns>
-		public override string ToString()
-		{
-			return base.ToString() + "(bytes = " + bytes + ")";
-		}
+        /// <param name="bytes">the raw bytes that represent this integer</param>
+        public void SetBytes(int bytes)
+        {
+            this.bytes = bytes;
+        }
 
-		/// <returns>Integer object</returns>
-		public object GetConstantValue(NBCEL.classfile.ConstantPool cp)
-		{
-			return bytes;
-		}
-	}
+        /// <returns>String representation.</returns>
+        public override string ToString()
+        {
+            return base.ToString() + "(bytes = " + bytes + ")";
+        }
+    }
 }

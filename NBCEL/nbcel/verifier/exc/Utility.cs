@@ -16,29 +16,32 @@
 *
 */
 
+using System;
 using System.IO;
 using Sharpen;
 
 namespace NBCEL.verifier.exc
 {
-	/// <summary>A utility class providing convenience methods concerning Throwable instances.
-	/// 	</summary>
-	/// <seealso cref="System.Exception"/>
+	/// <summary>
+	///     A utility class providing convenience methods concerning Throwable instances.
+	/// </summary>
+	/// <seealso cref="System.Exception" />
 	public sealed class Utility
-	{
-		/// <summary>This class is not instantiable.</summary>
-		private Utility()
-		{
-		}
+    {
+        /// <summary>This class is not instantiable.</summary>
+        private Utility()
+        {
+        }
 
-		/// <summary>This method returns the stack trace of a Throwable instance as a String.
-		/// 	</summary>
-		public static string GetStackTrace(System.Exception t)
-		{
-			System.IO.StringWriter sw = new System.IO.StringWriter();
-			System.IO.TextWriter pw = sw;
-			Sharpen.Runtime.PrintStackTrace(t, pw);
-			return sw.ToString();
-		}
-	}
+        /// <summary>
+        ///     This method returns the stack trace of a Throwable instance as a String.
+        /// </summary>
+        public static string GetStackTrace(Exception t)
+        {
+            var sw = new StringWriter();
+            TextWriter pw = sw;
+            Runtime.PrintStackTrace(t, pw);
+            return sw.ToString();
+        }
+    }
 }

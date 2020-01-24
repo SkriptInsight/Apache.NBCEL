@@ -15,112 +15,106 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
+
+using System.Text;
 
 namespace NBCEL.generic
 {
-	/// <summary>Denotes array type, such as int[][]</summary>
-	public sealed class ArrayType : NBCEL.generic.ReferenceType
-	{
-		private int dimensions;
+    /// <summary>Denotes array type, such as int[][]</summary>
+    public sealed class ArrayType : ReferenceType
+    {
+        private readonly Type basic_type;
+        private readonly int dimensions;
 
-		private NBCEL.generic.Type basic_type;
+        /// <summary>Convenience constructor for array type, e.g.</summary>
+        /// <remarks>Convenience constructor for array type, e.g. int[]</remarks>
+        /// <param name="type">array type, e.g. T_INT</param>
+        public ArrayType(byte type, int dimensions)
+            : this(BasicType.GetType(type), dimensions)
+        {
+        }
 
-		/// <summary>Convenience constructor for array type, e.g.</summary>
-		/// <remarks>Convenience constructor for array type, e.g. int[]</remarks>
-		/// <param name="type">array type, e.g. T_INT</param>
-		public ArrayType(byte type, int dimensions)
-			: this(NBCEL.generic.BasicType.GetType(type), dimensions)
-		{
-		}
+        /// <summary>Convenience constructor for reference array type, e.g.</summary>
+        /// <remarks>Convenience constructor for reference array type, e.g. Object[]</remarks>
+        /// <param name="class_name">complete name of class (java.lang.String, e.g.)</param>
+        public ArrayType(string class_name, int dimensions)
+            : this(ObjectType.GetInstance(class_name), dimensions)
+        {
+        }
 
-		/// <summary>Convenience constructor for reference array type, e.g.</summary>
-		/// <remarks>Convenience constructor for reference array type, e.g. Object[]</remarks>
-		/// <param name="class_name">complete name of class (java.lang.String, e.g.)</param>
-		public ArrayType(string class_name, int dimensions)
-			: this(NBCEL.generic.ObjectType.GetInstance(class_name), dimensions)
-		{
-		}
+        /// <summary>Constructor for array of given type</summary>
+        /// <param name="type">type of array (may be an array itself)</param>
+        public ArrayType(Type type, int dimensions)
+            : base(Const.T_ARRAY, "<dummy>")
+        {
+            if (dimensions < 1 || dimensions > Const.MAX_BYTE)
+                throw new ClassGenException("Invalid number of dimensions: " + dimensions
+                );
+            switch (type.GetType())
+            {
+                case Const.T_ARRAY:
+                {
+                    var array = (ArrayType) type;
+                    this.dimensions = dimensions + array.dimensions;
+                    basic_type = array.basic_type;
+                    break;
+                }
 
-		/// <summary>Constructor for array of given type</summary>
-		/// <param name="type">type of array (may be an array itself)</param>
-		public ArrayType(NBCEL.generic.Type type, int dimensions)
-			: base(NBCEL.Const.T_ARRAY, "<dummy>")
-		{
-			if ((dimensions < 1) || (dimensions > NBCEL.Const.MAX_BYTE))
-			{
-				throw new NBCEL.generic.ClassGenException("Invalid number of dimensions: " + dimensions
-					);
-			}
-			switch (type.GetType())
-			{
-				case NBCEL.Const.T_ARRAY:
-				{
-					NBCEL.generic.ArrayType array = (NBCEL.generic.ArrayType)type;
-					this.dimensions = dimensions + array.dimensions;
-					basic_type = array.basic_type;
-					break;
-				}
+                case Const.T_VOID:
+                {
+                    throw new ClassGenException("Invalid type: void[]");
+                }
 
-				case NBCEL.Const.T_VOID:
-				{
-					throw new NBCEL.generic.ClassGenException("Invalid type: void[]");
-				}
+                default:
+                {
+                    // Basic type or reference
+                    this.dimensions = dimensions;
+                    basic_type = type;
+                    break;
+                }
+            }
 
-				default:
-				{
-					// Basic type or reference
-					this.dimensions = dimensions;
-					basic_type = type;
-					break;
-				}
-			}
-			System.Text.StringBuilder buf = new System.Text.StringBuilder();
-			for (int i = 0; i < this.dimensions; i++)
-			{
-				buf.Append('[');
-			}
-			buf.Append(basic_type.GetSignature());
-			base.SetSignature(buf.ToString());
-		}
+            var buf = new StringBuilder();
+            for (var i = 0; i < this.dimensions; i++) buf.Append('[');
+            buf.Append(basic_type.GetSignature());
+            SetSignature(buf.ToString());
+        }
 
-		/// <returns>basic type of array, i.e., for int[][][] the basic type is int</returns>
-		public NBCEL.generic.Type GetBasicType()
-		{
-			return basic_type;
-		}
+        /// <returns>basic type of array, i.e., for int[][][] the basic type is int</returns>
+        public Type GetBasicType()
+        {
+            return basic_type;
+        }
 
-		/// <returns>element type of array, i.e., for int[][][] the element type is int[][]</returns>
-		public NBCEL.generic.Type GetElementType()
-		{
-			if (dimensions == 1)
-			{
-				return basic_type;
-			}
-			return new NBCEL.generic.ArrayType(basic_type, dimensions - 1);
-		}
+        /// <returns>element type of array, i.e., for int[][][] the element type is int[][]</returns>
+        public Type GetElementType()
+        {
+            if (dimensions == 1) return basic_type;
+            return new ArrayType(basic_type, dimensions - 1);
+        }
 
-		/// <returns>number of dimensions of array</returns>
-		public int GetDimensions()
-		{
-			return dimensions;
-		}
+        /// <returns>number of dimensions of array</returns>
+        public int GetDimensions()
+        {
+            return dimensions;
+        }
 
-		/// <returns>a hash code value for the object.</returns>
-		public override int GetHashCode()
-		{
-			return basic_type.GetHashCode() ^ dimensions;
-		}
+        /// <returns>a hash code value for the object.</returns>
+        public override int GetHashCode()
+        {
+            return basic_type.GetHashCode() ^ dimensions;
+        }
 
-		/// <returns>true if both type objects refer to the same array type.</returns>
-		public override bool Equals(object _type)
-		{
-			if (_type is NBCEL.generic.ArrayType)
-			{
-				NBCEL.generic.ArrayType array = (NBCEL.generic.ArrayType)_type;
-				return (array.dimensions == dimensions) && array.basic_type.Equals(basic_type);
-			}
-			return false;
-		}
-	}
+        /// <returns>true if both type objects refer to the same array type.</returns>
+        public override bool Equals(object _type)
+        {
+            if (_type is ArrayType)
+            {
+                var array = (ArrayType) _type;
+                return array.dimensions == dimensions && array.basic_type.Equals(basic_type);
+            }
+
+            return false;
+        }
+    }
 }

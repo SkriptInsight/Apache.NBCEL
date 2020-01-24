@@ -15,96 +15,99 @@
 *  limitations under the License.
 *
 */
+
+using java.io;
+using NBCEL.util;
 using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// NEWARRAY -  Create new array of basic type (int, short, ...)
-	/// <PRE>Stack: ..., count -&gt; ..., arrayref</PRE>
-	/// type must be one of T_INT, T_SHORT, ...
+	///     NEWARRAY -  Create new array of basic type (int, short, ...)
+	///     <PRE>Stack: ..., count -&gt; ..., arrayref</PRE>
+	///     type must be one of T_INT, T_SHORT, ...
 	/// </summary>
-	public class NEWARRAY : NBCEL.generic.Instruction, NBCEL.generic.AllocationInstruction
-		, NBCEL.generic.ExceptionThrower, NBCEL.generic.StackProducer
-	{
-		private byte type;
+	public class NEWARRAY : Instruction, AllocationInstruction
+        , ExceptionThrower, StackProducer
+    {
+        private byte type;
 
-		/// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
-		/// <remarks>
-		/// Empty constructor needed for Instruction.readInstruction.
-		/// Not to be used otherwise.
-		/// </remarks>
-		internal NEWARRAY()
-		{
-		}
+        /// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
+        /// <remarks>
+        ///     Empty constructor needed for Instruction.readInstruction.
+        ///     Not to be used otherwise.
+        /// </remarks>
+        internal NEWARRAY()
+        {
+        }
 
-		public NEWARRAY(byte type)
-			: base(NBCEL.Const.NEWARRAY, (short)2)
-		{
-			this.type = type;
-		}
+        public NEWARRAY(byte type)
+            : base(Const.NEWARRAY, 2)
+        {
+            this.type = type;
+        }
 
-		public NEWARRAY(NBCEL.generic.BasicType type)
-			: this(type.GetType())
-		{
-		}
+        public NEWARRAY(BasicType type)
+            : this(type.GetType())
+        {
+        }
 
-		/// <summary>Dump instruction as byte code to stream out.</summary>
-		/// <param name="out">Output stream</param>
-		/// <exception cref="System.IO.IOException"/>
-		public override void Dump(java.io.DataOutputStream @out)
-		{
-			@out.WriteByte(base.GetOpcode());
-			@out.WriteByte(type);
-		}
+        public virtual System.Type[] GetExceptions()
+        {
+            return new[] {ExceptionConst.NEGATIVE_ARRAY_SIZE_EXCEPTION};
+        }
 
-		/// <returns>numeric code for basic element type</returns>
-		public byte GetTypecode()
-		{
-			return type;
-		}
+        /// <summary>Dump instruction as byte code to stream out.</summary>
+        /// <param name="out">Output stream</param>
+        /// <exception cref="System.IO.IOException" />
+        public override void Dump(DataOutputStream @out)
+        {
+            @out.WriteByte(base.GetOpcode());
+            @out.WriteByte(type);
+        }
 
-		/// <returns>type of constructed array</returns>
-		public NBCEL.generic.Type GetType()
-		{
-			return new NBCEL.generic.ArrayType(NBCEL.generic.BasicType.GetType(type), 1);
-		}
+        /// <returns>numeric code for basic element type</returns>
+        public byte GetTypecode()
+        {
+            return type;
+        }
 
-		/// <returns>mnemonic for instruction</returns>
-		public override string ToString(bool verbose)
-		{
-			return base.ToString(verbose) + " " + NBCEL.Const.GetTypeName(type);
-		}
+        /// <returns>type of constructed array</returns>
+        public Type GetType()
+        {
+            return new ArrayType(BasicType.GetType(type), 1);
+        }
 
-		/// <summary>Read needed data (e.g.</summary>
-		/// <remarks>Read needed data (e.g. index) from file.</remarks>
-		/// <exception cref="System.IO.IOException"/>
-		protected internal override void InitFromFile(NBCEL.util.ByteSequence bytes, bool
-			 wide)
-		{
-			type = bytes.ReadByte();
-			base.SetLength(2);
-		}
+        /// <returns>mnemonic for instruction</returns>
+        public override string ToString(bool verbose)
+        {
+            return base.ToString(verbose) + " " + Const.GetTypeName(type);
+        }
 
-		public virtual System.Type[] GetExceptions()
-		{
-			return new System.Type[] { NBCEL.ExceptionConst.NEGATIVE_ARRAY_SIZE_EXCEPTION };
-		}
+        /// <summary>Read needed data (e.g.</summary>
+        /// <remarks>Read needed data (e.g. index) from file.</remarks>
+        /// <exception cref="System.IO.IOException" />
+        protected internal override void InitFromFile(ByteSequence bytes, bool
+            wide)
+        {
+            type = bytes.ReadByte();
+            SetLength(2);
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitAllocationInstruction(this);
-			v.VisitExceptionThrower(this);
-			v.VisitStackProducer(this);
-			v.VisitNEWARRAY(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitAllocationInstruction(this);
+            v.VisitExceptionThrower(this);
+            v.VisitStackProducer(this);
+            v.VisitNEWARRAY(this);
+        }
+    }
 }

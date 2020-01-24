@@ -15,78 +15,73 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// ICONST - Push value between -1, ..., 5, other values cause an exception
-	/// <PRE>Stack: ...
+	///     ICONST - Push value between -1, ..., 5, other values cause an exception
+	///     <PRE>Stack: ...
 	/// </summary>
 	/// <remarks>
-	/// ICONST - Push value between -1, ..., 5, other values cause an exception
-	/// <PRE>Stack: ... -&gt; ..., </PRE>
+	///     ICONST - Push value between -1, ..., 5, other values cause an exception
+	///     <PRE>Stack: ... -&gt; ..., </PRE>
 	/// </remarks>
-	public class ICONST : NBCEL.generic.Instruction, NBCEL.generic.ConstantPushInstruction<int>
-	{
-		private int value;
+	public class ICONST : Instruction, ConstantPushInstruction<int>
+    {
+        private readonly int value;
 
-		/// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
-		/// <remarks>
-		/// Empty constructor needed for Instruction.readInstruction.
-		/// Not to be used otherwise.
-		/// </remarks>
-		internal ICONST()
-		{
-		}
+        /// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
+        /// <remarks>
+        ///     Empty constructor needed for Instruction.readInstruction.
+        ///     Not to be used otherwise.
+        /// </remarks>
+        internal ICONST()
+        {
+        }
 
-		public ICONST(int i)
-			: base(NBCEL.Const.ICONST_0, (short)1)
-		{
-			if ((i >= -1) && (i <= 5))
-			{
-				base.SetOpcode((short)(NBCEL.Const.ICONST_0 + i));
-			}
-			else
-			{
-				// Even works for i == -1
-				throw new NBCEL.generic.ClassGenException("ICONST can be used only for value between -1 and 5: "
-					 + i);
-			}
-			value = i;
-		}
+        public ICONST(int i)
+            : base(Const.ICONST_0, 1)
+        {
+            if (i >= -1 && i <= 5)
+                SetOpcode((short) (Const.ICONST_0 + i));
+            else
+                // Even works for i == -1
+                throw new ClassGenException("ICONST can be used only for value between -1 and 5: "
+                                            + i);
+            value = i;
+        }
 
-		public virtual int GetValue()
-		{
-			return value;
-		}
+        public virtual int GetValue()
+        {
+            return value;
+        }
 
-		/// <returns>Type.INT</returns>
-		public virtual NBCEL.generic.Type GetType(NBCEL.generic.ConstantPoolGen cp)
-		{
-			return NBCEL.generic.Type.INT;
-		}
+        /// <returns>Type.INT</returns>
+        public virtual Type GetType(ConstantPoolGen cp)
+        {
+            return Type.INT;
+        }
 
-		object BaseConstantPushInstruction.GetValue()
-		{
-			return GetValue();
-		}
+        object BaseConstantPushInstruction.GetValue()
+        {
+            return GetValue();
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitPushInstruction(this);
-			v.VisitStackProducer(this);
-			v.VisitTypedInstruction(this);
-			v.VisitConstantPushInstruction(this);
-			v.VisitICONST(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitPushInstruction(this);
+            v.VisitStackProducer(this);
+            v.VisitTypedInstruction(this);
+            v.VisitConstantPushInstruction(this);
+            v.VisitICONST(this);
+        }
+    }
 }

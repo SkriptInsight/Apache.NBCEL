@@ -15,135 +15,134 @@
 *  limitations under the License.
 *
 */
+
+using System;
+using System.Text;
+using java.io;
 using Sharpen;
 
 namespace NBCEL.classfile
 {
 	/// <summary>
-	/// This class is derived from <em>Attribute</em> and declares this class as
-	/// `synthetic', i.e., it needs special handling.
+	///     This class is derived from <em>Attribute</em> and declares this class as
+	///     `synthetic', i.e., it needs special handling.
 	/// </summary>
 	/// <remarks>
-	/// This class is derived from <em>Attribute</em> and declares this class as
-	/// `synthetic', i.e., it needs special handling.  The JVM specification
-	/// states "A class member that does not appear in the source code must be
-	/// marked using a Synthetic attribute."  It may appear in the ClassFile
-	/// attribute table, a field_info table or a method_info table.  This class
-	/// is intended to be instantiated from the
-	/// <em>Attribute.readAttribute()</em> method.
+	///     This class is derived from <em>Attribute</em> and declares this class as
+	///     `synthetic', i.e., it needs special handling.  The JVM specification
+	///     states "A class member that does not appear in the source code must be
+	///     marked using a Synthetic attribute."  It may appear in the ClassFile
+	///     attribute table, a field_info table or a method_info table.  This class
+	///     is intended to be instantiated from the
+	///     <em>Attribute.readAttribute()</em> method.
 	/// </remarks>
-	/// <seealso cref="Attribute"/>
-	public sealed class Synthetic : NBCEL.classfile.Attribute
-	{
-		private byte[] bytes;
+	/// <seealso cref="Attribute" />
+	public sealed class Synthetic : Attribute
+    {
+        private byte[] bytes;
 
-		/// <summary>Initialize from another object.</summary>
-		/// <remarks>
-		/// Initialize from another object. Note that both objects use the same
-		/// references (shallow copy). Use copy() for a physical copy.
-		/// </remarks>
-		public Synthetic(NBCEL.classfile.Synthetic c)
-			: this(c.GetNameIndex(), c.GetLength(), c.GetBytes(), c.GetConstantPool())
-		{
-		}
+        /// <summary>Initialize from another object.</summary>
+        /// <remarks>
+        ///     Initialize from another object. Note that both objects use the same
+        ///     references (shallow copy). Use copy() for a physical copy.
+        /// </remarks>
+        public Synthetic(Synthetic c)
+            : this(c.GetNameIndex(), c.GetLength(), c.GetBytes(), c.GetConstantPool())
+        {
+        }
 
-		/// <param name="name_index">
-		/// Index in constant pool to CONSTANT_Utf8, which
-		/// should represent the string "Synthetic".
-		/// </param>
-		/// <param name="length">Content length in bytes - should be zero.</param>
-		/// <param name="bytes">Attribute contents</param>
-		/// <param name="constant_pool">
-		/// The constant pool this attribute is associated
-		/// with.
-		/// </param>
-		public Synthetic(int name_index, int length, byte[] bytes, NBCEL.classfile.ConstantPool
-			 constant_pool)
-			: base(NBCEL.Const.ATTR_SYNTHETIC, name_index, length, constant_pool)
-		{
-			this.bytes = bytes;
-		}
+        /// <param name="name_index">
+        ///     Index in constant pool to CONSTANT_Utf8, which
+        ///     should represent the string "Synthetic".
+        /// </param>
+        /// <param name="length">Content length in bytes - should be zero.</param>
+        /// <param name="bytes">Attribute contents</param>
+        /// <param name="constant_pool">
+        ///     The constant pool this attribute is associated
+        ///     with.
+        /// </param>
+        public Synthetic(int name_index, int length, byte[] bytes, ConstantPool
+            constant_pool)
+            : base(Const.ATTR_SYNTHETIC, name_index, length, constant_pool)
+        {
+            this.bytes = bytes;
+        }
 
-		/// <summary>Construct object from input stream.</summary>
-		/// <param name="name_index">Index in constant pool to CONSTANT_Utf8</param>
-		/// <param name="length">Content length in bytes</param>
-		/// <param name="input">Input stream</param>
-		/// <param name="constant_pool">Array of constants</param>
-		/// <exception cref="System.IO.IOException"/>
-		internal Synthetic(int name_index, int length, java.io.DataInput input, NBCEL.classfile.ConstantPool
-			 constant_pool)
-			: this(name_index, length, (byte[])null, constant_pool)
-		{
-			if (length > 0)
-			{
-				bytes = new byte[length];
-				input.ReadFully(bytes);
-				Println("Synthetic attribute with length > 0");
-			}
-		}
+        /// <summary>Construct object from input stream.</summary>
+        /// <param name="name_index">Index in constant pool to CONSTANT_Utf8</param>
+        /// <param name="length">Content length in bytes</param>
+        /// <param name="input">Input stream</param>
+        /// <param name="constant_pool">Array of constants</param>
+        /// <exception cref="System.IO.IOException" />
+        internal Synthetic(int name_index, int length, DataInput input, ConstantPool
+            constant_pool)
+            : this(name_index, length, (byte[]) null, constant_pool)
+        {
+            if (length > 0)
+            {
+                bytes = new byte[length];
+                input.ReadFully(bytes);
+                Println("Synthetic attribute with length > 0");
+            }
+        }
 
-		/// <summary>
-		/// Called by objects that are traversing the nodes of the tree implicitely
-		/// defined by the contents of a Java class.
-		/// </summary>
-		/// <remarks>
-		/// Called by objects that are traversing the nodes of the tree implicitely
-		/// defined by the contents of a Java class. I.e., the hierarchy of methods,
-		/// fields, attributes, etc. spawns a tree of objects.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.classfile.Visitor v)
-		{
-			v.VisitSynthetic(this);
-		}
+        /// <summary>
+        ///     Called by objects that are traversing the nodes of the tree implicitely
+        ///     defined by the contents of a Java class.
+        /// </summary>
+        /// <remarks>
+        ///     Called by objects that are traversing the nodes of the tree implicitely
+        ///     defined by the contents of a Java class. I.e., the hierarchy of methods,
+        ///     fields, attributes, etc. spawns a tree of objects.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitSynthetic(this);
+        }
 
-		/// <summary>Dump source file attribute to file stream in binary format.</summary>
-		/// <param name="file">Output file stream</param>
-		/// <exception cref="System.IO.IOException"/>
-		public override void Dump(java.io.DataOutputStream file)
-		{
-			base.Dump(file);
-			if (base.GetLength() > 0)
-			{
-				file.Write(bytes, 0, base.GetLength());
-			}
-		}
+        /// <summary>Dump source file attribute to file stream in binary format.</summary>
+        /// <param name="file">Output file stream</param>
+        /// <exception cref="System.IO.IOException" />
+        public override void Dump(DataOutputStream file)
+        {
+            base.Dump(file);
+            if (GetLength() > 0) file.Write(bytes, 0, GetLength());
+        }
 
-		/// <returns>data bytes.</returns>
-		public byte[] GetBytes()
-		{
-			return bytes;
-		}
+        /// <returns>data bytes.</returns>
+        public byte[] GetBytes()
+        {
+            return bytes;
+        }
 
-		/// <param name="bytes"/>
-		public void SetBytes(byte[] bytes)
-		{
-			this.bytes = bytes;
-		}
+        /// <param name="bytes" />
+        public void SetBytes(byte[] bytes)
+        {
+            this.bytes = bytes;
+        }
 
-		/// <returns>String representation.</returns>
-		public override string ToString()
-		{
-			System.Text.StringBuilder buf = new System.Text.StringBuilder("Synthetic");
-			if (base.GetLength() > 0)
-			{
-				buf.Append(" ").Append(NBCEL.classfile.Utility.ToHexString(bytes));
-			}
-			return buf.ToString();
-		}
+        /// <returns>String representation.</returns>
+        public override string ToString()
+        {
+            var buf = new StringBuilder("Synthetic");
+            if (GetLength() > 0) buf.Append(" ").Append(Utility.ToHexString(bytes));
+            return buf.ToString();
+        }
 
-		/// <returns>deep copy of this attribute</returns>
-		public override NBCEL.classfile.Attribute Copy(NBCEL.classfile.ConstantPool _constant_pool
-			)
-		{
-			NBCEL.classfile.Synthetic c = (NBCEL.classfile.Synthetic)Clone();
-			if (bytes != null)
-			{
-				c.bytes = new byte[bytes.Length];
-				System.Array.Copy(bytes, 0, c.bytes, 0, bytes.Length);
-			}
-			c.SetConstantPool(_constant_pool);
-			return c;
-		}
-	}
+        /// <returns>deep copy of this attribute</returns>
+        public override Attribute Copy(ConstantPool _constant_pool
+        )
+        {
+            var c = (Synthetic) Clone();
+            if (bytes != null)
+            {
+                c.bytes = new byte[bytes.Length];
+                Array.Copy(bytes, 0, c.bytes, 0, bytes.Length);
+            }
+
+            c.SetConstantPool(_constant_pool);
+            return c;
+        }
+    }
 }

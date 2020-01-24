@@ -15,55 +15,61 @@
 *  limitations under the License.
 *
 */
+
+using System.Collections.Generic;
+using NBCEL.classfile;
 using Sharpen;
 
 namespace NBCEL.util
 {
-	/// <summary>This repository is used in situations where a Class is created outside the realm of a ClassLoader.
-	/// 	</summary>
+	/// <summary>
+	///     This repository is used in situations where a Class is created outside the realm of a ClassLoader.
+	/// </summary>
 	/// <remarks>
-	/// This repository is used in situations where a Class is created outside the realm of a ClassLoader. Classes are loaded from the file systems using the paths
-	/// specified in the given class path. By default, this is the value returned by ClassPath.getClassPath(). This repository holds onto classes with
-	/// SoftReferences, and will reload as needed, in cases where memory sizes are important.
+	///     This repository is used in situations where a Class is created outside the realm of a ClassLoader. Classes are
+	///     loaded from the file systems using the paths
+	///     specified in the given class path. By default, this is the value returned by ClassPath.getClassPath(). This
+	///     repository holds onto classes with
+	///     SoftReferences, and will reload as needed, in cases where memory sizes are important.
 	/// </remarks>
-	/// <seealso cref="NBCEL.Repository"/>
-	public class MemorySensitiveClassPathRepository : NBCEL.util.AbstractClassPathRepository
-	{
-		private readonly System.Collections.Generic.IDictionary<string, NBCEL.classfile.JavaClass> _loadedClasses = new System.Collections.Generic.Dictionary
-			<string, NBCEL.classfile.JavaClass>();
+	/// <seealso cref="NBCEL.Repository" />
+	public class MemorySensitiveClassPathRepository : AbstractClassPathRepository
+    {
+        private readonly IDictionary<string, JavaClass> _loadedClasses = new Dictionary
+            <string, JavaClass>();
 
-		public MemorySensitiveClassPathRepository(NBCEL.util.ClassPath path)
-			: base(path)
-		{
-		}
+        public MemorySensitiveClassPathRepository(ClassPath path)
+            : base(path)
+        {
+        }
 
-		// CLASSNAME X JAVACLASS
-		/// <summary>Store a new JavaClass instance into this Repository.</summary>
-		public override void StoreClass(NBCEL.classfile.JavaClass clazz)
-		{
-			// Not calling super.storeClass because this subclass maintains the mapping.
-			Sharpen.Collections.Put(_loadedClasses, clazz.GetClassName(), (clazz));
-			clazz.SetRepository(this);
-		}
+        // CLASSNAME X JAVACLASS
+        /// <summary>Store a new JavaClass instance into this Repository.</summary>
+        public override void StoreClass(JavaClass clazz)
+        {
+            // Not calling super.storeClass because this subclass maintains the mapping.
+            Collections.Put(_loadedClasses, clazz.GetClassName(), clazz);
+            clazz.SetRepository(this);
+        }
 
-		/// <summary>Remove class from repository</summary>
-		public override void RemoveClass(NBCEL.classfile.JavaClass clazz)
-		{
-			Sharpen.Collections.Remove(_loadedClasses, clazz.GetClassName());
-		}
+        /// <summary>Remove class from repository</summary>
+        public override void RemoveClass(JavaClass clazz)
+        {
+            Collections.Remove(_loadedClasses, clazz.GetClassName());
+        }
 
-		/// <summary>Find an already defined (cached) JavaClass object by name.</summary>
-		public override NBCEL.classfile.JavaClass FindClass(string className)
-		{
-			var @ref = _loadedClasses.GetOrNull(className);
+        /// <summary>Find an already defined (cached) JavaClass object by name.</summary>
+        public override JavaClass FindClass(string className)
+        {
+            var @ref = _loadedClasses.GetOrNull(className);
 
-			return @ref;
-		}
+            return @ref;
+        }
 
-		/// <summary>Clear all entries from cache.</summary>
-		public override void Clear()
-		{
-			_loadedClasses.Clear();
-		}
-	}
+        /// <summary>Clear all entries from cache.</summary>
+        public override void Clear()
+        {
+            _loadedClasses.Clear();
+        }
+    }
 }

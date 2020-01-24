@@ -15,56 +15,60 @@
 *  limitations under the License.
 *
 */
+
+using System.Collections.Generic;
+using NBCEL.classfile;
 using Sharpen;
 
 namespace NBCEL.util
 {
 	/// <summary>Utility class implementing a (typesafe) set of JavaClass objects.</summary>
 	/// <remarks>
-	/// Utility class implementing a (typesafe) set of JavaClass objects.
-	/// Since JavaClass has no equals() method, the name of the class is
-	/// used for comparison.
+	///     Utility class implementing a (typesafe) set of JavaClass objects.
+	///     Since JavaClass has no equals() method, the name of the class is
+	///     used for comparison.
 	/// </remarks>
-	/// <seealso cref="ClassStack"/>
+	/// <seealso cref="ClassStack" />
 	public class ClassSet
-	{
-		private readonly System.Collections.Generic.IDictionary<string, NBCEL.classfile.JavaClass
-			> map = new System.Collections.Generic.Dictionary<string, NBCEL.classfile.JavaClass
-			>();
+    {
+        private readonly IDictionary<string, JavaClass
+        > map = new Dictionary<string, JavaClass
+        >();
 
-		public virtual bool Add(NBCEL.classfile.JavaClass clazz)
-		{
-			bool result = false;
-			if (!map.ContainsKey(clazz.GetClassName()))
-			{
-				result = true;
-				Sharpen.Collections.Put(map, clazz.GetClassName(), clazz);
-			}
-			return result;
-		}
+        public virtual bool Add(JavaClass clazz)
+        {
+            var result = false;
+            if (!map.ContainsKey(clazz.GetClassName()))
+            {
+                result = true;
+                Collections.Put(map, clazz.GetClassName(), clazz);
+            }
 
-		public virtual void Remove(NBCEL.classfile.JavaClass clazz)
-		{
-			Sharpen.Collections.Remove(map, clazz.GetClassName());
-		}
+            return result;
+        }
 
-		public virtual bool Empty()
-		{
-			return (map.Count == 0);
-		}
+        public virtual void Remove(JavaClass clazz)
+        {
+            Collections.Remove(map, clazz.GetClassName());
+        }
 
-		public virtual NBCEL.classfile.JavaClass[] ToArray()
-		{
-			System.Collections.Generic.ICollection<NBCEL.classfile.JavaClass> values = map.Values;
-			NBCEL.classfile.JavaClass[] classes = new NBCEL.classfile.JavaClass[values.Count]
-				;
-			Sharpen.Collections.ToArray(values, classes);
-			return classes;
-		}
+        public virtual bool Empty()
+        {
+            return map.Count == 0;
+        }
 
-		public virtual string[] GetClassNames()
-		{
-			return Sharpen.Collections.ToArray(map.Keys, new string[map.Count]);
-		}
-	}
+        public virtual JavaClass[] ToArray()
+        {
+            var values = map.Values;
+            var classes = new JavaClass[values.Count]
+                ;
+            Collections.ToArray(values, classes);
+            return classes;
+        }
+
+        public virtual string[] GetClassNames()
+        {
+            return Collections.ToArray(map.Keys, new string[map.Count]);
+        }
+    }
 }

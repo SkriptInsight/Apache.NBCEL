@@ -15,23 +15,22 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>Denote entity that has both name and type.</summary>
 	/// <remarks>
-	/// Denote entity that has both name and type. This is true for local variables,
-	/// methods and fields.
+	///     Denote entity that has both name and type. This is true for local variables,
+	///     methods and fields.
 	/// </remarks>
 	public interface NamedAndTyped
-	{
-		string GetName();
+    {
+        string GetName();
 
-		NBCEL.generic.Type GetType();
+        Type GetType();
 
-		void SetName(string name);
+        void SetName(string name);
 
-		void SetType(NBCEL.generic.Type type);
-	}
+        void SetType(Type type);
+    }
 }

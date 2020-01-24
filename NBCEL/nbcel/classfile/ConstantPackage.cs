@@ -15,101 +15,104 @@
 *  limitations under the License.
 *
 */
+
+using java.io;
 using Sharpen;
 
 namespace NBCEL.classfile
 {
 	/// <summary>
-	/// This class is derived from the abstract
-	/// <see cref="Constant"/>
-	/// and represents a reference to a package.
-	/// <p>Note: Early access Java 9 support- currently subject to change</p>
+	///     This class is derived from the abstract
+	///     <see cref="Constant" />
+	///     and represents a reference to a package.
+	///     <p>Note: Early access Java 9 support- currently subject to change</p>
 	/// </summary>
-	/// <seealso cref="Constant"/>
+	/// <seealso cref="Constant" />
 	/// <since>6.1</since>
-	public sealed class ConstantPackage : NBCEL.classfile.Constant, NBCEL.classfile.ConstantObject
-	{
-		private int name_index;
+	public sealed class ConstantPackage : Constant, ConstantObject
+    {
+        private int name_index;
 
-		/// <summary>Initialize from another object.</summary>
-		public ConstantPackage(NBCEL.classfile.ConstantPackage c)
-			: this(c.GetNameIndex())
-		{
-		}
+        /// <summary>Initialize from another object.</summary>
+        public ConstantPackage(ConstantPackage c)
+            : this(c.GetNameIndex())
+        {
+        }
 
-		/// <summary>Initialize instance from file data.</summary>
-		/// <param name="file">Input stream</param>
-		/// <exception cref="System.IO.IOException"/>
-		internal ConstantPackage(java.io.DataInput file)
-			: this(file.ReadUnsignedShort())
-		{
-		}
+        /// <summary>Initialize instance from file data.</summary>
+        /// <param name="file">Input stream</param>
+        /// <exception cref="System.IO.IOException" />
+        internal ConstantPackage(DataInput file)
+            : this(file.ReadUnsignedShort())
+        {
+        }
 
-		/// <param name="name_index">
-		/// Name index in constant pool.  Should refer to a
-		/// ConstantUtf8.
-		/// </param>
-		public ConstantPackage(int name_index)
-			: base(NBCEL.Const.CONSTANT_Package)
-		{
-			this.name_index = name_index;
-		}
+        /// <param name="name_index">
+        ///     Name index in constant pool.  Should refer to a
+        ///     ConstantUtf8.
+        /// </param>
+        public ConstantPackage(int name_index)
+            : base(Const.CONSTANT_Package)
+        {
+            this.name_index = name_index;
+        }
 
-		/// <summary>
-		/// Called by objects that are traversing the nodes of the tree implicitly
-		/// defined by the contents of a Java class.
-		/// </summary>
-		/// <remarks>
-		/// Called by objects that are traversing the nodes of the tree implicitly
-		/// defined by the contents of a Java class. I.e., the hierarchy of methods,
-		/// fields, attributes, etc. spawns a tree of objects.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.classfile.Visitor v)
-		{
-			v.VisitConstantPackage(this);
-		}
+        /// <returns>String object</returns>
+        public object GetConstantValue(ConstantPool cp)
+        {
+            var c = cp.GetConstant(name_index, Const.CONSTANT_Utf8
+            );
+            return ((ConstantUtf8) c).GetBytes();
+        }
 
-		/// <summary>Dump constant package to file stream in binary format.</summary>
-		/// <param name="file">Output file stream</param>
-		/// <exception cref="System.IO.IOException"/>
-		public override void Dump(java.io.DataOutputStream file)
-		{
-			file.WriteByte(base.GetTag());
-			file.WriteShort(name_index);
-		}
+        /// <summary>
+        ///     Called by objects that are traversing the nodes of the tree implicitly
+        ///     defined by the contents of a Java class.
+        /// </summary>
+        /// <remarks>
+        ///     Called by objects that are traversing the nodes of the tree implicitly
+        ///     defined by the contents of a Java class. I.e., the hierarchy of methods,
+        ///     fields, attributes, etc. spawns a tree of objects.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitConstantPackage(this);
+        }
 
-		/// <returns>Name index in constant pool of package name.</returns>
-		public int GetNameIndex()
-		{
-			return name_index;
-		}
+        /// <summary>Dump constant package to file stream in binary format.</summary>
+        /// <param name="file">Output file stream</param>
+        /// <exception cref="System.IO.IOException" />
+        public override void Dump(DataOutputStream file)
+        {
+            file.WriteByte(GetTag());
+            file.WriteShort(name_index);
+        }
 
-		/// <param name="name_index">the name index in the constant pool of this Constant Package
-		/// 	</param>
-		public void SetNameIndex(int name_index)
-		{
-			this.name_index = name_index;
-		}
+        /// <returns>Name index in constant pool of package name.</returns>
+        public int GetNameIndex()
+        {
+            return name_index;
+        }
 
-		/// <returns>String object</returns>
-		public object GetConstantValue(NBCEL.classfile.ConstantPool cp)
-		{
-			NBCEL.classfile.Constant c = cp.GetConstant(name_index, NBCEL.Const.CONSTANT_Utf8
-				);
-			return ((NBCEL.classfile.ConstantUtf8)c).GetBytes();
-		}
+        /// <param name="name_index">
+        ///     the name index in the constant pool of this Constant Package
+        /// </param>
+        public void SetNameIndex(int name_index)
+        {
+            this.name_index = name_index;
+        }
 
-		/// <returns>dereferenced string</returns>
-		public string GetBytes(NBCEL.classfile.ConstantPool cp)
-		{
-			return (string)GetConstantValue(cp);
-		}
+        /// <returns>dereferenced string</returns>
+        public string GetBytes(ConstantPool cp)
+        {
+            return (string) GetConstantValue(cp);
+        }
 
-		/// <returns>String representation.</returns>
-		public override string ToString()
-		{
-			return base.ToString() + "(name_index = " + name_index + ")";
-		}
-	}
+        /// <returns>String representation.</returns>
+        public override string ToString()
+        {
+            return base.ToString() + "(name_index = " + name_index + ")";
+        }
+    }
 }

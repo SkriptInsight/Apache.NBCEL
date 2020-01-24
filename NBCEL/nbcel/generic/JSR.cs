@@ -15,78 +15,82 @@
 *  limitations under the License.
 *
 */
+
+using System;
+using java.io;
 using Sharpen;
 
 namespace NBCEL.generic
 {
-	/// <summary>JSR - Jump to subroutine</summary>
-	public class JSR : NBCEL.generic.JsrInstruction, NBCEL.generic.VariableLengthInstruction
-	{
-		/// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
-		/// <remarks>
-		/// Empty constructor needed for Instruction.readInstruction.
-		/// Not to be used otherwise.
-		/// </remarks>
-		internal JSR()
-		{
-		}
+    /// <summary>JSR - Jump to subroutine</summary>
+    public class JSR : JsrInstruction, VariableLengthInstruction
+    {
+	    /// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
+	    /// <remarks>
+	    ///     Empty constructor needed for Instruction.readInstruction.
+	    ///     Not to be used otherwise.
+	    /// </remarks>
+	    internal JSR()
+        {
+        }
 
-		public JSR(NBCEL.generic.InstructionHandle target)
-			: base(NBCEL.Const.JSR, target)
-		{
-		}
+        public JSR(InstructionHandle target)
+            : base(Const.JSR, target)
+        {
+        }
 
-		/// <summary>Dump instruction as byte code to stream out.</summary>
-		/// <param name="out">Output stream</param>
-		/// <exception cref="System.IO.IOException"/>
-		public override void Dump(java.io.DataOutputStream @out)
-		{
-			base.SetIndex(GetTargetOffset());
-			if (base.GetOpcode() == NBCEL.Const.JSR)
-			{
-				base.Dump(@out);
-			}
-			else
-			{
-				// JSR_W
-				base.SetIndex(GetTargetOffset());
-				@out.WriteByte(base.GetOpcode());
-				@out.WriteInt(base.GetIndex());
-			}
-		}
+        /// <summary>Dump instruction as byte code to stream out.</summary>
+        /// <param name="out">Output stream</param>
+        /// <exception cref="System.IO.IOException" />
+        public override void Dump(DataOutputStream @out)
+        {
+            base.SetIndex(GetTargetOffset());
+            if (base.GetOpcode() == Const.JSR)
+            {
+                base.Dump(@out);
+            }
+            else
+            {
+                // JSR_W
+                base.SetIndex(GetTargetOffset());
+                @out.WriteByte(base.GetOpcode());
+                @out.WriteInt(GetIndex());
+            }
+        }
 
-		protected internal override int UpdatePosition(int offset, int max_offset)
-		{
-			int i = GetTargetOffset();
-			// Depending on old position value
-			SetPosition(GetPosition() + offset);
-			// Position may be shifted by preceding expansions
-			if (System.Math.Abs(i) >= (short.MaxValue - max_offset))
-			{
-				// to large for short (estimate)
-				base.SetOpcode(NBCEL.Const.JSR_W);
-				short old_length = (short)base.GetLength();
-				base.SetLength(5);
-				return base.GetLength() - old_length;
-			}
-			return 0;
-		}
+        protected internal override int UpdatePosition(int offset, int max_offset)
+        {
+            var i = GetTargetOffset();
+            // Depending on old position value
+            SetPosition(GetPosition() + offset);
+            // Position may be shifted by preceding expansions
+            if (Math.Abs(i) >= short.MaxValue - max_offset)
+            {
+                // to large for short (estimate)
+                SetOpcode(Const.JSR_W);
+                var old_length = (short) base.GetLength();
+                SetLength(5);
+                return base.GetLength() - old_length;
+            }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitStackProducer(this);
-			v.VisitVariableLengthInstruction(this);
-			v.VisitBranchInstruction(this);
-			v.VisitJsrInstruction(this);
-			v.VisitJSR(this);
-		}
-	}
+            return 0;
+        }
+
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitStackProducer(this);
+            v.VisitVariableLengthInstruction(this);
+            v.VisitBranchInstruction(this);
+            v.VisitJsrInstruction(this);
+            v.VisitJSR(this);
+        }
+    }
 }

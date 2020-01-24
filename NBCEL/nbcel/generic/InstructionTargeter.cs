@@ -15,31 +15,32 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
-	/// <summary>Denote that a class targets InstructionHandles within an InstructionList.
-	/// 	</summary>
+	/// <summary>
+	///     Denote that a class targets InstructionHandles within an InstructionList.
+	/// </summary>
 	/// <remarks>
-	/// Denote that a class targets InstructionHandles within an InstructionList. Namely
-	/// the following implementers:
+	///     Denote that a class targets InstructionHandles within an InstructionList. Namely
+	///     the following implementers:
 	/// </remarks>
-	/// <seealso cref="BranchHandle"/>
-	/// <seealso cref="LocalVariableGen"/>
-	/// <seealso cref="CodeExceptionGen"/>
+	/// <seealso cref="BranchHandle" />
+	/// <seealso cref="LocalVariableGen" />
+	/// <seealso cref="CodeExceptionGen" />
 	public interface InstructionTargeter
-	{
-		/// <summary>Checks whether this targeter targets the specified instruction handle.</summary>
-		bool ContainsTarget(NBCEL.generic.InstructionHandle ih);
+    {
+        /// <summary>Checks whether this targeter targets the specified instruction handle.</summary>
+        bool ContainsTarget(InstructionHandle ih);
 
-		/// <summary>Replaces the target of this targeter from this old handle to the new handle.
-		/// 	</summary>
-		/// <param name="old_ih">the old handle</param>
-		/// <param name="new_ih">the new handle</param>
-		/// <exception cref="ClassGenException">if old_ih is not targeted by this object</exception>
-		/// <exception cref="NBCEL.generic.ClassGenException"/>
-		void UpdateTarget(NBCEL.generic.InstructionHandle old_ih, NBCEL.generic.InstructionHandle
-			 new_ih);
-	}
+        /// <summary>
+        ///     Replaces the target of this targeter from this old handle to the new handle.
+        /// </summary>
+        /// <param name="old_ih">the old handle</param>
+        /// <param name="new_ih">the new handle</param>
+        /// <exception cref="ClassGenException">if old_ih is not targeted by this object</exception>
+        /// <exception cref="NBCEL.generic.ClassGenException" />
+        void UpdateTarget(InstructionHandle old_ih, InstructionHandle
+            new_ih);
+    }
 }

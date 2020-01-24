@@ -15,36 +15,35 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// LOR - Bitwise OR long
-	/// <PRE>Stack: ..., value1, value2 -&gt; ..., result</PRE>
+	///     LOR - Bitwise OR long
+	///     <PRE>Stack: ..., value1, value2 -&gt; ..., result</PRE>
 	/// </summary>
-	public class LOR : NBCEL.generic.ArithmeticInstruction
-	{
-		public LOR()
-			: base(NBCEL.Const.LOR)
-		{
-		}
+	public class LOR : ArithmeticInstruction
+    {
+        public LOR()
+            : base(Const.LOR)
+        {
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitTypedInstruction(this);
-			v.VisitStackProducer(this);
-			v.VisitStackConsumer(this);
-			v.VisitArithmeticInstruction(this);
-			v.VisitLOR(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitTypedInstruction(this);
+            v.VisitStackProducer(this);
+            v.VisitStackConsumer(this);
+            v.VisitArithmeticInstruction(this);
+            v.VisitLOR(this);
+        }
+    }
 }

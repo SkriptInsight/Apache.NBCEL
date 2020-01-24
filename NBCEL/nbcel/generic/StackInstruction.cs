@@ -15,32 +15,31 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
-	/// <summary>Super class for stack operations like DUP and POP.</summary>
-	public abstract class StackInstruction : NBCEL.generic.Instruction
-	{
-		/// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
-		/// <remarks>
-		/// Empty constructor needed for Instruction.readInstruction.
-		/// Not to be used otherwise.
-		/// </remarks>
-		internal StackInstruction()
-		{
-		}
+    /// <summary>Super class for stack operations like DUP and POP.</summary>
+    public abstract class StackInstruction : Instruction
+    {
+	    /// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
+	    /// <remarks>
+	    ///     Empty constructor needed for Instruction.readInstruction.
+	    ///     Not to be used otherwise.
+	    /// </remarks>
+	    internal StackInstruction()
+        {
+        }
 
-		/// <param name="opcode">instruction opcode</param>
-		protected internal StackInstruction(short opcode)
-			: base(opcode, (short)1)
-		{
-		}
+        /// <param name="opcode">instruction opcode</param>
+        protected internal StackInstruction(short opcode)
+            : base(opcode, 1)
+        {
+        }
 
-		/// <returns>Type.UNKNOWN</returns>
-		public virtual NBCEL.generic.Type GetType(NBCEL.generic.ConstantPoolGen cp)
-		{
-			return NBCEL.generic.Type.UNKNOWN;
-		}
-	}
+        /// <returns>Type.UNKNOWN</returns>
+        public virtual Type GetType(ConstantPoolGen cp)
+        {
+            return Type.UNKNOWN;
+        }
+    }
 }

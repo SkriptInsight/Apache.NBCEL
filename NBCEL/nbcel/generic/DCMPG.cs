@@ -15,42 +15,41 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// DCMPG - Compare doubles: value1 &gt; value2
-	/// <PRE>Stack: ..., value1.word1, value1.word2, value2.word1, value2.word2 -&gt; ..., result</PRE>
+	///     DCMPG - Compare doubles: value1 &gt; value2
+	///     <PRE>Stack: ..., value1.word1, value1.word2, value2.word1, value2.word2 -&gt; ..., result</PRE>
 	/// </summary>
-	public class DCMPG : NBCEL.generic.Instruction, NBCEL.generic.TypedInstruction, NBCEL.generic.StackProducer
-		, NBCEL.generic.StackConsumer
-	{
-		public DCMPG()
-			: base(NBCEL.Const.DCMPG, (short)1)
-		{
-		}
+	public class DCMPG : Instruction, TypedInstruction, StackProducer
+        , StackConsumer
+    {
+        public DCMPG()
+            : base(Const.DCMPG, 1)
+        {
+        }
 
-		/// <returns>Type.DOUBLE</returns>
-		public virtual NBCEL.generic.Type GetType(NBCEL.generic.ConstantPoolGen cp)
-		{
-			return NBCEL.generic.Type.DOUBLE;
-		}
+        /// <returns>Type.DOUBLE</returns>
+        public virtual Type GetType(ConstantPoolGen cp)
+        {
+            return Type.DOUBLE;
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitTypedInstruction(this);
-			v.VisitStackProducer(this);
-			v.VisitStackConsumer(this);
-			v.VisitDCMPG(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitTypedInstruction(this);
+            v.VisitStackProducer(this);
+            v.VisitStackConsumer(this);
+            v.VisitDCMPG(this);
+        }
+    }
 }

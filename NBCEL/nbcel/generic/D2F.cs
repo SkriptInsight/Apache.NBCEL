@@ -15,37 +15,36 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// D2F - Convert double to float
-	/// <PRE>Stack: ..., value.word1, value.word2 -&gt; ..., result</PRE>
+	///     D2F - Convert double to float
+	///     <PRE>Stack: ..., value.word1, value.word2 -&gt; ..., result</PRE>
 	/// </summary>
-	public class D2F : NBCEL.generic.ConversionInstruction
-	{
-		/// <summary>Convert double to float</summary>
-		public D2F()
-			: base(NBCEL.Const.D2F)
-		{
-		}
+	public class D2F : ConversionInstruction
+    {
+        /// <summary>Convert double to float</summary>
+        public D2F()
+            : base(Const.D2F)
+        {
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitTypedInstruction(this);
-			v.VisitStackProducer(this);
-			v.VisitStackConsumer(this);
-			v.VisitConversionInstruction(this);
-			v.VisitD2F(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitTypedInstruction(this);
+            v.VisitStackProducer(this);
+            v.VisitStackConsumer(this);
+            v.VisitConversionInstruction(this);
+            v.VisitD2F(this);
+        }
+    }
 }

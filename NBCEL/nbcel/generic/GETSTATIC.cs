@@ -15,63 +15,62 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// GETSTATIC - Fetch static field from class
-	/// <PRE>Stack: ..., -&gt; ..., value</PRE>
-	/// OR
-	/// <PRE>Stack: ..., -&gt; ..., value.word1, value.word2</PRE>
+	///     GETSTATIC - Fetch static field from class
+	///     <PRE>Stack: ..., -&gt; ..., value</PRE>
+	///     OR
+	///     <PRE>Stack: ..., -&gt; ..., value.word1, value.word2</PRE>
 	/// </summary>
-	public class GETSTATIC : NBCEL.generic.FieldInstruction, NBCEL.generic.PushInstruction
-		, NBCEL.generic.ExceptionThrower
-	{
-		/// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
-		/// <remarks>
-		/// Empty constructor needed for Instruction.readInstruction.
-		/// Not to be used otherwise.
-		/// </remarks>
-		internal GETSTATIC()
-		{
-		}
+	public class GETSTATIC : FieldInstruction, PushInstruction
+        , ExceptionThrower
+    {
+	    /// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
+	    /// <remarks>
+	    ///     Empty constructor needed for Instruction.readInstruction.
+	    ///     Not to be used otherwise.
+	    /// </remarks>
+	    internal GETSTATIC()
+        {
+        }
 
-		public GETSTATIC(int index)
-			: base(NBCEL.Const.GETSTATIC, index)
-		{
-		}
+        public GETSTATIC(int index)
+            : base(Const.GETSTATIC, index)
+        {
+        }
 
-		public override int ProduceStack(NBCEL.generic.ConstantPoolGen cpg)
-		{
-			return GetFieldSize(cpg);
-		}
+        public virtual System.Type[] GetExceptions()
+        {
+            return ExceptionConst.CreateExceptions(ExceptionConst.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION
+                , ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
+        }
 
-		public virtual System.Type[] GetExceptions()
-		{
-			return NBCEL.ExceptionConst.CreateExceptions(NBCEL.ExceptionConst.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION
-				, NBCEL.ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR);
-		}
+        public override int ProduceStack(ConstantPoolGen cpg)
+        {
+            return GetFieldSize(cpg);
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitStackProducer(this);
-			v.VisitPushInstruction(this);
-			v.VisitExceptionThrower(this);
-			v.VisitTypedInstruction(this);
-			v.VisitLoadClass(this);
-			v.VisitCPInstruction(this);
-			v.VisitFieldOrMethod(this);
-			v.VisitFieldInstruction(this);
-			v.VisitGETSTATIC(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitStackProducer(this);
+            v.VisitPushInstruction(this);
+            v.VisitExceptionThrower(this);
+            v.VisitTypedInstruction(this);
+            v.VisitLoadClass(this);
+            v.VisitCPInstruction(this);
+            v.VisitFieldOrMethod(this);
+            v.VisitFieldInstruction(this);
+            v.VisitGETSTATIC(this);
+        }
+    }
 }

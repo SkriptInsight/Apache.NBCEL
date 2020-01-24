@@ -15,255 +15,251 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
+
+using System;
+using NBCEL.classfile;
 
 namespace NBCEL.generic
 {
 	/// <summary>Represents a local variable within a method.</summary>
 	/// <remarks>
-	/// Represents a local variable within a method. It contains its
-	/// scope, name and type. The generated LocalVariable object can be obtained
-	/// with getLocalVariable which needs the instruction list and the constant
-	/// pool as parameters.
+	///     Represents a local variable within a method. It contains its
+	///     scope, name and type. The generated LocalVariable object can be obtained
+	///     with getLocalVariable which needs the instruction list and the constant
+	///     pool as parameters.
 	/// </remarks>
-	/// <seealso cref="NBCEL.classfile.LocalVariable"/>
-	/// <seealso cref="MethodGen"/>
-	public class LocalVariableGen : NBCEL.generic.InstructionTargeter, NBCEL.generic.NamedAndTyped
-		, System.ICloneable
-	{
-		private int index;
+	/// <seealso cref="NBCEL.classfile.LocalVariable" />
+	/// <seealso cref="MethodGen" />
+	public class LocalVariableGen : InstructionTargeter, NamedAndTyped
+        , ICloneable
+    {
+        private InstructionHandle end;
+        private int index;
 
-		private string name;
+        private bool live_to_end;
 
-		private NBCEL.generic.Type type;
+        private string name;
 
-		private NBCEL.generic.InstructionHandle start;
+        private readonly int orig_index;
 
-		private NBCEL.generic.InstructionHandle end;
+        private InstructionHandle start;
 
-		private int orig_index;
+        private Type type;
 
-		private bool live_to_end;
+        /// <summary>Generate a local variable that with index `index'.</summary>
+        /// <remarks>
+        ///     Generate a local variable that with index `index'. Note that double and long
+        ///     variables need two indexs. Index indices have to be provided by the user.
+        /// </remarks>
+        /// <param name="index">index of local variable</param>
+        /// <param name="name">its name</param>
+        /// <param name="type">its type</param>
+        /// <param name="start">
+        ///     from where the instruction is valid (null means from the start)
+        /// </param>
+        /// <param name="end">until where the instruction is valid (null means to the end)</param>
+        public LocalVariableGen(int index, string name, Type type, InstructionHandle
+            start, InstructionHandle end)
+        {
+            // never changes; used to match up with LocalVariableTypeTable entries
+            if (index < 0 || index > Const.MAX_SHORT) throw new ClassGenException("Invalid index index: " + index);
+            this.name = name;
+            this.type = type;
+            this.index = index;
+            SetStart(start);
+            SetEnd(end);
+            orig_index = index;
+            live_to_end = end == null;
+        }
 
-		/// <summary>Generate a local variable that with index `index'.</summary>
-		/// <remarks>
-		/// Generate a local variable that with index `index'. Note that double and long
-		/// variables need two indexs. Index indices have to be provided by the user.
-		/// </remarks>
-		/// <param name="index">index of local variable</param>
-		/// <param name="name">its name</param>
-		/// <param name="type">its type</param>
-		/// <param name="start">from where the instruction is valid (null means from the start)
-		/// 	</param>
-		/// <param name="end">until where the instruction is valid (null means to the end)</param>
-		public LocalVariableGen(int index, string name, NBCEL.generic.Type type, NBCEL.generic.InstructionHandle
-			 start, NBCEL.generic.InstructionHandle end)
-		{
-			// never changes; used to match up with LocalVariableTypeTable entries
-			if ((index < 0) || (index > NBCEL.Const.MAX_SHORT))
-			{
-				throw new NBCEL.generic.ClassGenException("Invalid index index: " + index);
-			}
-			this.name = name;
-			this.type = type;
-			this.index = index;
-			SetStart(start);
-			SetEnd(end);
-			this.orig_index = index;
-			this.live_to_end = end == null;
-		}
+        /// <summary>Generates a local variable that with index `index'.</summary>
+        /// <remarks>
+        ///     Generates a local variable that with index `index'. Note that double and long
+        ///     variables need two indexs. Index indices have to be provided by the user.
+        /// </remarks>
+        /// <param name="index">index of local variable</param>
+        /// <param name="name">its name</param>
+        /// <param name="type">its type</param>
+        /// <param name="start">
+        ///     from where the instruction is valid (null means from the start)
+        /// </param>
+        /// <param name="end">until where the instruction is valid (null means to the end)</param>
+        /// <param name="orig_index">index of local variable prior to any changes to index</param>
+        public LocalVariableGen(int index, string name, Type type, InstructionHandle
+            start, InstructionHandle end, int orig_index)
+            : this(index, name, type, start, end)
+        {
+            this.orig_index = orig_index;
+        }
 
-		/// <summary>Generates a local variable that with index `index'.</summary>
-		/// <remarks>
-		/// Generates a local variable that with index `index'. Note that double and long
-		/// variables need two indexs. Index indices have to be provided by the user.
-		/// </remarks>
-		/// <param name="index">index of local variable</param>
-		/// <param name="name">its name</param>
-		/// <param name="type">its type</param>
-		/// <param name="start">from where the instruction is valid (null means from the start)
-		/// 	</param>
-		/// <param name="end">until where the instruction is valid (null means to the end)</param>
-		/// <param name="orig_index">index of local variable prior to any changes to index</param>
-		public LocalVariableGen(int index, string name, NBCEL.generic.Type type, NBCEL.generic.InstructionHandle
-			 start, NBCEL.generic.InstructionHandle end, int orig_index)
-			: this(index, name, type, start, end)
-		{
-			this.orig_index = orig_index;
-		}
+        object ICloneable.Clone()
+        {
+            return MemberwiseClone();
+        }
 
-		/// <summary>Gets LocalVariable object.</summary>
-		/// <remarks>
-		/// Gets LocalVariable object.
-		/// This relies on that the instruction list has already been dumped to byte code or
-		/// or that the `setPositions' methods has been called for the instruction list.
-		/// Note that due to the conversion from byte code offset to InstructionHandle,
-		/// it is impossible to tell the difference between a live range that ends BEFORE
-		/// the last insturction of the method or a live range that ends AFTER the last
-		/// instruction of the method.  Hence the live_to_end flag to differentiate
-		/// between these two cases.
-		/// </remarks>
-		/// <param name="cp">constant pool</param>
-		public virtual NBCEL.classfile.LocalVariable GetLocalVariable(NBCEL.generic.ConstantPoolGen
-			 cp)
-		{
-			int start_pc = 0;
-			int length = 0;
-			if ((start != null) && (end != null))
-			{
-				start_pc = start.GetPosition();
-				length = end.GetPosition() - start_pc;
-				if ((end.GetNext() == null) && live_to_end)
-				{
-					length += end.GetInstruction().GetLength();
-				}
-			}
-			int name_index = cp.AddUtf8(name);
-			int signature_index = cp.AddUtf8(type.GetSignature());
-			return new NBCEL.classfile.LocalVariable(start_pc, length, name_index, signature_index
-				, index, cp.GetConstantPool(), orig_index);
-		}
+        /// <param name="old_ih">old target, either start or end</param>
+        /// <param name="new_ih">new target</param>
+        public virtual void UpdateTarget(InstructionHandle old_ih, InstructionHandle
+            new_ih)
+        {
+            var targeted = false;
+            if (start == old_ih)
+            {
+                targeted = true;
+                SetStart(new_ih);
+            }
 
-		public virtual void SetIndex(int index)
-		{
-			this.index = index;
-		}
+            if (end == old_ih)
+            {
+                targeted = true;
+                SetEnd(new_ih);
+            }
 
-		public virtual int GetIndex()
-		{
-			return index;
-		}
+            if (!targeted)
+                throw new ClassGenException("Not targeting " + old_ih + ", but {" +
+                                            start + ", " + end + "}");
+        }
 
-		public virtual int GetOrigIndex()
-		{
-			return orig_index;
-		}
+        /// <returns>true, if ih is target of this variable</returns>
+        public virtual bool ContainsTarget(InstructionHandle ih)
+        {
+            return start == ih || end == ih;
+        }
 
-		public virtual void SetLiveToEnd(bool live_to_end)
-		{
-			this.live_to_end = live_to_end;
-		}
+        public virtual void SetName(string name)
+        {
+            this.name = name;
+        }
 
-		public virtual bool GetLiveToEnd()
-		{
-			return live_to_end;
-		}
+        public virtual string GetName()
+        {
+            return name;
+        }
 
-		public virtual void SetName(string name)
-		{
-			this.name = name;
-		}
+        public virtual void SetType(Type type)
+        {
+            this.type = type;
+        }
 
-		public virtual string GetName()
-		{
-			return name;
-		}
+        public virtual Type GetType()
+        {
+            return type;
+        }
 
-		public virtual void SetType(NBCEL.generic.Type type)
-		{
-			this.type = type;
-		}
+        /// <summary>Gets LocalVariable object.</summary>
+        /// <remarks>
+        ///     Gets LocalVariable object.
+        ///     This relies on that the instruction list has already been dumped to byte code or
+        ///     or that the `setPositions' methods has been called for the instruction list.
+        ///     Note that due to the conversion from byte code offset to InstructionHandle,
+        ///     it is impossible to tell the difference between a live range that ends BEFORE
+        ///     the last insturction of the method or a live range that ends AFTER the last
+        ///     instruction of the method.  Hence the live_to_end flag to differentiate
+        ///     between these two cases.
+        /// </remarks>
+        /// <param name="cp">constant pool</param>
+        public virtual LocalVariable GetLocalVariable(ConstantPoolGen
+            cp)
+        {
+            var start_pc = 0;
+            var length = 0;
+            if (start != null && end != null)
+            {
+                start_pc = start.GetPosition();
+                length = end.GetPosition() - start_pc;
+                if (end.GetNext() == null && live_to_end) length += end.GetInstruction().GetLength();
+            }
 
-		public virtual NBCEL.generic.Type GetType()
-		{
-			return type;
-		}
+            var name_index = cp.AddUtf8(name);
+            var signature_index = cp.AddUtf8(type.GetSignature());
+            return new LocalVariable(start_pc, length, name_index, signature_index
+                , index, cp.GetConstantPool(), orig_index);
+        }
 
-		public virtual NBCEL.generic.InstructionHandle GetStart()
-		{
-			return start;
-		}
+        public virtual void SetIndex(int index)
+        {
+            this.index = index;
+        }
 
-		public virtual NBCEL.generic.InstructionHandle GetEnd()
-		{
-			return end;
-		}
+        public virtual int GetIndex()
+        {
+            return index;
+        }
 
-		public virtual void SetStart(NBCEL.generic.InstructionHandle start)
-		{
-			// TODO could be package-protected?
-			NBCEL.generic.BranchInstruction.NotifyTarget(this.start, start, this);
-			this.start = start;
-		}
+        public virtual int GetOrigIndex()
+        {
+            return orig_index;
+        }
 
-		public virtual void SetEnd(NBCEL.generic.InstructionHandle end)
-		{
-			// TODO could be package-protected?
-			NBCEL.generic.BranchInstruction.NotifyTarget(this.end, end, this);
-			this.end = end;
-		}
+        public virtual void SetLiveToEnd(bool live_to_end)
+        {
+            this.live_to_end = live_to_end;
+        }
 
-		/// <param name="old_ih">old target, either start or end</param>
-		/// <param name="new_ih">new target</param>
-		public virtual void UpdateTarget(NBCEL.generic.InstructionHandle old_ih, NBCEL.generic.InstructionHandle
-			 new_ih)
-		{
-			bool targeted = false;
-			if (start == old_ih)
-			{
-				targeted = true;
-				SetStart(new_ih);
-			}
-			if (end == old_ih)
-			{
-				targeted = true;
-				SetEnd(new_ih);
-			}
-			if (!targeted)
-			{
-				throw new NBCEL.generic.ClassGenException("Not targeting " + old_ih + ", but {" +
-					 start + ", " + end + "}");
-			}
-		}
+        public virtual bool GetLiveToEnd()
+        {
+            return live_to_end;
+        }
 
-		/// <summary>Clear the references from and to this variable when it's removed.</summary>
-		internal virtual void Dispose()
-		{
-			SetStart(null);
-			SetEnd(null);
-		}
+        public virtual InstructionHandle GetStart()
+        {
+            return start;
+        }
 
-		/// <returns>true, if ih is target of this variable</returns>
-		public virtual bool ContainsTarget(NBCEL.generic.InstructionHandle ih)
-		{
-			return (start == ih) || (end == ih);
-		}
+        public virtual InstructionHandle GetEnd()
+        {
+            return end;
+        }
 
-		public override int GetHashCode()
-		{
-			// If the user changes the name or type, problems with the targeter hashmap will occur.
-			// Note: index cannot be part of hash as it may be changed by the user.
-			return name.GetHashCode() ^ type.GetHashCode();
-		}
+        public virtual void SetStart(InstructionHandle start)
+        {
+            // TODO could be package-protected?
+            BranchInstruction.NotifyTarget(this.start, start, this);
+            this.start = start;
+        }
 
-		/// <summary>
-		/// We consider to local variables to be equal, if the use the same index and
-		/// are valid in the same range.
-		/// </summary>
-		public override bool Equals(object o)
-		{
-			if (!(o is NBCEL.generic.LocalVariableGen))
-			{
-				return false;
-			}
-			NBCEL.generic.LocalVariableGen l = (NBCEL.generic.LocalVariableGen)o;
-			return (l.index == index) && (l.start == start) && (l.end == end);
-		}
+        public virtual void SetEnd(InstructionHandle end)
+        {
+            // TODO could be package-protected?
+            BranchInstruction.NotifyTarget(this.end, end, this);
+            this.end = end;
+        }
 
-		public override string ToString()
-		{
-			return "LocalVariableGen(" + name + ", " + type + ", " + start + ", " + end + ")";
-		}
+        /// <summary>Clear the references from and to this variable when it's removed.</summary>
+        internal virtual void Dispose()
+        {
+            SetStart(null);
+            SetEnd(null);
+        }
 
-		public virtual object Clone()
-		{
-			return base.MemberwiseClone();
-		}
+        public override int GetHashCode()
+        {
+            // If the user changes the name or type, problems with the targeter hashmap will occur.
+            // Note: index cannot be part of hash as it may be changed by the user.
+            return name.GetHashCode() ^ type.GetHashCode();
+        }
 
-		object System.ICloneable.Clone()
-		{
-			return MemberwiseClone();
-		}
-		// never happens
-	}
+        /// <summary>
+        ///     We consider to local variables to be equal, if the use the same index and
+        ///     are valid in the same range.
+        /// </summary>
+        public override bool Equals(object o)
+        {
+            if (!(o is LocalVariableGen)) return false;
+            var l = (LocalVariableGen) o;
+            return l.index == index && l.start == start && l.end == end;
+        }
+
+        public override string ToString()
+        {
+            return "LocalVariableGen(" + name + ", " + type + ", " + start + ", " + end + ")";
+        }
+
+        public virtual object Clone()
+        {
+            return MemberwiseClone();
+        }
+
+        // never happens
+    }
 }

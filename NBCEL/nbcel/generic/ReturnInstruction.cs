@@ -15,81 +15,80 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
-	/// <summary>Super class for the xRETURN family of instructions.</summary>
-	public abstract class ReturnInstruction : NBCEL.generic.Instruction, NBCEL.generic.ExceptionThrower
-		, NBCEL.generic.TypedInstruction, NBCEL.generic.StackConsumer
-	{
-		/// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
-		/// <remarks>
-		/// Empty constructor needed for Instruction.readInstruction.
-		/// Not to be used otherwise.
-		/// </remarks>
-		internal ReturnInstruction()
-		{
-		}
+    /// <summary>Super class for the xRETURN family of instructions.</summary>
+    public abstract class ReturnInstruction : Instruction, ExceptionThrower
+        , TypedInstruction, StackConsumer
+    {
+	    /// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
+	    /// <remarks>
+	    ///     Empty constructor needed for Instruction.readInstruction.
+	    ///     Not to be used otherwise.
+	    /// </remarks>
+	    internal ReturnInstruction()
+        {
+        }
 
-		/// <param name="opcode">of instruction</param>
-		protected internal ReturnInstruction(short opcode)
-			: base(opcode, (short)1)
-		{
-		}
+        /// <param name="opcode">of instruction</param>
+        protected internal ReturnInstruction(short opcode)
+            : base(opcode, 1)
+        {
+        }
 
-		public virtual NBCEL.generic.Type GetType()
-		{
-			short _opcode = base.GetOpcode();
-			switch (_opcode)
-			{
-				case NBCEL.Const.IRETURN:
-				{
-					return NBCEL.generic.Type.INT;
-				}
+        public virtual System.Type[] GetExceptions()
+        {
+            return new[] {ExceptionConst.ILLEGAL_MONITOR_STATE};
+        }
 
-				case NBCEL.Const.LRETURN:
-				{
-					return NBCEL.generic.Type.LONG;
-				}
+        /// <returns>type associated with the instruction</returns>
+        public virtual Type GetType(ConstantPoolGen cp)
+        {
+            return GetType();
+        }
 
-				case NBCEL.Const.FRETURN:
-				{
-					return NBCEL.generic.Type.FLOAT;
-				}
+        public virtual Type GetType()
+        {
+            var _opcode = base.GetOpcode();
+            switch (_opcode)
+            {
+                case Const.IRETURN:
+                {
+                    return Type.INT;
+                }
 
-				case NBCEL.Const.DRETURN:
-				{
-					return NBCEL.generic.Type.DOUBLE;
-				}
+                case Const.LRETURN:
+                {
+                    return Type.LONG;
+                }
 
-				case NBCEL.Const.ARETURN:
-				{
-					return NBCEL.generic.Type.OBJECT;
-				}
+                case Const.FRETURN:
+                {
+                    return Type.FLOAT;
+                }
 
-				case NBCEL.Const.RETURN:
-				{
-					return NBCEL.generic.Type.VOID;
-				}
+                case Const.DRETURN:
+                {
+                    return Type.DOUBLE;
+                }
 
-				default:
-				{
-					// Never reached
-					throw new NBCEL.generic.ClassGenException("Unknown type " + _opcode);
-				}
-			}
-		}
+                case Const.ARETURN:
+                {
+                    return Type.OBJECT;
+                }
 
-		public virtual System.Type[] GetExceptions()
-		{
-			return new System.Type[] { NBCEL.ExceptionConst.ILLEGAL_MONITOR_STATE };
-		}
+                case Const.RETURN:
+                {
+                    return Type.VOID;
+                }
 
-		/// <returns>type associated with the instruction</returns>
-		public virtual NBCEL.generic.Type GetType(NBCEL.generic.ConstantPoolGen cp)
-		{
-			return GetType();
-		}
-	}
+                default:
+                {
+                    // Never reached
+                    throw new ClassGenException("Unknown type " + _opcode);
+                }
+            }
+        }
+    }
 }

@@ -15,90 +15,92 @@
 *  limitations under the License.
 *
 */
+
+using System.Collections.Generic;
 using Sharpen;
 
 namespace NBCEL.verifier
 {
 	/// <summary>This class produces instances of the Verifier class.</summary>
 	/// <remarks>
-	/// This class produces instances of the Verifier class. Its purpose is to make
-	/// sure that they are singleton instances with respect to the class name they
-	/// operate on. That means, for every class (represented by a unique fully qualified
-	/// class name) there is exactly one Verifier.
+	///     This class produces instances of the Verifier class. Its purpose is to make
+	///     sure that they are singleton instances with respect to the class name they
+	///     operate on. That means, for every class (represented by a unique fully qualified
+	///     class name) there is exactly one Verifier.
 	/// </remarks>
-	/// <seealso cref="Verifier"/>
+	/// <seealso cref="Verifier" />
 	public class VerifierFactory
-	{
-		/// <summary>The HashMap that holds the data about the already-constructed Verifier instances.
-		/// 	</summary>
-		private static readonly System.Collections.Generic.IDictionary<string, NBCEL.verifier.Verifier
-			> hashMap = new System.Collections.Generic.Dictionary<string, NBCEL.verifier.Verifier
-			>();
+    {
+	    /// <summary>
+	    ///     The HashMap that holds the data about the already-constructed Verifier instances.
+	    /// </summary>
+	    private static readonly IDictionary<string, Verifier
+        > hashMap = new Dictionary<string, Verifier
+        >();
 
-		/// <summary>The VerifierFactoryObserver instances that observe the VerifierFactory.</summary>
-		private static readonly System.Collections.Generic.List<NBCEL.verifier.VerifierFactoryObserver
-			> observers = new System.Collections.Generic.List<NBCEL.verifier.VerifierFactoryObserver
-		>();
+        /// <summary>The VerifierFactoryObserver instances that observe the VerifierFactory.</summary>
+        private static readonly List<VerifierFactoryObserver
+        > observers = new List<VerifierFactoryObserver
+        >();
 
-		/// <summary>The VerifierFactory is not instantiable.</summary>
-		private VerifierFactory()
-		{
-		}
+        /// <summary>The VerifierFactory is not instantiable.</summary>
+        private VerifierFactory()
+        {
+        }
 
-		/// <summary>Returns the (only) verifier responsible for the class with the given name.
-		/// 	</summary>
-		/// <remarks>
-		/// Returns the (only) verifier responsible for the class with the given name.
-		/// Possibly a new Verifier object is transparently created.
-		/// </remarks>
-		/// <returns>the (only) verifier responsible for the class with the given name.</returns>
-		public static NBCEL.verifier.Verifier GetVerifier(string fullyQualifiedClassName)
-		{
-			NBCEL.verifier.Verifier v = hashMap.GetOrNull(fullyQualifiedClassName);
-			if (v == null)
-			{
-				v = new NBCEL.verifier.Verifier(fullyQualifiedClassName);
-				Sharpen.Collections.Put(hashMap, fullyQualifiedClassName, v);
-				Notify(fullyQualifiedClassName);
-			}
-			return v;
-		}
+        /// <summary>
+        ///     Returns the (only) verifier responsible for the class with the given name.
+        /// </summary>
+        /// <remarks>
+        ///     Returns the (only) verifier responsible for the class with the given name.
+        ///     Possibly a new Verifier object is transparently created.
+        /// </remarks>
+        /// <returns>the (only) verifier responsible for the class with the given name.</returns>
+        public static Verifier GetVerifier(string fullyQualifiedClassName)
+        {
+            var v = hashMap.GetOrNull(fullyQualifiedClassName);
+            if (v == null)
+            {
+                v = new Verifier(fullyQualifiedClassName);
+                Collections.Put(hashMap, fullyQualifiedClassName, v);
+                Notify(fullyQualifiedClassName);
+            }
 
-		/// <summary>Notifies the observers of a newly generated Verifier.</summary>
-		private static void Notify(string fullyQualifiedClassName)
-		{
-			// notify the observers
-			foreach (NBCEL.verifier.VerifierFactoryObserver vfo in observers)
-			{
-				vfo.Update(fullyQualifiedClassName);
-			}
-		}
+            return v;
+        }
 
-		/// <summary>Returns all Verifier instances created so far.</summary>
-		/// <remarks>
-		/// Returns all Verifier instances created so far.
-		/// This is useful when a Verifier recursively lets
-		/// the VerifierFactory create other Verifier instances
-		/// and if you want to verify the transitive hull of
-		/// referenced class files.
-		/// </remarks>
-		public static NBCEL.verifier.Verifier[] GetVerifiers()
-		{
-			NBCEL.verifier.Verifier[] vs = new NBCEL.verifier.Verifier[hashMap.Values.Count];
-			return Sharpen.Collections.ToArray(hashMap.Values, vs);
-		}
+        /// <summary>Notifies the observers of a newly generated Verifier.</summary>
+        private static void Notify(string fullyQualifiedClassName)
+        {
+            // notify the observers
+            foreach (var vfo in observers) vfo.Update(fullyQualifiedClassName);
+        }
 
-		// Because vs is big enough, vs is used to store the values into and returned!
-		/// <summary>Adds the VerifierFactoryObserver o to the list of observers.</summary>
-		public static void Attach(NBCEL.verifier.VerifierFactoryObserver o)
-		{
-			observers.Add(o);
-		}
+        /// <summary>Returns all Verifier instances created so far.</summary>
+        /// <remarks>
+        ///     Returns all Verifier instances created so far.
+        ///     This is useful when a Verifier recursively lets
+        ///     the VerifierFactory create other Verifier instances
+        ///     and if you want to verify the transitive hull of
+        ///     referenced class files.
+        /// </remarks>
+        public static Verifier[] GetVerifiers()
+        {
+            var vs = new Verifier[hashMap.Values.Count];
+            return Collections.ToArray(hashMap.Values, vs);
+        }
 
-		/// <summary>Removes the VerifierFactoryObserver o from the list of observers.</summary>
-		public static void Detach(NBCEL.verifier.VerifierFactoryObserver o)
-		{
-			observers.Remove(o);
-		}
-	}
+        // Because vs is big enough, vs is used to store the values into and returned!
+        /// <summary>Adds the VerifierFactoryObserver o to the list of observers.</summary>
+        public static void Attach(VerifierFactoryObserver o)
+        {
+            observers.Add(o);
+        }
+
+        /// <summary>Removes the VerifierFactoryObserver o from the list of observers.</summary>
+        public static void Detach(VerifierFactoryObserver o)
+        {
+            observers.Remove(o);
+        }
+    }
 }

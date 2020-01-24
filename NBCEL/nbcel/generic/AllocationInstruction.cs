@@ -15,12 +15,11 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
-	/// <summary>Denote family of instructions that allocates space in the heap.</summary>
-	public interface AllocationInstruction
-	{
-	}
+    /// <summary>Denote family of instructions that allocates space in the heap.</summary>
+    public interface AllocationInstruction
+    {
+    }
 }

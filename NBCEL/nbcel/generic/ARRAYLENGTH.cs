@@ -15,43 +15,42 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// ARRAYLENGTH -  Get length of array
-	/// <PRE>Stack: ..., arrayref -&gt; ..., length</PRE>
+	///     ARRAYLENGTH -  Get length of array
+	///     <PRE>Stack: ..., arrayref -&gt; ..., length</PRE>
 	/// </summary>
-	public class ARRAYLENGTH : NBCEL.generic.Instruction, NBCEL.generic.ExceptionThrower
-		, NBCEL.generic.StackProducer, NBCEL.generic.StackConsumer
-	{
-		/// <summary>Get length of array</summary>
-		public ARRAYLENGTH()
-			: base(NBCEL.Const.ARRAYLENGTH, (short)1)
-		{
-		}
+	public class ARRAYLENGTH : Instruction, ExceptionThrower
+        , StackProducer, StackConsumer
+    {
+        /// <summary>Get length of array</summary>
+        public ARRAYLENGTH()
+            : base(Const.ARRAYLENGTH, 1)
+        {
+        }
 
-		/* since 6.0 */
-		/// <returns>exceptions this instruction may cause</returns>
-		public virtual System.Type[] GetExceptions()
-		{
-			return new System.Type[] { NBCEL.ExceptionConst.NULL_POINTER_EXCEPTION };
-		}
+        /* since 6.0 */
+        /// <returns>exceptions this instruction may cause</returns>
+        public virtual System.Type[] GetExceptions()
+        {
+            return new[] {ExceptionConst.NULL_POINTER_EXCEPTION};
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitExceptionThrower(this);
-			v.VisitStackProducer(this);
-			v.VisitARRAYLENGTH(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitExceptionThrower(this);
+            v.VisitStackProducer(this);
+            v.VisitARRAYLENGTH(this);
+        }
+    }
 }

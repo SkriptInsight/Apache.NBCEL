@@ -15,95 +15,97 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
+
+using System;
+using NBCEL.classfile;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// LDC2_W - Push long or double from constant pool
-	/// <PRE>Stack: ...
+	///     LDC2_W - Push long or double from constant pool
+	///     <PRE>Stack: ...
 	/// </summary>
 	/// <remarks>
-	/// LDC2_W - Push long or double from constant pool
-	/// <PRE>Stack: ... -&gt; ..., item.word1, item.word2</PRE>
+	///     LDC2_W - Push long or double from constant pool
+	///     <PRE>Stack: ... -&gt; ..., item.word1, item.word2</PRE>
 	/// </remarks>
-	public class LDC2_W : NBCEL.generic.CPInstruction, NBCEL.generic.PushInstruction
-	{
-		/// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
-		/// <remarks>
-		/// Empty constructor needed for Instruction.readInstruction.
-		/// Not to be used otherwise.
-		/// </remarks>
-		internal LDC2_W()
-		{
-		}
+	public class LDC2_W : CPInstruction, PushInstruction
+    {
+	    /// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
+	    /// <remarks>
+	    ///     Empty constructor needed for Instruction.readInstruction.
+	    ///     Not to be used otherwise.
+	    /// </remarks>
+	    internal LDC2_W()
+        {
+        }
 
-		public LDC2_W(int index)
-			: base(NBCEL.Const.LDC2_W, index)
-		{
-		}
+        public LDC2_W(int index)
+            : base(Const.LDC2_W, index)
+        {
+        }
 
-		public override NBCEL.generic.Type GetType(NBCEL.generic.ConstantPoolGen cpg)
-		{
-			switch (cpg.GetConstantPool().GetConstant(base.GetIndex()).GetTag())
-			{
-				case NBCEL.Const.CONSTANT_Long:
-				{
-					return NBCEL.generic.Type.LONG;
-				}
+        public override Type GetType(ConstantPoolGen cpg)
+        {
+            switch (cpg.GetConstantPool().GetConstant(GetIndex()).GetTag())
+            {
+                case Const.CONSTANT_Long:
+                {
+                    return Type.LONG;
+                }
 
-				case NBCEL.Const.CONSTANT_Double:
-				{
-					return NBCEL.generic.Type.DOUBLE;
-				}
+                case Const.CONSTANT_Double:
+                {
+                    return Type.DOUBLE;
+                }
 
-				default:
-				{
-					// Never reached
-					throw new System.Exception("Unknown constant type " + base.GetOpcode());
-				}
-			}
-		}
+                default:
+                {
+                    // Never reached
+                    throw new Exception("Unknown constant type " + base.GetOpcode());
+                }
+            }
+        }
 
-		public virtual object GetValue(NBCEL.generic.ConstantPoolGen cpg)
-		{
-			NBCEL.classfile.Constant c = cpg.GetConstantPool().GetConstant(base.GetIndex());
-			switch (c.GetTag())
-			{
-				case NBCEL.Const.CONSTANT_Long:
-				{
-					return ((NBCEL.classfile.ConstantLong)c).GetBytes();
-				}
+        public virtual object GetValue(ConstantPoolGen cpg)
+        {
+            var c = cpg.GetConstantPool().GetConstant(GetIndex());
+            switch (c.GetTag())
+            {
+                case Const.CONSTANT_Long:
+                {
+                    return ((ConstantLong) c).GetBytes();
+                }
 
-				case NBCEL.Const.CONSTANT_Double:
-				{
-					return (object)((NBCEL.classfile.ConstantDouble)c).GetBytes();
-				}
+                case Const.CONSTANT_Double:
+                {
+                    return ((ConstantDouble) c).GetBytes();
+                }
 
-				default:
-				{
-					// Never reached
-					throw new System.Exception("Unknown or invalid constant type at " + base.GetIndex
-						());
-				}
-			}
-		}
+                default:
+                {
+                    // Never reached
+                    throw new Exception("Unknown or invalid constant type at " + GetIndex
+                                            ());
+                }
+            }
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitStackProducer(this);
-			v.VisitPushInstruction(this);
-			v.VisitTypedInstruction(this);
-			v.VisitCPInstruction(this);
-			v.VisitLDC2_W(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitStackProducer(this);
+            v.VisitPushInstruction(this);
+            v.VisitTypedInstruction(this);
+            v.VisitCPInstruction(this);
+            v.VisitLDC2_W(this);
+        }
+    }
 }

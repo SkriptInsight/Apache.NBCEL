@@ -15,16 +15,15 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// Implement this interface if you're interested in changes to an InstructionList object
-	/// and register yourself with addObserver().
+	///     Implement this interface if you're interested in changes to an InstructionList object
+	///     and register yourself with addObserver().
 	/// </summary>
 	public interface InstructionListObserver
-	{
-		void Notify(NBCEL.generic.InstructionList list);
-	}
+    {
+        void Notify(InstructionList list);
+    }
 }

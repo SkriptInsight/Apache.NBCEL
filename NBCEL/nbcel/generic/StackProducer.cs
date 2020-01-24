@@ -15,17 +15,16 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// Denote an instruction that may produce a value on top of the stack
-	/// (this excludes DUP_X1, e.g.)
+	///     Denote an instruction that may produce a value on top of the stack
+	///     (this excludes DUP_X1, e.g.)
 	/// </summary>
 	public interface StackProducer
-	{
-		/// <returns>how many words are produced on stack</returns>
-		int ProduceStack(NBCEL.generic.ConstantPoolGen cpg);
-	}
+    {
+        /// <returns>how many words are produced on stack</returns>
+        int ProduceStack(ConstantPoolGen cpg);
+    }
 }

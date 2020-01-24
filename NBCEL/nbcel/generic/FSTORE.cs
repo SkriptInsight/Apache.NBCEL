@@ -15,49 +15,48 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// FSTORE - Store float into local variable
-	/// <PRE>Stack: ..., value -&gt; ...
+	///     FSTORE - Store float into local variable
+	///     <PRE>Stack: ..., value -&gt; ...
 	/// </summary>
 	/// <remarks>
-	/// FSTORE - Store float into local variable
-	/// <PRE>Stack: ..., value -&gt; ... </PRE>
+	///     FSTORE - Store float into local variable
+	///     <PRE>Stack: ..., value -&gt; ... </PRE>
 	/// </remarks>
-	public class FSTORE : NBCEL.generic.StoreInstruction
-	{
-		/// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
-		/// <remarks>
-		/// Empty constructor needed for Instruction.readInstruction.
-		/// Not to be used otherwise.
-		/// </remarks>
-		internal FSTORE()
-			: base(NBCEL.Const.FSTORE, NBCEL.Const.FSTORE_0)
-		{
-		}
+	public class FSTORE : StoreInstruction
+    {
+	    /// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
+	    /// <remarks>
+	    ///     Empty constructor needed for Instruction.readInstruction.
+	    ///     Not to be used otherwise.
+	    /// </remarks>
+	    internal FSTORE()
+            : base(Const.FSTORE, Const.FSTORE_0)
+        {
+        }
 
-		/// <summary>Store float into local variable</summary>
-		/// <param name="n">index of local variable</param>
-		public FSTORE(int n)
-			: base(NBCEL.Const.FSTORE, NBCEL.Const.FSTORE_0, n)
-		{
-		}
+	    /// <summary>Store float into local variable</summary>
+	    /// <param name="n">index of local variable</param>
+	    public FSTORE(int n)
+            : base(Const.FSTORE, Const.FSTORE_0, n)
+        {
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			base.Accept(v);
-			v.VisitFSTORE(this);
-		}
-	}
+	    /// <summary>Call corresponding visitor method(s).</summary>
+	    /// <remarks>
+	    ///     Call corresponding visitor method(s). The order is:
+	    ///     Call visitor methods of implemented interfaces first, then
+	    ///     call methods according to the class hierarchy in descending order,
+	    ///     i.e., the most specific visitXXX() call comes last.
+	    /// </remarks>
+	    /// <param name="v">Visitor object</param>
+	    public override void Accept(Visitor v)
+        {
+            base.Accept(v);
+            v.VisitFSTORE(this);
+        }
+    }
 }

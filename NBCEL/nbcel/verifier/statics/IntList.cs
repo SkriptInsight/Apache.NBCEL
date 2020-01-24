@@ -15,41 +15,39 @@
 *  limitations under the License.
 *
 */
+
+using System.Collections.Generic;
 using Sharpen;
 
 namespace NBCEL.verifier.statics
 {
-	/// <summary>A small utility class representing a set of basic int values.</summary>
-	public class IntList
-	{
-		/// <summary>The int are stored as Integer objects here.</summary>
-		private readonly System.Collections.Generic.List<int> theList;
+    /// <summary>A small utility class representing a set of basic int values.</summary>
+    public class IntList
+    {
+        /// <summary>The int are stored as Integer objects here.</summary>
+        private readonly List<int> theList;
 
-		/// <summary>This constructor creates an empty list.</summary>
-		internal IntList()
-		{
-			theList = new System.Collections.Generic.List<int>();
-		}
+        /// <summary>This constructor creates an empty list.</summary>
+        internal IntList()
+        {
+            theList = new List<int>();
+        }
 
-		/// <summary>Adds an element to the list.</summary>
-		internal virtual void Add(int i)
-		{
-			theList.Add(i);
-		}
+        /// <summary>Adds an element to the list.</summary>
+        internal virtual void Add(int i)
+        {
+            theList.Add(i);
+        }
 
-		/// <summary>Checks if the specified int is already in the list.</summary>
-		internal virtual bool Contains(int i)
-		{
-			int[] ints = new int[theList.Count];
-			Sharpen.Collections.ToArray(theList, ints);
-			foreach (int k in ints)
-			{
-				if (i == k)
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-	}
+        /// <summary>Checks if the specified int is already in the list.</summary>
+        internal virtual bool Contains(int i)
+        {
+            var ints = new int[theList.Count];
+            Collections.ToArray(theList, ints);
+            foreach (var k in ints)
+                if (i == k)
+                    return true;
+            return false;
+        }
+    }
 }

@@ -15,23 +15,22 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.util
 {
 	/// <summary>Used for BCEL comparison strategy</summary>
 	/// <since>5.2</since>
 	public interface BCELComparator
-	{
-		/// <summary>Compare two objects and return what THIS.equals(THAT) should return</summary>
-		/// <param name="THIS"/>
-		/// <param name="THAT"/>
-		/// <returns>true if and only if THIS equals THAT</returns>
-		bool Equals(object THIS, object THAT);
+    {
+	    /// <summary>Compare two objects and return what THIS.equals(THAT) should return</summary>
+	    /// <param name="THIS" />
+	    /// <param name="THAT" />
+	    /// <returns>true if and only if THIS equals THAT</returns>
+	    bool Equals(object THIS, object THAT);
 
-		/// <summary>Return hashcode for THIS.hashCode()</summary>
-		/// <param name="THIS"/>
-		/// <returns>hashcode for THIS.hashCode()</returns>
-		int HashCode(object THIS);
-	}
+	    /// <summary>Return hashcode for THIS.hashCode()</summary>
+	    /// <param name="THIS" />
+	    /// <returns>hashcode for THIS.hashCode()</returns>
+	    int HashCode(object THIS);
+    }
 }

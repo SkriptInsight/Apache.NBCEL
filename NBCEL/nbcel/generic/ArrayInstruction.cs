@@ -15,95 +15,94 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
-	/// <summary>Super class for instructions dealing with array access such as IALOAD.</summary>
-	public abstract class ArrayInstruction : NBCEL.generic.Instruction, NBCEL.generic.ExceptionThrower
-		, NBCEL.generic.TypedInstruction
-	{
-		/// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
-		/// <remarks>
-		/// Empty constructor needed for Instruction.readInstruction.
-		/// Not to be used otherwise.
-		/// </remarks>
-		internal ArrayInstruction()
-		{
-		}
+    /// <summary>Super class for instructions dealing with array access such as IALOAD.</summary>
+    public abstract class ArrayInstruction : Instruction, ExceptionThrower
+        , TypedInstruction
+    {
+	    /// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
+	    /// <remarks>
+	    ///     Empty constructor needed for Instruction.readInstruction.
+	    ///     Not to be used otherwise.
+	    /// </remarks>
+	    internal ArrayInstruction()
+        {
+        }
 
-		/// <param name="opcode">of instruction</param>
-		protected internal ArrayInstruction(short opcode)
-			: base(opcode, (short)1)
-		{
-		}
+        /// <param name="opcode">of instruction</param>
+        protected internal ArrayInstruction(short opcode)
+            : base(opcode, 1)
+        {
+        }
 
-		public virtual System.Type[] GetExceptions()
-		{
-			return NBCEL.ExceptionConst.CreateExceptions(NBCEL.ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION
-				);
-		}
+        public virtual System.Type[] GetExceptions()
+        {
+            return ExceptionConst.CreateExceptions(ExceptionConst.EXCS.EXCS_ARRAY_EXCEPTION
+            );
+        }
 
-		/// <returns>type associated with the instruction</returns>
-		public virtual NBCEL.generic.Type GetType(NBCEL.generic.ConstantPoolGen cp)
-		{
-			short _opcode = base.GetOpcode();
-			switch (_opcode)
-			{
-				case NBCEL.Const.IALOAD:
-				case NBCEL.Const.IASTORE:
-				{
-					return NBCEL.generic.Type.INT;
-				}
+        /// <returns>type associated with the instruction</returns>
+        public virtual Type GetType(ConstantPoolGen cp)
+        {
+            var _opcode = base.GetOpcode();
+            switch (_opcode)
+            {
+                case Const.IALOAD:
+                case Const.IASTORE:
+                {
+                    return Type.INT;
+                }
 
-				case NBCEL.Const.CALOAD:
-				case NBCEL.Const.CASTORE:
-				{
-					return NBCEL.generic.Type.CHAR;
-				}
+                case Const.CALOAD:
+                case Const.CASTORE:
+                {
+                    return Type.CHAR;
+                }
 
-				case NBCEL.Const.BALOAD:
-				case NBCEL.Const.BASTORE:
-				{
-					return NBCEL.generic.Type.BYTE;
-				}
+                case Const.BALOAD:
+                case Const.BASTORE:
+                {
+                    return Type.BYTE;
+                }
 
-				case NBCEL.Const.SALOAD:
-				case NBCEL.Const.SASTORE:
-				{
-					return NBCEL.generic.Type.SHORT;
-				}
+                case Const.SALOAD:
+                case Const.SASTORE:
+                {
+                    return Type.SHORT;
+                }
 
-				case NBCEL.Const.LALOAD:
-				case NBCEL.Const.LASTORE:
-				{
-					return NBCEL.generic.Type.LONG;
-				}
+                case Const.LALOAD:
+                case Const.LASTORE:
+                {
+                    return Type.LONG;
+                }
 
-				case NBCEL.Const.DALOAD:
-				case NBCEL.Const.DASTORE:
-				{
-					return NBCEL.generic.Type.DOUBLE;
-				}
+                case Const.DALOAD:
+                case Const.DASTORE:
+                {
+                    return Type.DOUBLE;
+                }
 
-				case NBCEL.Const.FALOAD:
-				case NBCEL.Const.FASTORE:
-				{
-					return NBCEL.generic.Type.FLOAT;
-				}
+                case Const.FALOAD:
+                case Const.FASTORE:
+                {
+                    return Type.FLOAT;
+                }
 
-				case NBCEL.Const.AALOAD:
-				case NBCEL.Const.AASTORE:
-				{
-					return NBCEL.generic.Type.OBJECT;
-				}
+                case Const.AALOAD:
+                case Const.AASTORE:
+                {
+                    return Type.OBJECT;
+                }
 
-				default:
-				{
-					throw new NBCEL.generic.ClassGenException("Oops: unknown case in switch" + _opcode
-						);
-				}
-			}
-		}
-	}
+                default:
+                {
+                    throw new ClassGenException("Oops: unknown case in switch" + _opcode
+                    );
+                }
+            }
+        }
+    }
 }

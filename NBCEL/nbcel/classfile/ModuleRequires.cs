@@ -14,97 +14,104 @@
 *  See the License for the specific language governing permissions and
 *  limitations under the License.
 */
+
+using System;
+using System.Text;
+using java.io;
 using Sharpen;
 
 namespace NBCEL.classfile
 {
-	/// <summary>This class represents an entry in the requires table of the Module attribute.
-	/// 	</summary>
+	/// <summary>
+	///     This class represents an entry in the requires table of the Module attribute.
+	/// </summary>
 	/// <remarks>
-	/// This class represents an entry in the requires table of the Module attribute.
-	/// Each entry describes a module on which the parent module depends.
+	///     This class represents an entry in the requires table of the Module attribute.
+	///     Each entry describes a module on which the parent module depends.
 	/// </remarks>
-	/// <seealso cref="Module"/>
+	/// <seealso cref="Module" />
 	/// <since>6.4.0</since>
-	public sealed class ModuleRequires : System.ICloneable, NBCEL.classfile.Node
-	{
-		private readonly int requires_index;
+	public sealed class ModuleRequires : ICloneable, Node
+    {
+        private readonly int requires_flags;
+        private readonly int requires_index;
 
-		private readonly int requires_flags;
+        private readonly int requires_version_index;
 
-		private readonly int requires_version_index;
+        /// <summary>Construct object from file stream.</summary>
+        /// <param name="file">Input stream</param>
+        /// <exception cref="System.IO.IOException">
+        ///     if an I/O Exception occurs in readUnsignedShort
+        /// </exception>
+        internal ModuleRequires(DataInput file)
+        {
+            // points to CONSTANT_Module_info
+            // either 0 or points to CONSTANT_Utf8_info
+            requires_index = file.ReadUnsignedShort();
+            requires_flags = file.ReadUnsignedShort();
+            requires_version_index = file.ReadUnsignedShort();
+        }
 
-		/// <summary>Construct object from file stream.</summary>
-		/// <param name="file">Input stream</param>
-		/// <exception cref="System.IO.IOException">if an I/O Exception occurs in readUnsignedShort
-		/// 	</exception>
-		internal ModuleRequires(java.io.DataInput file)
-		{
-			// points to CONSTANT_Module_info
-			// either 0 or points to CONSTANT_Utf8_info
-			requires_index = file.ReadUnsignedShort();
-			requires_flags = file.ReadUnsignedShort();
-			requires_version_index = file.ReadUnsignedShort();
-		}
+        object ICloneable.Clone()
+        {
+            return MemberwiseClone();
+        }
 
-		/// <summary>
-		/// Called by objects that are traversing the nodes of the tree implicitely
-		/// defined by the contents of a Java class.
-		/// </summary>
-		/// <remarks>
-		/// Called by objects that are traversing the nodes of the tree implicitely
-		/// defined by the contents of a Java class. I.e., the hierarchy of methods,
-		/// fields, attributes, etc. spawns a tree of objects.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public void Accept(NBCEL.classfile.Visitor v)
-		{
-			v.VisitModuleRequires(this);
-		}
+        /// <summary>
+        ///     Called by objects that are traversing the nodes of the tree implicitely
+        ///     defined by the contents of a Java class.
+        /// </summary>
+        /// <remarks>
+        ///     Called by objects that are traversing the nodes of the tree implicitely
+        ///     defined by the contents of a Java class. I.e., the hierarchy of methods,
+        ///     fields, attributes, etc. spawns a tree of objects.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public void Accept(Visitor v)
+        {
+            v.VisitModuleRequires(this);
+        }
 
-		// TODO add more getters and setters?
-		/// <summary>Dump table entry to file stream in binary format.</summary>
-		/// <param name="file">Output file stream</param>
-		/// <exception cref="System.IO.IOException">if an I/O Exception occurs in writeShort</exception>
-		public void Dump(java.io.DataOutputStream file)
-		{
-			file.WriteShort(requires_index);
-			file.WriteShort(requires_flags);
-			file.WriteShort(requires_version_index);
-		}
+        // TODO add more getters and setters?
+        /// <summary>Dump table entry to file stream in binary format.</summary>
+        /// <param name="file">Output file stream</param>
+        /// <exception cref="System.IO.IOException">if an I/O Exception occurs in writeShort</exception>
+        public void Dump(DataOutputStream file)
+        {
+            file.WriteShort(requires_index);
+            file.WriteShort(requires_flags);
+            file.WriteShort(requires_version_index);
+        }
 
-		/// <returns>String representation</returns>
-		public override string ToString()
-		{
-			return "requires(" + requires_index + ", " + string.Format("%04x", requires_flags
-				) + ", " + requires_version_index + ")";
-		}
+        /// <returns>String representation</returns>
+        public override string ToString()
+        {
+            return "requires(" + requires_index + ", " + string.Format("%04x", requires_flags
+                   ) + ", " + requires_version_index + ")";
+        }
 
-		/// <returns>Resolved string representation</returns>
-		public string ToString(NBCEL.classfile.ConstantPool constant_pool)
-		{
-			System.Text.StringBuilder buf = new System.Text.StringBuilder();
-			string module_name = constant_pool.ConstantToString(requires_index, NBCEL.Const.CONSTANT_Module
-				);
-			buf.Append(NBCEL.classfile.Utility.CompactClassName(module_name, false));
-			buf.Append(", ").Append(string.Format("%04x", requires_flags));
-			string version = requires_version_index == 0 ? "0" : constant_pool.GetConstantString
-				(requires_version_index, NBCEL.Const.CONSTANT_Utf8);
-			buf.Append(", ").Append(version);
-			return buf.ToString();
-		}
+        /// <returns>Resolved string representation</returns>
+        public string ToString(ConstantPool constant_pool)
+        {
+            var buf = new StringBuilder();
+            var module_name = constant_pool.ConstantToString(requires_index, Const.CONSTANT_Module
+            );
+            buf.Append(Utility.CompactClassName(module_name, false));
+            buf.Append(", ").Append(string.Format("%04x", requires_flags));
+            var version = requires_version_index == 0
+                ? "0"
+                : constant_pool.GetConstantString
+                    (requires_version_index, Const.CONSTANT_Utf8);
+            buf.Append(", ").Append(version);
+            return buf.ToString();
+        }
 
-		/// <returns>deep copy of this object</returns>
-		public NBCEL.classfile.ModuleRequires Copy()
-		{
-			return (NBCEL.classfile.ModuleRequires)MemberwiseClone();
-			// TODO should this throw?
-			return null;
-		}
-
-		object System.ICloneable.Clone()
-		{
-			return MemberwiseClone();
-		}
-	}
+        /// <returns>deep copy of this object</returns>
+        public ModuleRequires Copy()
+        {
+            return (ModuleRequires) MemberwiseClone();
+            // TODO should this throw?
+            return null;
+        }
+    }
 }

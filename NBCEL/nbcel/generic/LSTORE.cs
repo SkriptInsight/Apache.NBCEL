@@ -15,47 +15,46 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// LSTORE - Store long into local variable
-	/// <PRE>Stack: ..., value.word1, value.word2 -&gt; ...
+	///     LSTORE - Store long into local variable
+	///     <PRE>Stack: ..., value.word1, value.word2 -&gt; ...
 	/// </summary>
 	/// <remarks>
-	/// LSTORE - Store long into local variable
-	/// <PRE>Stack: ..., value.word1, value.word2 -&gt; ... </PRE>
+	///     LSTORE - Store long into local variable
+	///     <PRE>Stack: ..., value.word1, value.word2 -&gt; ... </PRE>
 	/// </remarks>
-	public class LSTORE : NBCEL.generic.StoreInstruction
-	{
-		/// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
-		/// <remarks>
-		/// Empty constructor needed for Instruction.readInstruction.
-		/// Not to be used otherwise.
-		/// </remarks>
-		internal LSTORE()
-			: base(NBCEL.Const.LSTORE, NBCEL.Const.LSTORE_0)
-		{
-		}
+	public class LSTORE : StoreInstruction
+    {
+	    /// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
+	    /// <remarks>
+	    ///     Empty constructor needed for Instruction.readInstruction.
+	    ///     Not to be used otherwise.
+	    /// </remarks>
+	    internal LSTORE()
+            : base(Const.LSTORE, Const.LSTORE_0)
+        {
+        }
 
-		public LSTORE(int n)
-			: base(NBCEL.Const.LSTORE, NBCEL.Const.LSTORE_0, n)
-		{
-		}
+        public LSTORE(int n)
+            : base(Const.LSTORE, Const.LSTORE_0, n)
+        {
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			base.Accept(v);
-			v.VisitLSTORE(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            base.Accept(v);
+            v.VisitLSTORE(this);
+        }
+    }
 }

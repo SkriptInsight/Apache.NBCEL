@@ -15,47 +15,50 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
+
+using System;
 
 namespace NBCEL.verifier.exc
 {
 	/// <summary>
-	/// Instances of this class are thrown by BCEL's class file verifier "JustIce" when a
-	/// class file to verify does not pass one of the verification passes 2 or 3.
+	///     Instances of this class are thrown by BCEL's class file verifier "JustIce" when a
+	///     class file to verify does not pass one of the verification passes 2 or 3.
 	/// </summary>
 	/// <remarks>
-	/// Instances of this class are thrown by BCEL's class file verifier "JustIce" when a
-	/// class file to verify does not pass one of the verification passes 2 or 3.
-	/// Note that the pass 3 used by "JustIce" involves verification that is usually
-	/// delayed to pass 4.
-	/// The name of this class is justified by the Java Virtual Machine Specification, 2nd
-	/// edition, page 164, 5.4.1 where verification as a part of the linking process is
-	/// defined to be the verification happening in passes 2 and 3.
+	///     Instances of this class are thrown by BCEL's class file verifier "JustIce" when a
+	///     class file to verify does not pass one of the verification passes 2 or 3.
+	///     Note that the pass 3 used by "JustIce" involves verification that is usually
+	///     delayed to pass 4.
+	///     The name of this class is justified by the Java Virtual Machine Specification, 2nd
+	///     edition, page 164, 5.4.1 where verification as a part of the linking process is
+	///     defined to be the verification happening in passes 2 and 3.
 	/// </remarks>
-	[System.Serializable]
-	public abstract class VerificationException : NBCEL.verifier.exc.VerifierConstraintViolatedException
-	{
-		private const long serialVersionUID = 8012776320318623652L;
+	[Serializable]
+    public abstract class VerificationException : VerifierConstraintViolatedException
+    {
+        private const long serialVersionUID = 8012776320318623652L;
 
-		/// <summary>Constructs a new VerificationException with null as its error message string.
-		/// 	</summary>
-		internal VerificationException()
-			: base()
-		{
-		}
+        /// <summary>
+        ///     Constructs a new VerificationException with null as its error message string.
+        /// </summary>
+        internal VerificationException()
+        {
+        }
 
-		/// <summary>Constructs a new VerificationException with the specified error message.
-		/// 	</summary>
-		internal VerificationException(string message)
-			: base(message)
-		{
-		}
+        /// <summary>
+        ///     Constructs a new VerificationException with the specified error message.
+        /// </summary>
+        internal VerificationException(string message)
+            : base(message)
+        {
+        }
 
-		/// <summary>Constructs a new VerificationException with the specified error message and exception
-		/// 	</summary>
-		internal VerificationException(string message, System.Exception initCause)
-			: base(message, initCause)
-		{
-		}
-	}
+        /// <summary>
+        ///     Constructs a new VerificationException with the specified error message and exception
+        /// </summary>
+        internal VerificationException(string message, Exception initCause)
+            : base(message, initCause)
+        {
+        }
+    }
 }

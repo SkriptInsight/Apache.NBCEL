@@ -15,42 +15,41 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// FCMPG - Compare floats: value1 &gt; value2
-	/// <PRE>Stack: ..., value1, value2 -&gt; ..., result</PRE>
+	///     FCMPG - Compare floats: value1 &gt; value2
+	///     <PRE>Stack: ..., value1, value2 -&gt; ..., result</PRE>
 	/// </summary>
-	public class FCMPG : NBCEL.generic.Instruction, NBCEL.generic.TypedInstruction, NBCEL.generic.StackProducer
-		, NBCEL.generic.StackConsumer
-	{
-		public FCMPG()
-			: base(NBCEL.Const.FCMPG, (short)1)
-		{
-		}
+	public class FCMPG : Instruction, TypedInstruction, StackProducer
+        , StackConsumer
+    {
+        public FCMPG()
+            : base(Const.FCMPG, 1)
+        {
+        }
 
-		/// <returns>Type.FLOAT</returns>
-		public virtual NBCEL.generic.Type GetType(NBCEL.generic.ConstantPoolGen cp)
-		{
-			return NBCEL.generic.Type.FLOAT;
-		}
+        /// <returns>Type.FLOAT</returns>
+        public virtual Type GetType(ConstantPoolGen cp)
+        {
+            return Type.FLOAT;
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitTypedInstruction(this);
-			v.VisitStackProducer(this);
-			v.VisitStackConsumer(this);
-			v.VisitFCMPG(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitTypedInstruction(this);
+            v.VisitStackProducer(this);
+            v.VisitStackConsumer(this);
+            v.VisitFCMPG(this);
+        }
+    }
 }

@@ -59,6 +59,7 @@ namespace ObjectWeb.Misc.Java.Util
 	    ///     such as
 	    ///     <see cref="HashSet
 	    ///     
+	    ///     
 	    ///     <object>
 	    ///         {E}"/>
 	    ///         . Clients of a Spliterator that reports
@@ -77,6 +78,7 @@ namespace ObjectWeb.Misc.Java.Util
 	    ///     . This
 	    ///     applies for example, to a Spliterator based on a
 	    ///     <see cref="HashSet
+	    ///     
 	    ///     
 	    ///     <object>
 	    ///         {E}"/>
@@ -134,6 +136,7 @@ namespace ObjectWeb.Misc.Java.Util
 	    ///     report this characteristic. Sub-spliterators, such as
 	    ///     those for
 	    ///     <see cref="HashSet
+	    ///     
 	    ///     
 	    ///     <object>
 	    ///         {E}"/>

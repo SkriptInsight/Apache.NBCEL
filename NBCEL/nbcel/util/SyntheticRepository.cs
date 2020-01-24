@@ -15,49 +15,55 @@
 *  limitations under the License.
 *
 */
+
+using System.Collections.Generic;
 using Sharpen;
 
 namespace NBCEL.util
 {
-	/// <summary>This repository is used in situations where a Class is created outside the realm of a ClassLoader.
-	/// 	</summary>
+	/// <summary>
+	///     This repository is used in situations where a Class is created outside the realm of a ClassLoader.
+	/// </summary>
 	/// <remarks>
-	/// This repository is used in situations where a Class is created outside the realm of a ClassLoader. Classes are loaded from the file systems using the paths
-	/// specified in the given class path. By default, this is the value returned by ClassPath.getClassPath().
-	/// <p>
-	/// This repository uses a factory design, allowing it to maintain a collection of different classpaths, and as such It is designed to be used as a singleton per
-	/// classpath.
-	/// </p>
+	///     This repository is used in situations where a Class is created outside the realm of a ClassLoader. Classes are
+	///     loaded from the file systems using the paths
+	///     specified in the given class path. By default, this is the value returned by ClassPath.getClassPath().
+	///     <p>
+	///         This repository uses a factory design, allowing it to maintain a collection of different classpaths, and as
+	///         such It is designed to be used as a singleton per
+	///         classpath.
+	///     </p>
 	/// </remarks>
-	/// <seealso cref="NBCEL.Repository"/>
-	public class SyntheticRepository : NBCEL.util.MemorySensitiveClassPathRepository
-	{
-		private static readonly System.Collections.Generic.IDictionary<NBCEL.util.ClassPath
-			, NBCEL.util.SyntheticRepository> instances = new System.Collections.Generic.Dictionary
-			<NBCEL.util.ClassPath, NBCEL.util.SyntheticRepository>();
+	/// <seealso cref="NBCEL.Repository" />
+	public class SyntheticRepository : MemorySensitiveClassPathRepository
+    {
+        private static readonly IDictionary<ClassPath
+            , SyntheticRepository> instances = new Dictionary
+            <ClassPath, SyntheticRepository>();
 
-		private SyntheticRepository(NBCEL.util.ClassPath path)
-			: base(path)
-		{
-		}
+        private SyntheticRepository(ClassPath path)
+            : base(path)
+        {
+        }
 
-		// private static final String DEFAULT_PATH = ClassPath.getClassPath();
-		// CLASSPATH X REPOSITORY
-		public static NBCEL.util.SyntheticRepository GetInstance()
-		{
-			return GetInstance(NBCEL.util.ClassPath.SYSTEM_CLASS_PATH);
-		}
+        // private static final String DEFAULT_PATH = ClassPath.getClassPath();
+        // CLASSPATH X REPOSITORY
+        public static SyntheticRepository GetInstance()
+        {
+            return GetInstance(ClassPath.SYSTEM_CLASS_PATH);
+        }
 
-		public static NBCEL.util.SyntheticRepository GetInstance(NBCEL.util.ClassPath classPath
-			)
-		{
-			NBCEL.util.SyntheticRepository rep = instances.GetOrNull(classPath);
-			if (rep == null)
-			{
-				rep = new NBCEL.util.SyntheticRepository(classPath);
-				Sharpen.Collections.Put(instances, classPath, rep);
-			}
-			return rep;
-		}
-	}
+        public static SyntheticRepository GetInstance(ClassPath classPath
+        )
+        {
+            var rep = instances.GetOrNull(classPath);
+            if (rep == null)
+            {
+                rep = new SyntheticRepository(classPath);
+                Collections.Put(instances, classPath, rep);
+            }
+
+            return rep;
+        }
+    }
 }

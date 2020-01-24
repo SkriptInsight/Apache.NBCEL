@@ -22,53 +22,52 @@ using Sharpen;
 namespace NBCEL.verifier
 {
 	/// <summary>
-	/// The NativeVerifier class implements a main(String[] args) method that's
-	/// roughly compatible to the one in the Verifier class, but that uses the
-	/// JVM's internal verifier for its class file verification.
+	///     The NativeVerifier class implements a main(String[] args) method that's
+	///     roughly compatible to the one in the Verifier class, but that uses the
+	///     JVM's internal verifier for its class file verification.
 	/// </summary>
 	/// <remarks>
-	/// The NativeVerifier class implements a main(String[] args) method that's
-	/// roughly compatible to the one in the Verifier class, but that uses the
-	/// JVM's internal verifier for its class file verification.
-	/// This can be used for comparison runs between the JVM-internal verifier
-	/// and JustIce.
+	///     The NativeVerifier class implements a main(String[] args) method that's
+	///     roughly compatible to the one in the Verifier class, but that uses the
+	///     JVM's internal verifier for its class file verification.
+	///     This can be used for comparison runs between the JVM-internal verifier
+	///     and JustIce.
 	/// </remarks>
 	public abstract class NativeVerifier
-	{
-		/// <summary>This class must not be instantiated.</summary>
-		private NativeVerifier()
-		{
-		}
+    {
+        /// <summary>This class must not be instantiated.</summary>
+        private NativeVerifier()
+        {
+        }
 
-		/// <summary>Works only on the first argument.</summary>
-		public static void Main(string[] args)
-		{
-			if (args.Length != 1)
-			{
-				System.Console.Out.WriteLine("Verifier front-end: need exactly one argument.");
-				System.Environment.Exit(1);
-			}
-			int dotclasspos = args[0].LastIndexOf(".class");
-			if (dotclasspos != -1)
-			{
-				args[0] = Sharpen.Runtime.Substring(args[0], 0, dotclasspos);
-			}
-			args[0] = args[0].Replace('/', '.');
-			//System.out.println(args[0]);
-			try
-			{
-				Sharpen.Runtime.GetType(args[0]);
-			}
-			catch
-			{
-				// OK to catch Throwable here as we call exit.
-				System.Console.Out.WriteLine("NativeVerifier: Unspecified verification error on '"
-					 + args[0] + "'.");
-				System.Environment.Exit(1);
-			}
-			System.Console.Out.WriteLine("NativeVerifier: Class file '" + args[0] + "' seems to be okay."
-				);
-			System.Environment.Exit(0);
-		}
-	}
+        /// <summary>Works only on the first argument.</summary>
+        public static void Main(string[] args)
+        {
+            if (args.Length != 1)
+            {
+                Console.Out.WriteLine("Verifier front-end: need exactly one argument.");
+                Environment.Exit(1);
+            }
+
+            var dotclasspos = args[0].LastIndexOf(".class");
+            if (dotclasspos != -1) args[0] = Runtime.Substring(args[0], 0, dotclasspos);
+            args[0] = args[0].Replace('/', '.');
+            //System.out.println(args[0]);
+            try
+            {
+                Runtime.GetType(args[0]);
+            }
+            catch
+            {
+                // OK to catch Throwable here as we call exit.
+                Console.Out.WriteLine("NativeVerifier: Unspecified verification error on '"
+                                      + args[0] + "'.");
+                Environment.Exit(1);
+            }
+
+            Console.Out.WriteLine("NativeVerifier: Class file '" + args[0] + "' seems to be okay."
+            );
+            Environment.Exit(0);
+        }
+    }
 }

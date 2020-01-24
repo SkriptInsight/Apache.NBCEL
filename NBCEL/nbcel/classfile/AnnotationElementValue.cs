@@ -15,49 +15,51 @@
 *  limitations under the License.
 *
 */
+
+using System;
+using java.io;
 using Sharpen;
 
 namespace NBCEL.classfile
 {
-	/// <since>6.0</since>
-	public class AnnotationElementValue : NBCEL.classfile.ElementValue
-	{
-		private readonly NBCEL.classfile.AnnotationEntry annotationEntry;
+    /// <since>6.0</since>
+    public class AnnotationElementValue : ElementValue
+    {
+        private readonly AnnotationEntry annotationEntry;
 
-		public AnnotationElementValue(int type, NBCEL.classfile.AnnotationEntry annotationEntry
-			, NBCEL.classfile.ConstantPool cpool)
-			: base(type, cpool)
-		{
-			// For annotation element values, this is the annotation
-			if (type != ANNOTATION)
-			{
-				throw new System.Exception("Only element values of type annotation can be built with this ctor - type specified: "
-					 + type);
-			}
-			this.annotationEntry = annotationEntry;
-		}
+        public AnnotationElementValue(int type, AnnotationEntry annotationEntry
+            , ConstantPool cpool)
+            : base(type, cpool)
+        {
+            // For annotation element values, this is the annotation
+            if (type != ANNOTATION)
+                throw new Exception(
+                    "Only element values of type annotation can be built with this ctor - type specified: "
+                    + type);
+            this.annotationEntry = annotationEntry;
+        }
 
-		/// <exception cref="System.IO.IOException"/>
-		public override void Dump(java.io.DataOutputStream dos)
-		{
-			dos.WriteByte(base.GetType());
-			// u1 type of value (ANNOTATION == '@')
-			annotationEntry.Dump(dos);
-		}
+        /// <exception cref="System.IO.IOException" />
+        public override void Dump(DataOutputStream dos)
+        {
+            dos.WriteByte(GetType());
+            // u1 type of value (ANNOTATION == '@')
+            annotationEntry.Dump(dos);
+        }
 
-		public override string StringifyValue()
-		{
-			return annotationEntry.ToString();
-		}
+        public override string StringifyValue()
+        {
+            return annotationEntry.ToString();
+        }
 
-		public override string ToString()
-		{
-			return StringifyValue();
-		}
+        public override string ToString()
+        {
+            return StringifyValue();
+        }
 
-		public virtual NBCEL.classfile.AnnotationEntry GetAnnotationEntry()
-		{
-			return annotationEntry;
-		}
-	}
+        public virtual AnnotationEntry GetAnnotationEntry()
+        {
+            return annotationEntry;
+        }
+    }
 }

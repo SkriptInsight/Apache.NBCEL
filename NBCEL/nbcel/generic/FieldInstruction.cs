@@ -15,57 +15,58 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
+
+using NBCEL.classfile;
 
 namespace NBCEL.generic
 {
-	/// <summary>Super class for the GET/PUTxxx family of instructions.</summary>
-	public abstract class FieldInstruction : NBCEL.generic.FieldOrMethod
-	{
-		/// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
-		/// <remarks>
-		/// Empty constructor needed for Instruction.readInstruction.
-		/// Not to be used otherwise.
-		/// </remarks>
-		internal FieldInstruction()
-		{
-		}
+    /// <summary>Super class for the GET/PUTxxx family of instructions.</summary>
+    public abstract class FieldInstruction : FieldOrMethod
+    {
+	    /// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
+	    /// <remarks>
+	    ///     Empty constructor needed for Instruction.readInstruction.
+	    ///     Not to be used otherwise.
+	    /// </remarks>
+	    internal FieldInstruction()
+        {
+        }
 
-		/// <param name="index">to constant pool</param>
-		protected internal FieldInstruction(short opcode, int index)
-			: base(opcode, index)
-		{
-		}
+        /// <param name="index">to constant pool</param>
+        protected internal FieldInstruction(short opcode, int index)
+            : base(opcode, index)
+        {
+        }
 
-		/// <returns>mnemonic for instruction with symbolic references resolved</returns>
-		public override string ToString(NBCEL.classfile.ConstantPool cp)
-		{
-			return NBCEL.Const.GetOpcodeName(base.GetOpcode()) + " " + cp.ConstantToString(base
-				.GetIndex(), NBCEL.Const.CONSTANT_Fieldref);
-		}
+        /// <returns>mnemonic for instruction with symbolic references resolved</returns>
+        public override string ToString(ConstantPool cp)
+        {
+            return Const.GetOpcodeName(base.GetOpcode()) + " " +
+                   cp.ConstantToString(GetIndex(), Const.CONSTANT_Fieldref);
+        }
 
-		/// <returns>size of field (1 or 2)</returns>
-		protected internal virtual int GetFieldSize(NBCEL.generic.ConstantPoolGen cpg)
-		{
-			return NBCEL.generic.Type.Size(NBCEL.generic.Type.GetTypeSize(GetSignature(cpg)));
-		}
+        /// <returns>size of field (1 or 2)</returns>
+        protected internal virtual int GetFieldSize(ConstantPoolGen cpg)
+        {
+            return Type.Size(Type.GetTypeSize(GetSignature(cpg)));
+        }
 
-		/// <returns>return type of referenced field</returns>
-		public override NBCEL.generic.Type GetType(NBCEL.generic.ConstantPoolGen cpg)
-		{
-			return GetFieldType(cpg);
-		}
+        /// <returns>return type of referenced field</returns>
+        public override Type GetType(ConstantPoolGen cpg)
+        {
+            return GetFieldType(cpg);
+        }
 
-		/// <returns>type of field</returns>
-		public virtual NBCEL.generic.Type GetFieldType(NBCEL.generic.ConstantPoolGen cpg)
-		{
-			return NBCEL.generic.Type.GetType(GetSignature(cpg));
-		}
+        /// <returns>type of field</returns>
+        public virtual Type GetFieldType(ConstantPoolGen cpg)
+        {
+            return Type.GetType(GetSignature(cpg));
+        }
 
-		/// <returns>name of referenced field.</returns>
-		public virtual string GetFieldName(NBCEL.generic.ConstantPoolGen cpg)
-		{
-			return GetName(cpg);
-		}
-	}
+        /// <returns>name of referenced field.</returns>
+        public virtual string GetFieldName(ConstantPoolGen cpg)
+        {
+            return GetName(cpg);
+        }
+    }
 }

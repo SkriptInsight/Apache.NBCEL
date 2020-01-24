@@ -14,53 +14,52 @@
 *  See the License for the specific language governing permissions and
 *  limitations under the License.
 */
-using Sharpen;
+
+using NBCEL.classfile;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// Super class for FieldOrMethod and INVOKEDYNAMIC, since they both have
-	/// names and signatures
+	///     Super class for FieldOrMethod and INVOKEDYNAMIC, since they both have
+	///     names and signatures
 	/// </summary>
 	/// <since>6.0</since>
-	public abstract class NameSignatureInstruction : NBCEL.generic.CPInstruction
-	{
-		public NameSignatureInstruction()
-			: base()
-		{
-		}
+	public abstract class NameSignatureInstruction : CPInstruction
+    {
+        public NameSignatureInstruction()
+        {
+        }
 
-		public NameSignatureInstruction(short opcode, int index)
-			: base(opcode, index)
-		{
-		}
+        public NameSignatureInstruction(short opcode, int index)
+            : base(opcode, index)
+        {
+        }
 
-		public virtual NBCEL.classfile.ConstantNameAndType GetNameAndType(NBCEL.generic.ConstantPoolGen
-			 cpg)
-		{
-			NBCEL.classfile.ConstantPool cp = cpg.GetConstantPool();
-			NBCEL.classfile.ConstantCP cmr = (NBCEL.classfile.ConstantCP)cp.GetConstant(base.
-				GetIndex());
-			return (NBCEL.classfile.ConstantNameAndType)cp.GetConstant(cmr.GetNameAndTypeIndex
-				());
-		}
+        public virtual ConstantNameAndType GetNameAndType(ConstantPoolGen
+            cpg)
+        {
+            var cp = cpg.GetConstantPool();
+            var cmr = (ConstantCP) cp.GetConstant(GetIndex());
+            return (ConstantNameAndType) cp.GetConstant(cmr.GetNameAndTypeIndex
+                ());
+        }
 
-		/// <returns>signature of referenced method/field.</returns>
-		public virtual string GetSignature(NBCEL.generic.ConstantPoolGen cpg)
-		{
-			NBCEL.classfile.ConstantPool cp = cpg.GetConstantPool();
-			NBCEL.classfile.ConstantNameAndType cnat = GetNameAndType(cpg);
-			return ((NBCEL.classfile.ConstantUtf8)cp.GetConstant(cnat.GetSignatureIndex())).GetBytes
-				();
-		}
+        /// <returns>signature of referenced method/field.</returns>
+        public virtual string GetSignature(ConstantPoolGen cpg)
+        {
+            var cp = cpg.GetConstantPool();
+            var cnat = GetNameAndType(cpg);
+            return ((ConstantUtf8) cp.GetConstant(cnat.GetSignatureIndex())).GetBytes
+                ();
+        }
 
-		/// <returns>name of referenced method/field.</returns>
-		public virtual string GetName(NBCEL.generic.ConstantPoolGen cpg)
-		{
-			NBCEL.classfile.ConstantPool cp = cpg.GetConstantPool();
-			NBCEL.classfile.ConstantNameAndType cnat = GetNameAndType(cpg);
-			return ((NBCEL.classfile.ConstantUtf8)cp.GetConstant(cnat.GetNameIndex())).GetBytes
-				();
-		}
-	}
+        /// <returns>name of referenced method/field.</returns>
+        public virtual string GetName(ConstantPoolGen cpg)
+        {
+            var cp = cpg.GetConstantPool();
+            var cnat = GetNameAndType(cpg);
+            return ((ConstantUtf8) cp.GetConstant(cnat.GetNameIndex())).GetBytes
+                ();
+        }
+    }
 }

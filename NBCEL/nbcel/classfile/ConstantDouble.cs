@@ -15,87 +15,89 @@
 *  limitations under the License.
 *
 */
+
+using java.io;
 using Sharpen;
 
 namespace NBCEL.classfile
 {
 	/// <summary>
-	/// This class is derived from the abstract
-	/// <see cref="Constant"/>
-	/// and represents a reference to a Double object.
+	///     This class is derived from the abstract
+	///     <see cref="Constant" />
+	///     and represents a reference to a Double object.
 	/// </summary>
-	/// <seealso cref="Constant"/>
-	public sealed class ConstantDouble : NBCEL.classfile.Constant, NBCEL.classfile.ConstantObject
-	{
-		private double bytes;
+	/// <seealso cref="Constant" />
+	public sealed class ConstantDouble : Constant, ConstantObject
+    {
+        private double bytes;
 
-		/// <param name="bytes">Data</param>
-		public ConstantDouble(double bytes)
-			: base(NBCEL.Const.CONSTANT_Double)
-		{
-			this.bytes = bytes;
-		}
+        /// <param name="bytes">Data</param>
+        public ConstantDouble(double bytes)
+            : base(Const.CONSTANT_Double)
+        {
+            this.bytes = bytes;
+        }
 
-		/// <summary>Initialize from another object.</summary>
-		public ConstantDouble(NBCEL.classfile.ConstantDouble c)
-			: this(c.GetBytes())
-		{
-		}
+        /// <summary>Initialize from another object.</summary>
+        public ConstantDouble(ConstantDouble c)
+            : this(c.GetBytes())
+        {
+        }
 
-		/// <summary>Initialize instance from file data.</summary>
-		/// <param name="file">Input stream</param>
-		/// <exception cref="System.IO.IOException"/>
-		internal ConstantDouble(java.io.DataInput file)
-			: this(file.ReadDouble())
-		{
-		}
+        /// <summary>Initialize instance from file data.</summary>
+        /// <param name="file">Input stream</param>
+        /// <exception cref="System.IO.IOException" />
+        internal ConstantDouble(DataInput file)
+            : this(file.ReadDouble())
+        {
+        }
 
-		/// <summary>
-		/// Called by objects that are traversing the nodes of the tree implicitely
-		/// defined by the contents of a Java class.
-		/// </summary>
-		/// <remarks>
-		/// Called by objects that are traversing the nodes of the tree implicitely
-		/// defined by the contents of a Java class. I.e., the hierarchy of methods,
-		/// fields, attributes, etc. spawns a tree of objects.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.classfile.Visitor v)
-		{
-			v.VisitConstantDouble(this);
-		}
+        /// <returns>Double object</returns>
+        public object GetConstantValue(ConstantPool cp)
+        {
+            return bytes;
+        }
 
-		/// <summary>Dump constant double to file stream in binary format.</summary>
-		/// <param name="file">Output file stream</param>
-		/// <exception cref="System.IO.IOException"/>
-		public override void Dump(java.io.DataOutputStream file)
-		{
-			file.WriteByte(base.GetTag());
-			file.WriteDouble(bytes);
-		}
+        /// <summary>
+        ///     Called by objects that are traversing the nodes of the tree implicitely
+        ///     defined by the contents of a Java class.
+        /// </summary>
+        /// <remarks>
+        ///     Called by objects that are traversing the nodes of the tree implicitely
+        ///     defined by the contents of a Java class. I.e., the hierarchy of methods,
+        ///     fields, attributes, etc. spawns a tree of objects.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitConstantDouble(this);
+        }
 
-		/// <returns>data, i.e., 8 bytes.</returns>
-		public double GetBytes()
-		{
-			return bytes;
-		}
+        /// <summary>Dump constant double to file stream in binary format.</summary>
+        /// <param name="file">Output file stream</param>
+        /// <exception cref="System.IO.IOException" />
+        public override void Dump(DataOutputStream file)
+        {
+            file.WriteByte(GetTag());
+            file.WriteDouble(bytes);
+        }
 
-		/// <param name="bytes">the raw bytes that represent the double value</param>
-		public void SetBytes(double bytes)
-		{
-			this.bytes = bytes;
-		}
+        /// <returns>data, i.e., 8 bytes.</returns>
+        public double GetBytes()
+        {
+            return bytes;
+        }
 
-		/// <returns>String representation.</returns>
-		public override string ToString()
-		{
-			return base.ToString() + "(bytes = " + bytes + ")";
-		}
+        /// <param name="bytes">the raw bytes that represent the double value</param>
+        public void SetBytes(double bytes)
+        {
+            this.bytes = bytes;
+        }
 
-		/// <returns>Double object</returns>
-		public object GetConstantValue(NBCEL.classfile.ConstantPool cp)
-		{
-			return bytes;
-		}
-	}
+        /// <returns>String representation.</returns>
+        public override string ToString()
+        {
+            return base.ToString() + "(bytes = " + bytes + ")";
+        }
+    }
 }

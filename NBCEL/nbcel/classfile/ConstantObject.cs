@@ -15,18 +15,17 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.classfile
 {
 	/// <summary>
-	/// This interface denotes those constants that have a "natural" value,
-	/// such as ConstantLong, ConstantString, etc..
+	///     This interface denotes those constants that have a "natural" value,
+	///     such as ConstantLong, ConstantString, etc..
 	/// </summary>
-	/// <seealso cref="Constant"/>
+	/// <seealso cref="Constant" />
 	public interface ConstantObject
-	{
-		/// <returns>object representing the constant, e.g., Long for ConstantLong</returns>
-		object GetConstantValue(NBCEL.classfile.ConstantPool cp);
-	}
+    {
+        /// <returns>object representing the constant, e.g., Long for ConstantLong</returns>
+        object GetConstantValue(ConstantPool cp);
+    }
 }

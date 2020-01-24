@@ -15,48 +15,50 @@
 *  limitations under the License.
 *
 */
+
+using java.io;
 using Sharpen;
 
 namespace NBCEL.classfile
 {
-	/// <summary>This class represents a constant pool reference to an interface method.</summary>
-	public sealed class ConstantInterfaceMethodref : NBCEL.classfile.ConstantCP
-	{
-		/// <summary>Initialize from another object.</summary>
-		public ConstantInterfaceMethodref(NBCEL.classfile.ConstantInterfaceMethodref c)
-			: base(NBCEL.Const.CONSTANT_InterfaceMethodref, c.GetClassIndex(), c.GetNameAndTypeIndex
-				())
-		{
-		}
+    /// <summary>This class represents a constant pool reference to an interface method.</summary>
+    public sealed class ConstantInterfaceMethodref : ConstantCP
+    {
+        /// <summary>Initialize from another object.</summary>
+        public ConstantInterfaceMethodref(ConstantInterfaceMethodref c)
+            : base(Const.CONSTANT_InterfaceMethodref, c.GetClassIndex(), c.GetNameAndTypeIndex
+                ())
+        {
+        }
 
-		/// <summary>Initialize instance from input data.</summary>
-		/// <param name="input">input stream</param>
-		/// <exception cref="System.IO.IOException"/>
-		internal ConstantInterfaceMethodref(java.io.DataInput input)
-			: base(NBCEL.Const.CONSTANT_InterfaceMethodref, input)
-		{
-		}
+        /// <summary>Initialize instance from input data.</summary>
+        /// <param name="input">input stream</param>
+        /// <exception cref="System.IO.IOException" />
+        internal ConstantInterfaceMethodref(DataInput input)
+            : base(Const.CONSTANT_InterfaceMethodref, input)
+        {
+        }
 
-		/// <param name="class_index">Reference to the class containing the method</param>
-		/// <param name="name_and_type_index">and the method signature</param>
-		public ConstantInterfaceMethodref(int class_index, int name_and_type_index)
-			: base(NBCEL.Const.CONSTANT_InterfaceMethodref, class_index, name_and_type_index)
-		{
-		}
+        /// <param name="class_index">Reference to the class containing the method</param>
+        /// <param name="name_and_type_index">and the method signature</param>
+        public ConstantInterfaceMethodref(int class_index, int name_and_type_index)
+            : base(Const.CONSTANT_InterfaceMethodref, class_index, name_and_type_index)
+        {
+        }
 
-		/// <summary>
-		/// Called by objects that are traversing the nodes of the tree implicitely
-		/// defined by the contents of a Java class.
-		/// </summary>
-		/// <remarks>
-		/// Called by objects that are traversing the nodes of the tree implicitely
-		/// defined by the contents of a Java class. I.e., the hierarchy of methods,
-		/// fields, attributes, etc. spawns a tree of objects.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.classfile.Visitor v)
-		{
-			v.VisitConstantInterfaceMethodref(this);
-		}
-	}
+        /// <summary>
+        ///     Called by objects that are traversing the nodes of the tree implicitely
+        ///     defined by the contents of a Java class.
+        /// </summary>
+        /// <remarks>
+        ///     Called by objects that are traversing the nodes of the tree implicitely
+        ///     defined by the contents of a Java class. I.e., the hierarchy of methods,
+        ///     fields, attributes, etc. spawns a tree of objects.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitConstantInterfaceMethodref(this);
+        }
+    }
 }

@@ -15,93 +15,92 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
-	/// <summary>Denotes basic type such as int.</summary>
-	public sealed class BasicType : NBCEL.generic.Type
-	{
-		/// <summary>Constructor for basic types such as int, long, `void'</summary>
-		/// <param name="type">one of T_INT, T_BOOLEAN, ..., T_VOID</param>
-		/// <seealso cref="NBCEL.Const"/>
-		internal BasicType(byte type)
-			: base(type, NBCEL.Const.GetShortTypeName(type))
-		{
-			if ((((sbyte)type) < NBCEL.Const.T_BOOLEAN) || (type > NBCEL.Const.T_VOID))
-			{
-				throw new NBCEL.generic.ClassGenException("Invalid type: " + type);
-			}
-		}
+    /// <summary>Denotes basic type such as int.</summary>
+    public sealed class BasicType : Type
+    {
+	    /// <summary>Constructor for basic types such as int, long, `void'</summary>
+	    /// <param name="type">one of T_INT, T_BOOLEAN, ..., T_VOID</param>
+	    /// <seealso cref="NBCEL.Const" />
+	    internal BasicType(byte type)
+            : base(type, Const.GetShortTypeName(type))
+        {
+            if ((sbyte) type < Const.T_BOOLEAN || type > Const.T_VOID)
+                throw new ClassGenException("Invalid type: " + type);
+        }
 
-		// @since 6.0 no longer final
-		public static NBCEL.generic.BasicType GetType(byte type)
-		{
-			switch (type)
-			{
-				case NBCEL.Const.T_VOID:
-				{
-					return VOID;
-				}
+        // @since 6.0 no longer final
+        public static BasicType GetType(byte type)
+        {
+            switch (type)
+            {
+                case Const.T_VOID:
+                {
+                    return VOID;
+                }
 
-				case NBCEL.Const.T_BOOLEAN:
-				{
-					return BOOLEAN;
-				}
+                case Const.T_BOOLEAN:
+                {
+                    return BOOLEAN;
+                }
 
-				case NBCEL.Const.T_BYTE:
-				{
-					return BYTE;
-				}
+                case Const.T_BYTE:
+                {
+                    return BYTE;
+                }
 
-				case NBCEL.Const.T_SHORT:
-				{
-					return SHORT;
-				}
+                case Const.T_SHORT:
+                {
+                    return SHORT;
+                }
 
-				case NBCEL.Const.T_CHAR:
-				{
-					return CHAR;
-				}
+                case Const.T_CHAR:
+                {
+                    return CHAR;
+                }
 
-				case NBCEL.Const.T_INT:
-				{
-					return INT;
-				}
+                case Const.T_INT:
+                {
+                    return INT;
+                }
 
-				case NBCEL.Const.T_LONG:
-				{
-					return LONG;
-				}
+                case Const.T_LONG:
+                {
+                    return LONG;
+                }
 
-				case NBCEL.Const.T_DOUBLE:
-				{
-					return DOUBLE;
-				}
+                case Const.T_DOUBLE:
+                {
+                    return DOUBLE;
+                }
 
-				case NBCEL.Const.T_FLOAT:
-				{
-					return FLOAT;
-				}
+                case Const.T_FLOAT:
+                {
+                    return FLOAT;
+                }
 
-				default:
-				{
-					throw new NBCEL.generic.ClassGenException("Invalid type: " + type);
-				}
-			}
-		}
+                default:
+                {
+                    throw new ClassGenException("Invalid type: " + type);
+                }
+            }
+        }
 
-		/// <returns>a hash code value for the object.</returns>
-		public override int GetHashCode()
-		{
-			return base.GetType();
-		}
+        /// <returns>a hash code value for the object.</returns>
+        public override int GetHashCode()
+        {
+            return base.GetType();
+        }
 
-		/// <returns>true if both type objects refer to the same type</returns>
-		public override bool Equals(object _type)
-		{
-			return (_type is NBCEL.generic.BasicType) ? ((NBCEL.generic.BasicType)_type).GetType
-				() == this.GetType() : false;
-		}
-	}
+        /// <returns>true if both type objects refer to the same type</returns>
+        public override bool Equals(object _type)
+        {
+            return _type is BasicType
+                ? ((BasicType) _type).GetType
+                      () == GetType()
+                : false;
+        }
+    }
 }

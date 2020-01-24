@@ -15,93 +15,92 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
-	/// <summary>Super class for the family of arithmetic instructions.</summary>
-	public abstract class ArithmeticInstruction : NBCEL.generic.Instruction, NBCEL.generic.TypedInstruction
-		, NBCEL.generic.StackProducer, NBCEL.generic.StackConsumer
-	{
-		/// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
-		/// <remarks>
-		/// Empty constructor needed for Instruction.readInstruction.
-		/// Not to be used otherwise.
-		/// </remarks>
-		internal ArithmeticInstruction()
-		{
-		}
+    /// <summary>Super class for the family of arithmetic instructions.</summary>
+    public abstract class ArithmeticInstruction : Instruction, TypedInstruction
+        , StackProducer, StackConsumer
+    {
+	    /// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
+	    /// <remarks>
+	    ///     Empty constructor needed for Instruction.readInstruction.
+	    ///     Not to be used otherwise.
+	    /// </remarks>
+	    internal ArithmeticInstruction()
+        {
+        }
 
-		/// <param name="opcode">of instruction</param>
-		protected internal ArithmeticInstruction(short opcode)
-			: base(opcode, (short)1)
-		{
-		}
+        /// <param name="opcode">of instruction</param>
+        protected internal ArithmeticInstruction(short opcode)
+            : base(opcode, 1)
+        {
+        }
 
-		/// <returns>type associated with the instruction</returns>
-		public virtual NBCEL.generic.Type GetType(NBCEL.generic.ConstantPoolGen cp)
-		{
-			short _opcode = base.GetOpcode();
-			switch (_opcode)
-			{
-				case NBCEL.Const.DADD:
-				case NBCEL.Const.DDIV:
-				case NBCEL.Const.DMUL:
-				case NBCEL.Const.DNEG:
-				case NBCEL.Const.DREM:
-				case NBCEL.Const.DSUB:
-				{
-					return NBCEL.generic.Type.DOUBLE;
-				}
+        /// <returns>type associated with the instruction</returns>
+        public virtual Type GetType(ConstantPoolGen cp)
+        {
+            var _opcode = base.GetOpcode();
+            switch (_opcode)
+            {
+                case Const.DADD:
+                case Const.DDIV:
+                case Const.DMUL:
+                case Const.DNEG:
+                case Const.DREM:
+                case Const.DSUB:
+                {
+                    return Type.DOUBLE;
+                }
 
-				case NBCEL.Const.FADD:
-				case NBCEL.Const.FDIV:
-				case NBCEL.Const.FMUL:
-				case NBCEL.Const.FNEG:
-				case NBCEL.Const.FREM:
-				case NBCEL.Const.FSUB:
-				{
-					return NBCEL.generic.Type.FLOAT;
-				}
+                case Const.FADD:
+                case Const.FDIV:
+                case Const.FMUL:
+                case Const.FNEG:
+                case Const.FREM:
+                case Const.FSUB:
+                {
+                    return Type.FLOAT;
+                }
 
-				case NBCEL.Const.IADD:
-				case NBCEL.Const.IAND:
-				case NBCEL.Const.IDIV:
-				case NBCEL.Const.IMUL:
-				case NBCEL.Const.INEG:
-				case NBCEL.Const.IOR:
-				case NBCEL.Const.IREM:
-				case NBCEL.Const.ISHL:
-				case NBCEL.Const.ISHR:
-				case NBCEL.Const.ISUB:
-				case NBCEL.Const.IUSHR:
-				case NBCEL.Const.IXOR:
-				{
-					return NBCEL.generic.Type.INT;
-				}
+                case Const.IADD:
+                case Const.IAND:
+                case Const.IDIV:
+                case Const.IMUL:
+                case Const.INEG:
+                case Const.IOR:
+                case Const.IREM:
+                case Const.ISHL:
+                case Const.ISHR:
+                case Const.ISUB:
+                case Const.IUSHR:
+                case Const.IXOR:
+                {
+                    return Type.INT;
+                }
 
-				case NBCEL.Const.LADD:
-				case NBCEL.Const.LAND:
-				case NBCEL.Const.LDIV:
-				case NBCEL.Const.LMUL:
-				case NBCEL.Const.LNEG:
-				case NBCEL.Const.LOR:
-				case NBCEL.Const.LREM:
-				case NBCEL.Const.LSHL:
-				case NBCEL.Const.LSHR:
-				case NBCEL.Const.LSUB:
-				case NBCEL.Const.LUSHR:
-				case NBCEL.Const.LXOR:
-				{
-					return NBCEL.generic.Type.LONG;
-				}
+                case Const.LADD:
+                case Const.LAND:
+                case Const.LDIV:
+                case Const.LMUL:
+                case Const.LNEG:
+                case Const.LOR:
+                case Const.LREM:
+                case Const.LSHL:
+                case Const.LSHR:
+                case Const.LSUB:
+                case Const.LUSHR:
+                case Const.LXOR:
+                {
+                    return Type.LONG;
+                }
 
-				default:
-				{
-					// Never reached
-					throw new NBCEL.generic.ClassGenException("Unknown type " + _opcode);
-				}
-			}
-		}
-	}
+                default:
+                {
+                    // Never reached
+                    throw new ClassGenException("Unknown type " + _opcode);
+                }
+            }
+        }
+    }
 }

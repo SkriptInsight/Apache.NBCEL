@@ -15,37 +15,36 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// DALOAD - Load double from array
-	/// <PRE>Stack: ..., arrayref, index -&gt; ..., result.word1, result.word2</PRE>
+	///     DALOAD - Load double from array
+	///     <PRE>Stack: ..., arrayref, index -&gt; ..., result.word1, result.word2</PRE>
 	/// </summary>
-	public class DALOAD : NBCEL.generic.ArrayInstruction, NBCEL.generic.StackProducer
-	{
-		/// <summary>Load double from array</summary>
-		public DALOAD()
-			: base(NBCEL.Const.DALOAD)
-		{
-		}
+	public class DALOAD : ArrayInstruction, StackProducer
+    {
+        /// <summary>Load double from array</summary>
+        public DALOAD()
+            : base(Const.DALOAD)
+        {
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitStackProducer(this);
-			v.VisitExceptionThrower(this);
-			v.VisitTypedInstruction(this);
-			v.VisitArrayInstruction(this);
-			v.VisitDALOAD(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitStackProducer(this);
+            v.VisitExceptionThrower(this);
+            v.VisitTypedInstruction(this);
+            v.VisitArrayInstruction(this);
+            v.VisitDALOAD(this);
+        }
+    }
 }

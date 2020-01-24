@@ -15,37 +15,36 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// F2L - Convert float to long
-	/// <PRE>Stack: ..., value -&gt; ..., result.word1, result.word2</PRE>
+	///     F2L - Convert float to long
+	///     <PRE>Stack: ..., value -&gt; ..., result.word1, result.word2</PRE>
 	/// </summary>
-	public class F2L : NBCEL.generic.ConversionInstruction
-	{
-		/// <summary>Convert float to long</summary>
-		public F2L()
-			: base(NBCEL.Const.F2L)
-		{
-		}
+	public class F2L : ConversionInstruction
+    {
+        /// <summary>Convert float to long</summary>
+        public F2L()
+            : base(Const.F2L)
+        {
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitTypedInstruction(this);
-			v.VisitStackProducer(this);
-			v.VisitStackConsumer(this);
-			v.VisitConversionInstruction(this);
-			v.VisitF2L(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitTypedInstruction(this);
+            v.VisitStackProducer(this);
+            v.VisitStackConsumer(this);
+            v.VisitConversionInstruction(this);
+            v.VisitF2L(this);
+        }
+    }
 }

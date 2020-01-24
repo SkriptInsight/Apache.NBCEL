@@ -15,49 +15,48 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// ILOAD - Load int from local variable onto stack
-	/// <PRE>Stack: ...
+	///     ILOAD - Load int from local variable onto stack
+	///     <PRE>Stack: ...
 	/// </summary>
 	/// <remarks>
-	/// ILOAD - Load int from local variable onto stack
-	/// <PRE>Stack: ... -&gt; ..., result</PRE>
+	///     ILOAD - Load int from local variable onto stack
+	///     <PRE>Stack: ... -&gt; ..., result</PRE>
 	/// </remarks>
-	public class ILOAD : NBCEL.generic.LoadInstruction
-	{
-		/// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
-		/// <remarks>
-		/// Empty constructor needed for Instruction.readInstruction.
-		/// Not to be used otherwise.
-		/// </remarks>
-		internal ILOAD()
-			: base(NBCEL.Const.ILOAD, NBCEL.Const.ILOAD_0)
-		{
-		}
+	public class ILOAD : LoadInstruction
+    {
+	    /// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
+	    /// <remarks>
+	    ///     Empty constructor needed for Instruction.readInstruction.
+	    ///     Not to be used otherwise.
+	    /// </remarks>
+	    internal ILOAD()
+            : base(Const.ILOAD, Const.ILOAD_0)
+        {
+        }
 
-		/// <summary>Load int from local variable</summary>
-		/// <param name="n">index of local variable</param>
-		public ILOAD(int n)
-			: base(NBCEL.Const.ILOAD, NBCEL.Const.ILOAD_0, n)
-		{
-		}
+	    /// <summary>Load int from local variable</summary>
+	    /// <param name="n">index of local variable</param>
+	    public ILOAD(int n)
+            : base(Const.ILOAD, Const.ILOAD_0, n)
+        {
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			base.Accept(v);
-			v.VisitILOAD(this);
-		}
-	}
+	    /// <summary>Call corresponding visitor method(s).</summary>
+	    /// <remarks>
+	    ///     Call corresponding visitor method(s). The order is:
+	    ///     Call visitor methods of implemented interfaces first, then
+	    ///     call methods according to the class hierarchy in descending order,
+	    ///     i.e., the most specific visitXXX() call comes last.
+	    /// </remarks>
+	    /// <param name="v">Visitor object</param>
+	    public override void Accept(Visitor v)
+        {
+            base.Accept(v);
+            v.VisitILOAD(this);
+        }
+    }
 }

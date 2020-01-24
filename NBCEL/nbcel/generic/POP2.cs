@@ -15,35 +15,34 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// POP2 - Pop two top operand stack words
-	/// <PRE>Stack: ..., word2, word1 -&gt; ...</PRE>
+	///     POP2 - Pop two top operand stack words
+	///     <PRE>Stack: ..., word2, word1 -&gt; ...</PRE>
 	/// </summary>
-	public class POP2 : NBCEL.generic.StackInstruction, NBCEL.generic.PopInstruction
-	{
-		public POP2()
-			: base(NBCEL.Const.POP2)
-		{
-		}
+	public class POP2 : StackInstruction, PopInstruction
+    {
+        public POP2()
+            : base(Const.POP2)
+        {
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitStackConsumer(this);
-			v.VisitPopInstruction(this);
-			v.VisitStackInstruction(this);
-			v.VisitPOP2(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitStackConsumer(this);
+            v.VisitPopInstruction(this);
+            v.VisitStackInstruction(this);
+            v.VisitPOP2(this);
+        }
+    }
 }

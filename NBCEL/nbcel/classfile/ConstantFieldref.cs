@@ -15,47 +15,49 @@
 *  limitations under the License.
 *
 */
+
+using java.io;
 using Sharpen;
 
 namespace NBCEL.classfile
 {
-	/// <summary>This class represents a constant pool reference to a field.</summary>
-	public sealed class ConstantFieldref : NBCEL.classfile.ConstantCP
-	{
-		/// <summary>Initialize from another object.</summary>
-		public ConstantFieldref(NBCEL.classfile.ConstantFieldref c)
-			: base(NBCEL.Const.CONSTANT_Fieldref, c.GetClassIndex(), c.GetNameAndTypeIndex())
-		{
-		}
+    /// <summary>This class represents a constant pool reference to a field.</summary>
+    public sealed class ConstantFieldref : ConstantCP
+    {
+        /// <summary>Initialize from another object.</summary>
+        public ConstantFieldref(ConstantFieldref c)
+            : base(Const.CONSTANT_Fieldref, c.GetClassIndex(), c.GetNameAndTypeIndex())
+        {
+        }
 
-		/// <summary>Initialize instance from input data.</summary>
-		/// <param name="input">input stream</param>
-		/// <exception cref="System.IO.IOException"/>
-		internal ConstantFieldref(java.io.DataInput input)
-			: base(NBCEL.Const.CONSTANT_Fieldref, input)
-		{
-		}
+        /// <summary>Initialize instance from input data.</summary>
+        /// <param name="input">input stream</param>
+        /// <exception cref="System.IO.IOException" />
+        internal ConstantFieldref(DataInput input)
+            : base(Const.CONSTANT_Fieldref, input)
+        {
+        }
 
-		/// <param name="class_index">Reference to the class containing the Field</param>
-		/// <param name="name_and_type_index">and the Field signature</param>
-		public ConstantFieldref(int class_index, int name_and_type_index)
-			: base(NBCEL.Const.CONSTANT_Fieldref, class_index, name_and_type_index)
-		{
-		}
+        /// <param name="class_index">Reference to the class containing the Field</param>
+        /// <param name="name_and_type_index">and the Field signature</param>
+        public ConstantFieldref(int class_index, int name_and_type_index)
+            : base(Const.CONSTANT_Fieldref, class_index, name_and_type_index)
+        {
+        }
 
-		/// <summary>
-		/// Called by objects that are traversing the nodes of the tree implicitely
-		/// defined by the contents of a Java class.
-		/// </summary>
-		/// <remarks>
-		/// Called by objects that are traversing the nodes of the tree implicitely
-		/// defined by the contents of a Java class. I.e., the hierarchy of Fields,
-		/// fields, attributes, etc. spawns a tree of objects.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.classfile.Visitor v)
-		{
-			v.VisitConstantFieldref(this);
-		}
-	}
+        /// <summary>
+        ///     Called by objects that are traversing the nodes of the tree implicitely
+        ///     defined by the contents of a Java class.
+        /// </summary>
+        /// <remarks>
+        ///     Called by objects that are traversing the nodes of the tree implicitely
+        ///     defined by the contents of a Java class. I.e., the hierarchy of Fields,
+        ///     fields, attributes, etc. spawns a tree of objects.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitConstantFieldref(this);
+        }
+    }
 }

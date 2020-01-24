@@ -15,37 +15,36 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// FALOAD - Load float from array
-	/// <PRE>Stack: ..., arrayref, index -&gt; ..., value</PRE>
+	///     FALOAD - Load float from array
+	///     <PRE>Stack: ..., arrayref, index -&gt; ..., value</PRE>
 	/// </summary>
-	public class FALOAD : NBCEL.generic.ArrayInstruction, NBCEL.generic.StackProducer
-	{
-		/// <summary>Load float from array</summary>
-		public FALOAD()
-			: base(NBCEL.Const.FALOAD)
-		{
-		}
+	public class FALOAD : ArrayInstruction, StackProducer
+    {
+        /// <summary>Load float from array</summary>
+        public FALOAD()
+            : base(Const.FALOAD)
+        {
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitStackProducer(this);
-			v.VisitExceptionThrower(this);
-			v.VisitTypedInstruction(this);
-			v.VisitArrayInstruction(this);
-			v.VisitFALOAD(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitStackProducer(this);
+            v.VisitExceptionThrower(this);
+            v.VisitTypedInstruction(this);
+            v.VisitArrayInstruction(this);
+            v.VisitFALOAD(this);
+        }
+    }
 }

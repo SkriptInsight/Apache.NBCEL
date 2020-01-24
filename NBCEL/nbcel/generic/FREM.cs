@@ -15,37 +15,36 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// FREM - Remainder of floats
-	/// <PRE>Stack: ..., value1, value2 -&gt; result</PRE>
+	///     FREM - Remainder of floats
+	///     <PRE>Stack: ..., value1, value2 -&gt; result</PRE>
 	/// </summary>
-	public class FREM : NBCEL.generic.ArithmeticInstruction
-	{
-		/// <summary>Remainder of floats</summary>
-		public FREM()
-			: base(NBCEL.Const.FREM)
-		{
-		}
+	public class FREM : ArithmeticInstruction
+    {
+        /// <summary>Remainder of floats</summary>
+        public FREM()
+            : base(Const.FREM)
+        {
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitTypedInstruction(this);
-			v.VisitStackProducer(this);
-			v.VisitStackConsumer(this);
-			v.VisitArithmeticInstruction(this);
-			v.VisitFREM(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitTypedInstruction(this);
+            v.VisitStackProducer(this);
+            v.VisitStackConsumer(this);
+            v.VisitArithmeticInstruction(this);
+            v.VisitFREM(this);
+        }
+    }
 }

@@ -15,252 +15,254 @@
 *  limitations under the License.
 *
 */
+
+using System;
+using java.io;
+using NBCEL.classfile;
 using Sharpen;
 
 namespace NBCEL.generic
 {
-	/// <since>6.0</since>
-	public abstract class ElementValueGen
-	{
-		[System.ObsoleteAttribute(@"(since 6.0) will be made private and final; do not access directly, use getter"
-			)]
-		protected internal int type;
+    /// <since>6.0</since>
+    public abstract class ElementValueGen
+    {
+        public const int STRING = 's';
 
-		[System.ObsoleteAttribute(@"(since 6.0) will be made private and final; do not access directly, use getter"
-			)]
-		protected internal NBCEL.generic.ConstantPoolGen cpGen;
+        public const int ENUM_CONSTANT = 'e';
 
-		protected internal ElementValueGen(int type, NBCEL.generic.ConstantPoolGen cpGen)
-		{
-			this.type = type;
-			this.cpGen = cpGen;
-		}
+        public const int CLASS = 'c';
 
-		/// <summary>Subtypes return an immutable variant of the ElementValueGen</summary>
-		public abstract NBCEL.classfile.ElementValue GetElementValue();
+        public const int ANNOTATION = '@';
 
-		public virtual int GetElementValueType()
-		{
-			return type;
-		}
+        public const int ARRAY = '[';
 
-		public abstract string StringifyValue();
+        public const int PRIMITIVE_INT = 'I';
 
-		/// <exception cref="System.IO.IOException"/>
-		public abstract void Dump(java.io.DataOutputStream dos);
+        public const int PRIMITIVE_BYTE = 'B';
 
-		public const int STRING = 's';
+        public const int PRIMITIVE_CHAR = 'C';
 
-		public const int ENUM_CONSTANT = 'e';
+        public const int PRIMITIVE_DOUBLE = 'D';
 
-		public const int CLASS = 'c';
+        public const int PRIMITIVE_FLOAT = 'F';
 
-		public const int ANNOTATION = '@';
+        public const int PRIMITIVE_LONG = 'J';
 
-		public const int ARRAY = '[';
+        public const int PRIMITIVE_SHORT = 'S';
 
-		public const int PRIMITIVE_INT = 'I';
+        public const int PRIMITIVE_BOOLEAN = 'Z';
 
-		public const int PRIMITIVE_BYTE = 'B';
+        [Obsolete(@"(since 6.0) will be made private and final; do not access directly, use getter"
+        )]
+        protected internal ConstantPoolGen cpGen;
 
-		public const int PRIMITIVE_CHAR = 'C';
+        [Obsolete(@"(since 6.0) will be made private and final; do not access directly, use getter"
+        )]
+        protected internal int type;
 
-		public const int PRIMITIVE_DOUBLE = 'D';
+        protected internal ElementValueGen(int type, ConstantPoolGen cpGen)
+        {
+            this.type = type;
+            this.cpGen = cpGen;
+        }
 
-		public const int PRIMITIVE_FLOAT = 'F';
+        /// <summary>Subtypes return an immutable variant of the ElementValueGen</summary>
+        public abstract ElementValue GetElementValue();
 
-		public const int PRIMITIVE_LONG = 'J';
+        public virtual int GetElementValueType()
+        {
+            return type;
+        }
 
-		public const int PRIMITIVE_SHORT = 'S';
+        public abstract string StringifyValue();
 
-		public const int PRIMITIVE_BOOLEAN = 'Z';
+        /// <exception cref="System.IO.IOException" />
+        public abstract void Dump(DataOutputStream dos);
 
-		/// <exception cref="System.IO.IOException"/>
-		public static NBCEL.generic.ElementValueGen ReadElementValue(java.io.DataInput dis
-			, NBCEL.generic.ConstantPoolGen cpGen)
-		{
-			int type = dis.ReadUnsignedByte();
-			switch (type)
-			{
-				case 'B':
-				{
-					// byte
-					return new NBCEL.generic.SimpleElementValueGen(PRIMITIVE_BYTE, dis.ReadUnsignedShort
-						(), cpGen);
-				}
+        /// <exception cref="System.IO.IOException" />
+        public static ElementValueGen ReadElementValue(DataInput dis
+            , ConstantPoolGen cpGen)
+        {
+            var type = dis.ReadUnsignedByte();
+            switch (type)
+            {
+                case 'B':
+                {
+                    // byte
+                    return new SimpleElementValueGen(PRIMITIVE_BYTE, dis.ReadUnsignedShort
+                        (), cpGen);
+                }
 
-				case 'C':
-				{
-					// char
-					return new NBCEL.generic.SimpleElementValueGen(PRIMITIVE_CHAR, dis.ReadUnsignedShort
-						(), cpGen);
-				}
+                case 'C':
+                {
+                    // char
+                    return new SimpleElementValueGen(PRIMITIVE_CHAR, dis.ReadUnsignedShort
+                        (), cpGen);
+                }
 
-				case 'D':
-				{
-					// double
-					return new NBCEL.generic.SimpleElementValueGen(PRIMITIVE_DOUBLE, dis.ReadUnsignedShort
-						(), cpGen);
-				}
+                case 'D':
+                {
+                    // double
+                    return new SimpleElementValueGen(PRIMITIVE_DOUBLE, dis.ReadUnsignedShort
+                        (), cpGen);
+                }
 
-				case 'F':
-				{
-					// float
-					return new NBCEL.generic.SimpleElementValueGen(PRIMITIVE_FLOAT, dis.ReadUnsignedShort
-						(), cpGen);
-				}
+                case 'F':
+                {
+                    // float
+                    return new SimpleElementValueGen(PRIMITIVE_FLOAT, dis.ReadUnsignedShort
+                        (), cpGen);
+                }
 
-				case 'I':
-				{
-					// int
-					return new NBCEL.generic.SimpleElementValueGen(PRIMITIVE_INT, dis.ReadUnsignedShort
-						(), cpGen);
-				}
+                case 'I':
+                {
+                    // int
+                    return new SimpleElementValueGen(PRIMITIVE_INT, dis.ReadUnsignedShort
+                        (), cpGen);
+                }
 
-				case 'J':
-				{
-					// long
-					return new NBCEL.generic.SimpleElementValueGen(PRIMITIVE_LONG, dis.ReadUnsignedShort
-						(), cpGen);
-				}
+                case 'J':
+                {
+                    // long
+                    return new SimpleElementValueGen(PRIMITIVE_LONG, dis.ReadUnsignedShort
+                        (), cpGen);
+                }
 
-				case 'S':
-				{
-					// short
-					return new NBCEL.generic.SimpleElementValueGen(PRIMITIVE_SHORT, dis.ReadUnsignedShort
-						(), cpGen);
-				}
+                case 'S':
+                {
+                    // short
+                    return new SimpleElementValueGen(PRIMITIVE_SHORT, dis.ReadUnsignedShort
+                        (), cpGen);
+                }
 
-				case 'Z':
-				{
-					// boolean
-					return new NBCEL.generic.SimpleElementValueGen(PRIMITIVE_BOOLEAN, dis.ReadUnsignedShort
-						(), cpGen);
-				}
+                case 'Z':
+                {
+                    // boolean
+                    return new SimpleElementValueGen(PRIMITIVE_BOOLEAN, dis.ReadUnsignedShort
+                        (), cpGen);
+                }
 
-				case 's':
-				{
-					// String
-					return new NBCEL.generic.SimpleElementValueGen(STRING, dis.ReadUnsignedShort(), cpGen
-						);
-				}
+                case 's':
+                {
+                    // String
+                    return new SimpleElementValueGen(STRING, dis.ReadUnsignedShort(), cpGen
+                    );
+                }
 
-				case 'e':
-				{
-					// Enum constant
-					return new NBCEL.generic.EnumElementValueGen(dis.ReadUnsignedShort(), dis.ReadUnsignedShort
-						(), cpGen);
-				}
+                case 'e':
+                {
+                    // Enum constant
+                    return new EnumElementValueGen(dis.ReadUnsignedShort(), dis.ReadUnsignedShort
+                        (), cpGen);
+                }
 
-				case 'c':
-				{
-					// Class
-					return new NBCEL.generic.ClassElementValueGen(dis.ReadUnsignedShort(), cpGen);
-				}
+                case 'c':
+                {
+                    // Class
+                    return new ClassElementValueGen(dis.ReadUnsignedShort(), cpGen);
+                }
 
-				case '@':
-				{
-					// Annotation
-					// TODO: isRuntimeVisible ??????????
-					// FIXME
-					return new NBCEL.generic.AnnotationElementValueGen(ANNOTATION, new NBCEL.generic.AnnotationEntryGen
-						(NBCEL.classfile.AnnotationEntry.Read(dis, cpGen.GetConstantPool(), true), cpGen
-						, false), cpGen);
-				}
+                case '@':
+                {
+                    // Annotation
+                    // TODO: isRuntimeVisible ??????????
+                    // FIXME
+                    return new AnnotationElementValueGen(ANNOTATION, new AnnotationEntryGen
+                    (AnnotationEntry.Read(dis, cpGen.GetConstantPool(), true), cpGen
+                        , false), cpGen);
+                }
 
-				case '[':
-				{
-					// Array
-					int numArrayVals = dis.ReadUnsignedShort();
-					NBCEL.classfile.ElementValue[] evalues = new NBCEL.classfile.ElementValue[numArrayVals
-						];
-					for (int j = 0; j < numArrayVals; j++)
-					{
-						evalues[j] = NBCEL.classfile.ElementValue.ReadElementValue(dis, cpGen.GetConstantPool
-							());
-					}
-					return new NBCEL.generic.ArrayElementValueGen(ARRAY, evalues, cpGen);
-				}
+                case '[':
+                {
+                    // Array
+                    var numArrayVals = dis.ReadUnsignedShort();
+                    var evalues = new ElementValue[numArrayVals
+                    ];
+                    for (var j = 0; j < numArrayVals; j++)
+                        evalues[j] = ElementValue.ReadElementValue(dis, cpGen.GetConstantPool
+                            ());
+                    return new ArrayElementValueGen(ARRAY, evalues, cpGen);
+                }
 
-				default:
-				{
-					throw new System.Exception("Unexpected element value kind in annotation: " + type
-						);
-				}
-			}
-		}
+                default:
+                {
+                    throw new Exception("Unexpected element value kind in annotation: " + type
+                    );
+                }
+            }
+        }
 
-		protected internal virtual NBCEL.generic.ConstantPoolGen GetConstantPool()
-		{
-			return cpGen;
-		}
+        protected internal virtual ConstantPoolGen GetConstantPool()
+        {
+            return cpGen;
+        }
 
-		/// <summary>
-		/// Creates an (modifiable) ElementValueGen copy of an (immutable)
-		/// ElementValue - constant pool is assumed correct.
-		/// </summary>
-		public static NBCEL.generic.ElementValueGen Copy(NBCEL.classfile.ElementValue value
-			, NBCEL.generic.ConstantPoolGen cpool, bool copyPoolEntries)
-		{
-			switch (value.GetElementValueType())
-			{
-				case 'B':
-				case 'C':
-				case 'D':
-				case 'F':
-				case 'I':
-				case 'J':
-				case 'S':
-				case 'Z':
-				case 's':
-				{
-					// byte
-					// char
-					// double
-					// float
-					// int
-					// long
-					// short
-					// boolean
-					// String
-					return new NBCEL.generic.SimpleElementValueGen((NBCEL.classfile.SimpleElementValue
-						)value, cpool, copyPoolEntries);
-				}
+        /// <summary>
+        ///     Creates an (modifiable) ElementValueGen copy of an (immutable)
+        ///     ElementValue - constant pool is assumed correct.
+        /// </summary>
+        public static ElementValueGen Copy(ElementValue value
+            , ConstantPoolGen cpool, bool copyPoolEntries)
+        {
+            switch (value.GetElementValueType())
+            {
+                case 'B':
+                case 'C':
+                case 'D':
+                case 'F':
+                case 'I':
+                case 'J':
+                case 'S':
+                case 'Z':
+                case 's':
+                {
+                    // byte
+                    // char
+                    // double
+                    // float
+                    // int
+                    // long
+                    // short
+                    // boolean
+                    // String
+                    return new SimpleElementValueGen((SimpleElementValue
+                        ) value, cpool, copyPoolEntries);
+                }
 
-				case 'e':
-				{
-					// Enum constant
-					return new NBCEL.generic.EnumElementValueGen((NBCEL.classfile.EnumElementValue)value
-						, cpool, copyPoolEntries);
-				}
+                case 'e':
+                {
+                    // Enum constant
+                    return new EnumElementValueGen((EnumElementValue) value
+                        , cpool, copyPoolEntries);
+                }
 
-				case '@':
-				{
-					// Annotation
-					return new NBCEL.generic.AnnotationElementValueGen((NBCEL.classfile.AnnotationElementValue
-						)value, cpool, copyPoolEntries);
-				}
+                case '@':
+                {
+                    // Annotation
+                    return new AnnotationElementValueGen((AnnotationElementValue
+                        ) value, cpool, copyPoolEntries);
+                }
 
-				case '[':
-				{
-					// Array
-					return new NBCEL.generic.ArrayElementValueGen((NBCEL.classfile.ArrayElementValue)
-						value, cpool, copyPoolEntries);
-				}
+                case '[':
+                {
+                    // Array
+                    return new ArrayElementValueGen((ArrayElementValue)
+                        value, cpool, copyPoolEntries);
+                }
 
-				case 'c':
-				{
-					// Class
-					return new NBCEL.generic.ClassElementValueGen((NBCEL.classfile.ClassElementValue)
-						value, cpool, copyPoolEntries);
-				}
+                case 'c':
+                {
+                    // Class
+                    return new ClassElementValueGen((ClassElementValue)
+                        value, cpool, copyPoolEntries);
+                }
 
-				default:
-				{
-					throw new System.Exception("Not implemented yet! (" + value.GetElementValueType()
-						 + ")");
-				}
-			}
-		}
-	}
+                default:
+                {
+                    throw new Exception("Not implemented yet! (" + value.GetElementValueType()
+                                                                 + ")");
+                }
+            }
+        }
+    }
 }

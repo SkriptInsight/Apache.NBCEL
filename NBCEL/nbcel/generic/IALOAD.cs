@@ -15,37 +15,36 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// IALOAD - Load int from array
-	/// <PRE>Stack: ..., arrayref, index -&gt; ..., value</PRE>
+	///     IALOAD - Load int from array
+	///     <PRE>Stack: ..., arrayref, index -&gt; ..., value</PRE>
 	/// </summary>
-	public class IALOAD : NBCEL.generic.ArrayInstruction, NBCEL.generic.StackProducer
-	{
-		/// <summary>Load int from array</summary>
-		public IALOAD()
-			: base(NBCEL.Const.IALOAD)
-		{
-		}
+	public class IALOAD : ArrayInstruction, StackProducer
+    {
+        /// <summary>Load int from array</summary>
+        public IALOAD()
+            : base(Const.IALOAD)
+        {
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitStackProducer(this);
-			v.VisitExceptionThrower(this);
-			v.VisitTypedInstruction(this);
-			v.VisitArrayInstruction(this);
-			v.VisitIALOAD(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitStackProducer(this);
+            v.VisitExceptionThrower(this);
+            v.VisitTypedInstruction(this);
+            v.VisitArrayInstruction(this);
+            v.VisitIALOAD(this);
+        }
+    }
 }

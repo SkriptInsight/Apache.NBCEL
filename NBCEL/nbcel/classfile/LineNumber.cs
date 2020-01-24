@@ -15,117 +15,121 @@
 *  limitations under the License.
 *
 */
+
+using System;
+using java.io;
 using Sharpen;
 
 namespace NBCEL.classfile
 {
 	/// <summary>
-	/// This class represents a (PC offset, line number) pair, i.e., a line number in
-	/// the source that corresponds to a relative address in the byte code.
+	///     This class represents a (PC offset, line number) pair, i.e., a line number in
+	///     the source that corresponds to a relative address in the byte code.
 	/// </summary>
 	/// <remarks>
-	/// This class represents a (PC offset, line number) pair, i.e., a line number in
-	/// the source that corresponds to a relative address in the byte code. This
-	/// is used for debugging purposes.
+	///     This class represents a (PC offset, line number) pair, i.e., a line number in
+	///     the source that corresponds to a relative address in the byte code. This
+	///     is used for debugging purposes.
 	/// </remarks>
-	/// <seealso cref="LineNumberTable"/>
-	public sealed class LineNumber : System.ICloneable, NBCEL.classfile.Node
-	{
-		/// <summary>Program Counter (PC) corresponds to line</summary>
-		private short start_pc;
+	/// <seealso cref="LineNumberTable" />
+	public sealed class LineNumber : ICloneable, Node
+    {
+        /// <summary>number in source file</summary>
+        private short line_number;
 
-		/// <summary>number in source file</summary>
-		private short line_number;
+        /// <summary>Program Counter (PC) corresponds to line</summary>
+        private short start_pc;
 
-		/// <summary>Initialize from another object.</summary>
-		/// <param name="c">the object to copy</param>
-		public LineNumber(NBCEL.classfile.LineNumber c)
-			: this(c.GetStartPC(), c.GetLineNumber())
-		{
-		}
+        /// <summary>Initialize from another object.</summary>
+        /// <param name="c">the object to copy</param>
+        public LineNumber(LineNumber c)
+            : this(c.GetStartPC(), c.GetLineNumber())
+        {
+        }
 
-		/// <summary>Construct object from file stream.</summary>
-		/// <param name="file">Input stream</param>
-		/// <exception cref="System.IO.IOException">if an I/O Exception occurs in readUnsignedShort
-		/// 	</exception>
-		internal LineNumber(java.io.DataInput file)
-			: this(file.ReadUnsignedShort(), file.ReadUnsignedShort())
-		{
-		}
+        /// <summary>Construct object from file stream.</summary>
+        /// <param name="file">Input stream</param>
+        /// <exception cref="System.IO.IOException">
+        ///     if an I/O Exception occurs in readUnsignedShort
+        /// </exception>
+        internal LineNumber(DataInput file)
+            : this(file.ReadUnsignedShort(), file.ReadUnsignedShort())
+        {
+        }
 
-		/// <param name="start_pc">Program Counter (PC) corresponds to</param>
-		/// <param name="line_number">line number in source file</param>
-		public LineNumber(int start_pc, int line_number)
-		{
-			this.start_pc = (short)start_pc;
-			this.line_number = (short)line_number;
-		}
+        /// <param name="start_pc">Program Counter (PC) corresponds to</param>
+        /// <param name="line_number">line number in source file</param>
+        public LineNumber(int start_pc, int line_number)
+        {
+            this.start_pc = (short) start_pc;
+            this.line_number = (short) line_number;
+        }
 
-		/// <summary>
-		/// Called by objects that are traversing the nodes of the tree implicitely
-		/// defined by the contents of a Java class.
-		/// </summary>
-		/// <remarks>
-		/// Called by objects that are traversing the nodes of the tree implicitely
-		/// defined by the contents of a Java class. I.e., the hierarchy of methods,
-		/// fields, attributes, etc. spawns a tree of objects.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public void Accept(NBCEL.classfile.Visitor v)
-		{
-			v.VisitLineNumber(this);
-		}
+        object ICloneable.Clone()
+        {
+            return MemberwiseClone();
+        }
 
-		/// <summary>Dump line number/pc pair to file stream in binary format.</summary>
-		/// <param name="file">Output file stream</param>
-		/// <exception cref="System.IO.IOException">if an I/O Exception occurs in writeShort</exception>
-		public void Dump(java.io.DataOutputStream file)
-		{
-			file.WriteShort(start_pc);
-			file.WriteShort(line_number);
-		}
+        /// <summary>
+        ///     Called by objects that are traversing the nodes of the tree implicitely
+        ///     defined by the contents of a Java class.
+        /// </summary>
+        /// <remarks>
+        ///     Called by objects that are traversing the nodes of the tree implicitely
+        ///     defined by the contents of a Java class. I.e., the hierarchy of methods,
+        ///     fields, attributes, etc. spawns a tree of objects.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public void Accept(Visitor v)
+        {
+            v.VisitLineNumber(this);
+        }
 
-		/// <returns>Corresponding source line</returns>
-		public int GetLineNumber()
-		{
-			return unchecked((int)(0xffff)) & line_number;
-		}
+        /// <summary>Dump line number/pc pair to file stream in binary format.</summary>
+        /// <param name="file">Output file stream</param>
+        /// <exception cref="System.IO.IOException">if an I/O Exception occurs in writeShort</exception>
+        public void Dump(DataOutputStream file)
+        {
+            file.WriteShort(start_pc);
+            file.WriteShort(line_number);
+        }
 
-		/// <returns>PC in code</returns>
-		public int GetStartPC()
-		{
-			return unchecked((int)(0xffff)) & start_pc;
-		}
+        /// <returns>Corresponding source line</returns>
+        public int GetLineNumber()
+        {
+            return 0xffff & line_number;
+        }
 
-		/// <param name="line_number">the source line number</param>
-		public void SetLineNumber(int line_number)
-		{
-			this.line_number = (short)line_number;
-		}
+        /// <returns>PC in code</returns>
+        public int GetStartPC()
+        {
+            return 0xffff & start_pc;
+        }
 
-		/// <param name="start_pc">the pc for this line number</param>
-		public void SetStartPC(int start_pc)
-		{
-			this.start_pc = (short)start_pc;
-		}
+        /// <param name="line_number">the source line number</param>
+        public void SetLineNumber(int line_number)
+        {
+            this.line_number = (short) line_number;
+        }
 
-		/// <returns>String representation</returns>
-		public override string ToString()
-		{
-			return "LineNumber(" + start_pc + ", " + line_number + ")";
-		}
+        /// <param name="start_pc">the pc for this line number</param>
+        public void SetStartPC(int start_pc)
+        {
+            this.start_pc = (short) start_pc;
+        }
 
-		/// <returns>deep copy of this object</returns>
-		public NBCEL.classfile.LineNumber Copy()
-		{
-			return (NBCEL.classfile.LineNumber)MemberwiseClone();
-			// TODO should this throw?
-			return null;
-		}
+        /// <returns>String representation</returns>
+        public override string ToString()
+        {
+            return "LineNumber(" + start_pc + ", " + line_number + ")";
+        }
 
-		object System.ICloneable.Clone()
-		{
-			return MemberwiseClone();
-		}
-	}
+        /// <returns>deep copy of this object</returns>
+        public LineNumber Copy()
+        {
+            return (LineNumber) MemberwiseClone();
+            // TODO should this throw?
+            return null;
+        }
+    }
 }

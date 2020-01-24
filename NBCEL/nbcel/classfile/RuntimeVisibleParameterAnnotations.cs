@@ -15,27 +15,29 @@
 *  limitations under the License.
 *
 */
+
+using java.io;
 using Sharpen;
 
 namespace NBCEL.classfile
 {
 	/// <summary>
-	/// Represents a parameter annotation that is represented in the class file
-	/// and is provided to the JVM.
+	///     Represents a parameter annotation that is represented in the class file
+	///     and is provided to the JVM.
 	/// </summary>
 	/// <since>6.0</since>
-	public class RuntimeVisibleParameterAnnotations : NBCEL.classfile.ParameterAnnotations
-	{
-		/// <param name="name_index">Index pointing to the name <em>Code</em></param>
-		/// <param name="length">Content length in bytes</param>
-		/// <param name="input">Input stream</param>
-		/// <param name="constant_pool">Array of constants</param>
-		/// <exception cref="System.IO.IOException"/>
-		public RuntimeVisibleParameterAnnotations(int name_index, int length, java.io.DataInput
-			 input, NBCEL.classfile.ConstantPool constant_pool)
-			: base(NBCEL.Const.ATTR_RUNTIME_VISIBLE_PARAMETER_ANNOTATIONS, name_index, length
-				, input, constant_pool)
-		{
-		}
-	}
+	public class RuntimeVisibleParameterAnnotations : ParameterAnnotations
+    {
+	    /// <param name="name_index">Index pointing to the name <em>Code</em></param>
+	    /// <param name="length">Content length in bytes</param>
+	    /// <param name="input">Input stream</param>
+	    /// <param name="constant_pool">Array of constants</param>
+	    /// <exception cref="System.IO.IOException" />
+	    public RuntimeVisibleParameterAnnotations(int name_index, int length, DataInput
+            input, ConstantPool constant_pool)
+            : base(Const.ATTR_RUNTIME_VISIBLE_PARAMETER_ANNOTATIONS, name_index, length
+                , input, constant_pool)
+        {
+        }
+    }
 }

@@ -15,40 +15,39 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// MONITOREXIT - Exit monitor for object
-	/// <PRE>Stack: ..., objectref -&gt; ...</PRE>
+	///     MONITOREXIT - Exit monitor for object
+	///     <PRE>Stack: ..., objectref -&gt; ...</PRE>
 	/// </summary>
-	public class MONITOREXIT : NBCEL.generic.Instruction, NBCEL.generic.ExceptionThrower
-		, NBCEL.generic.StackConsumer
-	{
-		public MONITOREXIT()
-			: base(NBCEL.Const.MONITOREXIT, (short)1)
-		{
-		}
+	public class MONITOREXIT : Instruction, ExceptionThrower
+        , StackConsumer
+    {
+        public MONITOREXIT()
+            : base(Const.MONITOREXIT, 1)
+        {
+        }
 
-		public virtual System.Type[] GetExceptions()
-		{
-			return new System.Type[] { NBCEL.ExceptionConst.NULL_POINTER_EXCEPTION };
-		}
+        public virtual System.Type[] GetExceptions()
+        {
+            return new[] {ExceptionConst.NULL_POINTER_EXCEPTION};
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitExceptionThrower(this);
-			v.VisitStackConsumer(this);
-			v.VisitMONITOREXIT(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitExceptionThrower(this);
+            v.VisitStackConsumer(this);
+            v.VisitMONITOREXIT(this);
+        }
+    }
 }

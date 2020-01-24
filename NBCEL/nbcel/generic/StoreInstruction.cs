@@ -15,55 +15,54 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// Denotes an unparameterized instruction to store a value into a local variable,
-	/// e.g.
+	///     Denotes an unparameterized instruction to store a value into a local variable,
+	///     e.g.
 	/// </summary>
 	/// <remarks>
-	/// Denotes an unparameterized instruction to store a value into a local variable,
-	/// e.g. ISTORE.
+	///     Denotes an unparameterized instruction to store a value into a local variable,
+	///     e.g. ISTORE.
 	/// </remarks>
-	public abstract class StoreInstruction : NBCEL.generic.LocalVariableInstruction, 
-		NBCEL.generic.PopInstruction
-	{
-		/// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
-		/// <remarks>
-		/// Empty constructor needed for Instruction.readInstruction.
-		/// Not to be used otherwise.
-		/// tag and length are defined in readInstruction and initFromFile, respectively.
-		/// </remarks>
-		internal StoreInstruction(short canon_tag, short c_tag)
-			: base(canon_tag, c_tag)
-		{
-		}
+	public abstract class StoreInstruction : LocalVariableInstruction,
+        PopInstruction
+    {
+	    /// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
+	    /// <remarks>
+	    ///     Empty constructor needed for Instruction.readInstruction.
+	    ///     Not to be used otherwise.
+	    ///     tag and length are defined in readInstruction and initFromFile, respectively.
+	    /// </remarks>
+	    internal StoreInstruction(short canon_tag, short c_tag)
+            : base(canon_tag, c_tag)
+        {
+        }
 
-		/// <param name="opcode">Instruction opcode</param>
-		/// <param name="c_tag">Instruction number for compact version, ASTORE_0, e.g.</param>
-		/// <param name="n">local variable index (unsigned short)</param>
-		protected internal StoreInstruction(short opcode, short c_tag, int n)
-			: base(opcode, c_tag, n)
-		{
-		}
+	    /// <param name="opcode">Instruction opcode</param>
+	    /// <param name="c_tag">Instruction number for compact version, ASTORE_0, e.g.</param>
+	    /// <param name="n">local variable index (unsigned short)</param>
+	    protected internal StoreInstruction(short opcode, short c_tag, int n)
+            : base(opcode, c_tag, n)
+        {
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitStackConsumer(this);
-			v.VisitPopInstruction(this);
-			v.VisitTypedInstruction(this);
-			v.VisitLocalVariableInstruction(this);
-			v.VisitStoreInstruction(this);
-		}
-	}
+	    /// <summary>Call corresponding visitor method(s).</summary>
+	    /// <remarks>
+	    ///     Call corresponding visitor method(s). The order is:
+	    ///     Call visitor methods of implemented interfaces first, then
+	    ///     call methods according to the class hierarchy in descending order,
+	    ///     i.e., the most specific visitXXX() call comes last.
+	    /// </remarks>
+	    /// <param name="v">Visitor object</param>
+	    public override void Accept(Visitor v)
+        {
+            v.VisitStackConsumer(this);
+            v.VisitPopInstruction(this);
+            v.VisitTypedInstruction(this);
+            v.VisitLocalVariableInstruction(this);
+            v.VisitStoreInstruction(this);
+        }
+    }
 }

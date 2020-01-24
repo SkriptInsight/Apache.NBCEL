@@ -15,36 +15,35 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// SASTORE - Store into short array
-	/// <PRE>Stack: ..., arrayref, index, value -&gt; ...</PRE>
+	///     SASTORE - Store into short array
+	///     <PRE>Stack: ..., arrayref, index, value -&gt; ...</PRE>
 	/// </summary>
-	public class SASTORE : NBCEL.generic.ArrayInstruction, NBCEL.generic.StackConsumer
-	{
-		public SASTORE()
-			: base(NBCEL.Const.SASTORE)
-		{
-		}
+	public class SASTORE : ArrayInstruction, StackConsumer
+    {
+        public SASTORE()
+            : base(Const.SASTORE)
+        {
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitStackConsumer(this);
-			v.VisitExceptionThrower(this);
-			v.VisitTypedInstruction(this);
-			v.VisitArrayInstruction(this);
-			v.VisitSASTORE(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitStackConsumer(this);
+            v.VisitExceptionThrower(this);
+            v.VisitTypedInstruction(this);
+            v.VisitArrayInstruction(this);
+            v.VisitSASTORE(this);
+        }
+    }
 }

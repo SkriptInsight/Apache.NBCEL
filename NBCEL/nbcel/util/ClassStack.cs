@@ -15,35 +15,37 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
+
+using System.Collections.Generic;
+using NBCEL.classfile;
 
 namespace NBCEL.util
 {
 	/// <summary>Utility class implementing a (typesafe) stack of JavaClass objects.</summary>
-	/// <seealso cref="System.Collections.Stack{E}"/>
+	/// <seealso cref="Sharpen.System.Collections.Stack{E}" />
 	public class ClassStack
-	{
-		private readonly System.Collections.Generic.Stack<NBCEL.classfile.JavaClass> stack = new System.Collections.Generic.Stack
-			<NBCEL.classfile.JavaClass>();
+    {
+        private readonly Stack<JavaClass> stack = new Stack
+            <JavaClass>();
 
-		public virtual void Push(NBCEL.classfile.JavaClass clazz)
-		{
-			stack.Push(clazz);
-		}
+        public virtual void Push(JavaClass clazz)
+        {
+            stack.Push(clazz);
+        }
 
-		public virtual NBCEL.classfile.JavaClass Pop()
-		{
-			return stack.Pop();
-		}
+        public virtual JavaClass Pop()
+        {
+            return stack.Pop();
+        }
 
-		public virtual NBCEL.classfile.JavaClass Top()
-		{
-			return stack.Peek();
-		}
+        public virtual JavaClass Top()
+        {
+            return stack.Peek();
+        }
 
-		public virtual bool Empty()
-		{
-			return stack.Count == 0;
-		}
-	}
+        public virtual bool Empty()
+        {
+            return stack.Count == 0;
+        }
+    }
 }

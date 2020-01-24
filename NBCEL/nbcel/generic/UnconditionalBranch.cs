@@ -15,15 +15,15 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
-	/// <summary>Denotes an instruction to perform an unconditional branch, i.e., GOTO, JSR.
-	/// 	</summary>
-	/// <seealso cref="GOTO"/>
-	/// <seealso cref="JSR"/>
+	/// <summary>
+	///     Denotes an instruction to perform an unconditional branch, i.e., GOTO, JSR.
+	/// </summary>
+	/// <seealso cref="GOTO" />
+	/// <seealso cref="JSR" />
 	public interface UnconditionalBranch
-	{
-	}
+    {
+    }
 }

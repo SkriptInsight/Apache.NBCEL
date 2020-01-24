@@ -15,232 +15,232 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
+
+using System;
 
 namespace NBCEL.classfile
 {
-	/// <summary>Super class for all objects that have modifiers like private, final, ...
-	/// 	</summary>
-	/// <remarks>Super class for all objects that have modifiers like private, final, ... I.e. classes, fields, and methods.
-	/// 	</remarks>
+	/// <summary>
+	///     Super class for all objects that have modifiers like private, final, ...
+	/// </summary>
+	/// <remarks>
+	///     Super class for all objects that have modifiers like private, final, ... I.e. classes, fields, and methods.
+	/// </remarks>
 	public abstract class AccessFlags
-	{
-		[System.ObsoleteAttribute(@"(since 6.0) will be made private; do not access directly, use getter/setter"
-			)]
-		protected internal int access_flags;
+    {
+        [Obsolete(@"(since 6.0) will be made private; do not access directly, use getter/setter"
+        )]
+        protected internal int access_flags;
 
-		public AccessFlags()
-		{
-		}
+        public AccessFlags()
+        {
+        }
 
-		/// <param name="a">inital access flags</param>
-		public AccessFlags(int a)
-		{
-			// TODO not used externally at present
-			access_flags = a;
-		}
+        /// <param name="a">inital access flags</param>
+        public AccessFlags(int a)
+        {
+            // TODO not used externally at present
+            access_flags = a;
+        }
 
-		/// <returns>Access flags of the object aka. "modifiers".</returns>
-		public int GetAccessFlags()
-		{
-			return access_flags;
-		}
+        /// <returns>Access flags of the object aka. "modifiers".</returns>
+        public int GetAccessFlags()
+        {
+            return access_flags;
+        }
 
-		/// <returns>Access flags of the object aka. "modifiers".</returns>
-		public int GetModifiers()
-		{
-			return access_flags;
-		}
+        /// <returns>Access flags of the object aka. "modifiers".</returns>
+        public int GetModifiers()
+        {
+            return access_flags;
+        }
 
-		/// <summary>Set access flags aka "modifiers".</summary>
-		/// <param name="access_flags">Access flags of the object.</param>
-		public void SetAccessFlags(int access_flags)
-		{
-			this.access_flags = access_flags;
-		}
+        /// <summary>Set access flags aka "modifiers".</summary>
+        /// <param name="access_flags">Access flags of the object.</param>
+        public void SetAccessFlags(int access_flags)
+        {
+            this.access_flags = access_flags;
+        }
 
-		/// <summary>Set access flags aka "modifiers".</summary>
-		/// <param name="access_flags">Access flags of the object.</param>
-		public void SetModifiers(int access_flags)
-		{
-			SetAccessFlags(access_flags);
-		}
+        /// <summary>Set access flags aka "modifiers".</summary>
+        /// <param name="access_flags">Access flags of the object.</param>
+        public void SetModifiers(int access_flags)
+        {
+            SetAccessFlags(access_flags);
+        }
 
-		private void SetFlag(int flag, bool set)
-		{
-			if ((access_flags & flag) != 0)
-			{
-				// Flag is set already
-				if (!set)
-				{
-					access_flags ^= flag;
-				}
-			}
-			else if (set)
-			{
-				// Flag not set
-				access_flags |= flag;
-			}
-		}
+        private void SetFlag(int flag, bool set)
+        {
+            if ((access_flags & flag) != 0)
+            {
+                // Flag is set already
+                if (!set) access_flags ^= flag;
+            }
+            else if (set)
+            {
+                // Flag not set
+                access_flags |= flag;
+            }
+        }
 
-		public void IsPublic(bool flag)
-		{
-			SetFlag(NBCEL.Const.ACC_PUBLIC, flag);
-		}
+        public void IsPublic(bool flag)
+        {
+            SetFlag(Const.ACC_PUBLIC, flag);
+        }
 
-		public bool IsPublic()
-		{
-			return (access_flags & NBCEL.Const.ACC_PUBLIC) != 0;
-		}
+        public bool IsPublic()
+        {
+            return (access_flags & Const.ACC_PUBLIC) != 0;
+        }
 
-		public void IsPrivate(bool flag)
-		{
-			SetFlag(NBCEL.Const.ACC_PRIVATE, flag);
-		}
+        public void IsPrivate(bool flag)
+        {
+            SetFlag(Const.ACC_PRIVATE, flag);
+        }
 
-		public bool IsPrivate()
-		{
-			return (access_flags & NBCEL.Const.ACC_PRIVATE) != 0;
-		}
+        public bool IsPrivate()
+        {
+            return (access_flags & Const.ACC_PRIVATE) != 0;
+        }
 
-		public void IsProtected(bool flag)
-		{
-			SetFlag(NBCEL.Const.ACC_PROTECTED, flag);
-		}
+        public void IsProtected(bool flag)
+        {
+            SetFlag(Const.ACC_PROTECTED, flag);
+        }
 
-		public bool IsProtected()
-		{
-			return (access_flags & NBCEL.Const.ACC_PROTECTED) != 0;
-		}
+        public bool IsProtected()
+        {
+            return (access_flags & Const.ACC_PROTECTED) != 0;
+        }
 
-		public void IsStatic(bool flag)
-		{
-			SetFlag(NBCEL.Const.ACC_STATIC, flag);
-		}
+        public void IsStatic(bool flag)
+        {
+            SetFlag(Const.ACC_STATIC, flag);
+        }
 
-		public bool IsStatic()
-		{
-			return (access_flags & NBCEL.Const.ACC_STATIC) != 0;
-		}
+        public bool IsStatic()
+        {
+            return (access_flags & Const.ACC_STATIC) != 0;
+        }
 
-		public void IsFinal(bool flag)
-		{
-			SetFlag(NBCEL.Const.ACC_FINAL, flag);
-		}
+        public void IsFinal(bool flag)
+        {
+            SetFlag(Const.ACC_FINAL, flag);
+        }
 
-		public bool IsFinal()
-		{
-			return (access_flags & NBCEL.Const.ACC_FINAL) != 0;
-		}
+        public bool IsFinal()
+        {
+            return (access_flags & Const.ACC_FINAL) != 0;
+        }
 
-		public void IsSynchronized(bool flag)
-		{
-			SetFlag(NBCEL.Const.ACC_SYNCHRONIZED, flag);
-		}
+        public void IsSynchronized(bool flag)
+        {
+            SetFlag(Const.ACC_SYNCHRONIZED, flag);
+        }
 
-		public bool IsSynchronized()
-		{
-			return (access_flags & NBCEL.Const.ACC_SYNCHRONIZED) != 0;
-		}
+        public bool IsSynchronized()
+        {
+            return (access_flags & Const.ACC_SYNCHRONIZED) != 0;
+        }
 
-		public void IsVolatile(bool flag)
-		{
-			SetFlag(NBCEL.Const.ACC_VOLATILE, flag);
-		}
+        public void IsVolatile(bool flag)
+        {
+            SetFlag(Const.ACC_VOLATILE, flag);
+        }
 
-		public bool IsVolatile()
-		{
-			return (access_flags & NBCEL.Const.ACC_VOLATILE) != 0;
-		}
+        public bool IsVolatile()
+        {
+            return (access_flags & Const.ACC_VOLATILE) != 0;
+        }
 
-		public void IsTransient(bool flag)
-		{
-			SetFlag(NBCEL.Const.ACC_TRANSIENT, flag);
-		}
+        public void IsTransient(bool flag)
+        {
+            SetFlag(Const.ACC_TRANSIENT, flag);
+        }
 
-		public bool IsTransient()
-		{
-			return (access_flags & NBCEL.Const.ACC_TRANSIENT) != 0;
-		}
+        public bool IsTransient()
+        {
+            return (access_flags & Const.ACC_TRANSIENT) != 0;
+        }
 
-		public void IsNative(bool flag)
-		{
-			SetFlag(NBCEL.Const.ACC_NATIVE, flag);
-		}
+        public void IsNative(bool flag)
+        {
+            SetFlag(Const.ACC_NATIVE, flag);
+        }
 
-		public bool IsNative()
-		{
-			return (access_flags & NBCEL.Const.ACC_NATIVE) != 0;
-		}
+        public bool IsNative()
+        {
+            return (access_flags & Const.ACC_NATIVE) != 0;
+        }
 
-		public void IsInterface(bool flag)
-		{
-			SetFlag(NBCEL.Const.ACC_INTERFACE, flag);
-		}
+        public void IsInterface(bool flag)
+        {
+            SetFlag(Const.ACC_INTERFACE, flag);
+        }
 
-		public bool IsInterface()
-		{
-			return (access_flags & NBCEL.Const.ACC_INTERFACE) != 0;
-		}
+        public bool IsInterface()
+        {
+            return (access_flags & Const.ACC_INTERFACE) != 0;
+        }
 
-		public void IsAbstract(bool flag)
-		{
-			SetFlag(NBCEL.Const.ACC_ABSTRACT, flag);
-		}
+        public void IsAbstract(bool flag)
+        {
+            SetFlag(Const.ACC_ABSTRACT, flag);
+        }
 
-		public bool IsAbstract()
-		{
-			return (access_flags & NBCEL.Const.ACC_ABSTRACT) != 0;
-		}
+        public bool IsAbstract()
+        {
+            return (access_flags & Const.ACC_ABSTRACT) != 0;
+        }
 
-		public void IsStrictfp(bool flag)
-		{
-			SetFlag(NBCEL.Const.ACC_STRICT, flag);
-		}
+        public void IsStrictfp(bool flag)
+        {
+            SetFlag(Const.ACC_STRICT, flag);
+        }
 
-		public bool IsStrictfp()
-		{
-			return (access_flags & NBCEL.Const.ACC_STRICT) != 0;
-		}
+        public bool IsStrictfp()
+        {
+            return (access_flags & Const.ACC_STRICT) != 0;
+        }
 
-		public void IsSynthetic(bool flag)
-		{
-			SetFlag(NBCEL.Const.ACC_SYNTHETIC, flag);
-		}
+        public void IsSynthetic(bool flag)
+        {
+            SetFlag(Const.ACC_SYNTHETIC, flag);
+        }
 
-		public bool IsSynthetic()
-		{
-			return (access_flags & NBCEL.Const.ACC_SYNTHETIC) != 0;
-		}
+        public bool IsSynthetic()
+        {
+            return (access_flags & Const.ACC_SYNTHETIC) != 0;
+        }
 
-		public void IsAnnotation(bool flag)
-		{
-			SetFlag(NBCEL.Const.ACC_ANNOTATION, flag);
-		}
+        public void IsAnnotation(bool flag)
+        {
+            SetFlag(Const.ACC_ANNOTATION, flag);
+        }
 
-		public bool IsAnnotation()
-		{
-			return (access_flags & NBCEL.Const.ACC_ANNOTATION) != 0;
-		}
+        public bool IsAnnotation()
+        {
+            return (access_flags & Const.ACC_ANNOTATION) != 0;
+        }
 
-		public void IsEnum(bool flag)
-		{
-			SetFlag(NBCEL.Const.ACC_ENUM, flag);
-		}
+        public void IsEnum(bool flag)
+        {
+            SetFlag(Const.ACC_ENUM, flag);
+        }
 
-		public bool IsEnum()
-		{
-			return (access_flags & NBCEL.Const.ACC_ENUM) != 0;
-		}
+        public bool IsEnum()
+        {
+            return (access_flags & Const.ACC_ENUM) != 0;
+        }
 
-		public void IsVarArgs(bool flag)
-		{
-			SetFlag(NBCEL.Const.ACC_VARARGS, flag);
-		}
+        public void IsVarArgs(bool flag)
+        {
+            SetFlag(Const.ACC_VARARGS, flag);
+        }
 
-		public bool IsVarArgs()
-		{
-			return (access_flags & NBCEL.Const.ACC_VARARGS) != 0;
-		}
-	}
+        public bool IsVarArgs()
+        {
+            return (access_flags & Const.ACC_VARARGS) != 0;
+        }
+    }
 }

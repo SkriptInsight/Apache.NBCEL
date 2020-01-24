@@ -15,69 +15,74 @@
 *  limitations under the License.
 *
 */
+
+using java.io;
 using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// INVOKEVIRTUAL - Invoke instance method; dispatch based on class
-	/// <PRE>Stack: ..., objectref, [arg1, [arg2 ...]] -&gt; ...</PRE>
+	///     INVOKEVIRTUAL - Invoke instance method; dispatch based on class
+	///     <PRE>Stack: ..., objectref, [arg1, [arg2 ...]] -&gt; ...</PRE>
 	/// </summary>
 	/// <seealso>
-	/// * <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html#jvms-6.5.invokevirtual">
-	/// * The invokevirtual instruction in The Java Virtual Machine Specification</a></seealso>
-	public class INVOKEVIRTUAL : NBCEL.generic.InvokeInstruction
-	{
-		/// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
-		/// <remarks>
-		/// Empty constructor needed for Instruction.readInstruction.
-		/// Not to be used otherwise.
-		/// </remarks>
-		internal INVOKEVIRTUAL()
-		{
-		}
+	///     *
+	///     <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html#jvms-6.5.invokevirtual">
+	///         * The invokevirtual instruction in The Java Virtual Machine Specification
+	///     </a>
+	/// </seealso>
+	public class INVOKEVIRTUAL : InvokeInstruction
+    {
+	    /// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
+	    /// <remarks>
+	    ///     Empty constructor needed for Instruction.readInstruction.
+	    ///     Not to be used otherwise.
+	    /// </remarks>
+	    internal INVOKEVIRTUAL()
+        {
+        }
 
-		public INVOKEVIRTUAL(int index)
-			: base(NBCEL.Const.INVOKEVIRTUAL, index)
-		{
-		}
+        public INVOKEVIRTUAL(int index)
+            : base(Const.INVOKEVIRTUAL, index)
+        {
+        }
 
-		/// <summary>Dump instruction as byte code to stream out.</summary>
-		/// <param name="out">Output stream</param>
-		/// <exception cref="System.IO.IOException"/>
-		public override void Dump(java.io.DataOutputStream @out)
-		{
-			@out.WriteByte(base.GetOpcode());
-			@out.WriteShort(base.GetIndex());
-		}
+        /// <summary>Dump instruction as byte code to stream out.</summary>
+        /// <param name="out">Output stream</param>
+        /// <exception cref="System.IO.IOException" />
+        public override void Dump(DataOutputStream @out)
+        {
+            @out.WriteByte(base.GetOpcode());
+            @out.WriteShort(GetIndex());
+        }
 
-		public override System.Type[] GetExceptions()
-		{
-			return NBCEL.ExceptionConst.CreateExceptions(NBCEL.ExceptionConst.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION
-				, NBCEL.ExceptionConst.NULL_POINTER_EXCEPTION, NBCEL.ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR
-				, NBCEL.ExceptionConst.ABSTRACT_METHOD_ERROR, NBCEL.ExceptionConst.UNSATISFIED_LINK_ERROR
-				);
-		}
+        public override System.Type[] GetExceptions()
+        {
+            return ExceptionConst.CreateExceptions(ExceptionConst.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION
+                , ExceptionConst.NULL_POINTER_EXCEPTION, ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR
+                , ExceptionConst.ABSTRACT_METHOD_ERROR, ExceptionConst.UNSATISFIED_LINK_ERROR
+            );
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitExceptionThrower(this);
-			v.VisitTypedInstruction(this);
-			v.VisitStackConsumer(this);
-			v.VisitStackProducer(this);
-			v.VisitLoadClass(this);
-			v.VisitCPInstruction(this);
-			v.VisitFieldOrMethod(this);
-			v.VisitInvokeInstruction(this);
-			v.VisitINVOKEVIRTUAL(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitExceptionThrower(this);
+            v.VisitTypedInstruction(this);
+            v.VisitStackConsumer(this);
+            v.VisitStackProducer(this);
+            v.VisitLoadClass(this);
+            v.VisitCPInstruction(this);
+            v.VisitFieldOrMethod(this);
+            v.VisitInvokeInstruction(this);
+            v.VisitINVOKEVIRTUAL(this);
+        }
+    }
 }

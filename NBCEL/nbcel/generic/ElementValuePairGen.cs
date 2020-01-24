@@ -15,94 +15,92 @@
 *  limitations under the License.
 *
 */
+
+using java.io;
+using NBCEL.classfile;
 using Sharpen;
 
 namespace NBCEL.generic
 {
-	/// <since>6.0</since>
-	public class ElementValuePairGen
-	{
-		private int nameIdx;
+    /// <since>6.0</since>
+    public class ElementValuePairGen
+    {
+        private readonly ConstantPoolGen cpool;
 
-		private readonly NBCEL.generic.ElementValueGen value;
+        private readonly ElementValueGen value;
+        private readonly int nameIdx;
 
-		private readonly NBCEL.generic.ConstantPoolGen cpool;
+        public ElementValuePairGen(ElementValuePair nvp, ConstantPoolGen
+            cpool, bool copyPoolEntries)
+        {
+            this.cpool = cpool;
+            // J5ASSERT:
+            // Could assert nvp.getNameString() points to the same thing as
+            // cpool.getConstant(nvp.getNameIndex())
+            // if
+            // (!nvp.getNameString().equals(((ConstantUtf8)cpool.getConstant(nvp.getNameIndex())).getBytes()))
+            // {
+            // throw new RuntimeException("envp buggered");
+            // }
+            if (copyPoolEntries)
+                nameIdx = cpool.AddUtf8(nvp.GetNameString());
+            else
+                nameIdx = nvp.GetNameIndex();
+            value = ElementValueGen.Copy(nvp.GetValue(), cpool, copyPoolEntries
+            );
+        }
 
-		public ElementValuePairGen(NBCEL.classfile.ElementValuePair nvp, NBCEL.generic.ConstantPoolGen
-			 cpool, bool copyPoolEntries)
-		{
-			this.cpool = cpool;
-			// J5ASSERT:
-			// Could assert nvp.getNameString() points to the same thing as
-			// cpool.getConstant(nvp.getNameIndex())
-			// if
-			// (!nvp.getNameString().equals(((ConstantUtf8)cpool.getConstant(nvp.getNameIndex())).getBytes()))
-			// {
-			// throw new RuntimeException("envp buggered");
-			// }
-			if (copyPoolEntries)
-			{
-				nameIdx = cpool.AddUtf8(nvp.GetNameString());
-			}
-			else
-			{
-				nameIdx = nvp.GetNameIndex();
-			}
-			value = NBCEL.generic.ElementValueGen.Copy(nvp.GetValue(), cpool, copyPoolEntries
-				);
-		}
+        protected internal ElementValuePairGen(int idx, ElementValueGen value
+            , ConstantPoolGen cpool)
+        {
+            nameIdx = idx;
+            this.value = value;
+            this.cpool = cpool;
+        }
 
-		/// <summary>Retrieve an immutable version of this ElementNameValuePairGen</summary>
-		public virtual NBCEL.classfile.ElementValuePair GetElementNameValuePair()
-		{
-			NBCEL.classfile.ElementValue immutableValue = value.GetElementValue();
-			return new NBCEL.classfile.ElementValuePair(nameIdx, immutableValue, cpool.GetConstantPool
-				());
-		}
+        public ElementValuePairGen(string name, ElementValueGen value, ConstantPoolGen
+            cpool)
+        {
+            nameIdx = cpool.AddUtf8(name);
+            this.value = value;
+            this.cpool = cpool;
+        }
 
-		protected internal ElementValuePairGen(int idx, NBCEL.generic.ElementValueGen value
-			, NBCEL.generic.ConstantPoolGen cpool)
-		{
-			this.nameIdx = idx;
-			this.value = value;
-			this.cpool = cpool;
-		}
+        /// <summary>Retrieve an immutable version of this ElementNameValuePairGen</summary>
+        public virtual ElementValuePair GetElementNameValuePair()
+        {
+            var immutableValue = value.GetElementValue();
+            return new ElementValuePair(nameIdx, immutableValue, cpool.GetConstantPool
+                ());
+        }
 
-		public ElementValuePairGen(string name, NBCEL.generic.ElementValueGen value, NBCEL.generic.ConstantPoolGen
-			 cpool)
-		{
-			this.nameIdx = cpool.AddUtf8(name);
-			this.value = value;
-			this.cpool = cpool;
-		}
+        /// <exception cref="System.IO.IOException" />
+        protected internal virtual void Dump(DataOutputStream dos)
+        {
+            dos.WriteShort(nameIdx);
+            // u2 name of the element
+            value.Dump(dos);
+        }
 
-		/// <exception cref="System.IO.IOException"/>
-		protected internal virtual void Dump(java.io.DataOutputStream dos)
-		{
-			dos.WriteShort(nameIdx);
-			// u2 name of the element
-			value.Dump(dos);
-		}
+        public virtual int GetNameIndex()
+        {
+            return nameIdx;
+        }
 
-		public virtual int GetNameIndex()
-		{
-			return nameIdx;
-		}
+        public string GetNameString()
+        {
+            // ConstantString cu8 = (ConstantString)cpool.getConstant(nameIdx);
+            return ((ConstantUtf8) cpool.GetConstant(nameIdx)).GetBytes();
+        }
 
-		public string GetNameString()
-		{
-			// ConstantString cu8 = (ConstantString)cpool.getConstant(nameIdx);
-			return ((NBCEL.classfile.ConstantUtf8)cpool.GetConstant(nameIdx)).GetBytes();
-		}
+        public ElementValueGen GetValue()
+        {
+            return value;
+        }
 
-		public NBCEL.generic.ElementValueGen GetValue()
-		{
-			return value;
-		}
-
-		public override string ToString()
-		{
-			return "ElementValuePair:[" + GetNameString() + "=" + value.StringifyValue() + "]";
-		}
-	}
+        public override string ToString()
+        {
+            return "ElementValuePair:[" + GetNameString() + "=" + value.StringifyValue() + "]";
+        }
+    }
 }

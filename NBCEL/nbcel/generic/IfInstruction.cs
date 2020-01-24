@@ -15,31 +15,30 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
-	/// <summary>Super class for the IFxxx family of instructions.</summary>
-	public abstract class IfInstruction : NBCEL.generic.BranchInstruction, NBCEL.generic.StackConsumer
-	{
-		/// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
-		/// <remarks>
-		/// Empty constructor needed for Instruction.readInstruction.
-		/// Not to be used otherwise.
-		/// </remarks>
-		internal IfInstruction()
-		{
-		}
+    /// <summary>Super class for the IFxxx family of instructions.</summary>
+    public abstract class IfInstruction : BranchInstruction, StackConsumer
+    {
+	    /// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
+	    /// <remarks>
+	    ///     Empty constructor needed for Instruction.readInstruction.
+	    ///     Not to be used otherwise.
+	    /// </remarks>
+	    internal IfInstruction()
+        {
+        }
 
-		/// <param name="opcode">opcode of instruction</param>
-		/// <param name="target">Target instruction to branch to</param>
-		protected internal IfInstruction(short opcode, NBCEL.generic.InstructionHandle target
-			)
-			: base(opcode, target)
-		{
-		}
+	    /// <param name="opcode">opcode of instruction</param>
+	    /// <param name="target">Target instruction to branch to</param>
+	    protected internal IfInstruction(short opcode, InstructionHandle target
+        )
+            : base(opcode, target)
+        {
+        }
 
-		/// <returns>negation of instruction, e.g. IFEQ.negate() == IFNE</returns>
-		public abstract NBCEL.generic.IfInstruction Negate();
-	}
+        /// <returns>negation of instruction, e.g. IFEQ.negate() == IFNE</returns>
+        public abstract IfInstruction Negate();
+    }
 }

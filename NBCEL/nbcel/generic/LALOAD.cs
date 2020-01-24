@@ -15,37 +15,36 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// LALOAD - Load long from array
-	/// <PRE>Stack: ..., arrayref, index -&gt; ..., value1, value2</PRE>
+	///     LALOAD - Load long from array
+	///     <PRE>Stack: ..., arrayref, index -&gt; ..., value1, value2</PRE>
 	/// </summary>
-	public class LALOAD : NBCEL.generic.ArrayInstruction, NBCEL.generic.StackProducer
-	{
-		/// <summary>Load long from array</summary>
-		public LALOAD()
-			: base(NBCEL.Const.LALOAD)
-		{
-		}
+	public class LALOAD : ArrayInstruction, StackProducer
+    {
+        /// <summary>Load long from array</summary>
+        public LALOAD()
+            : base(Const.LALOAD)
+        {
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitStackProducer(this);
-			v.VisitExceptionThrower(this);
-			v.VisitTypedInstruction(this);
-			v.VisitArrayInstruction(this);
-			v.VisitLALOAD(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitStackProducer(this);
+            v.VisitExceptionThrower(this);
+            v.VisitTypedInstruction(this);
+            v.VisitArrayInstruction(this);
+            v.VisitLALOAD(this);
+        }
+    }
 }

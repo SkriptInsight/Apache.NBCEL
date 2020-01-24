@@ -15,49 +15,48 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// DSTORE - Store double into local variable
-	/// <pre>Stack: ..., value.word1, value.word2 -&gt; ...
+	///     DSTORE - Store double into local variable
+	///     <pre>Stack: ..., value.word1, value.word2 -&gt; ...
 	/// </summary>
 	/// <remarks>
-	/// DSTORE - Store double into local variable
-	/// <pre>Stack: ..., value.word1, value.word2 -&gt; ... </PRE>
+	///     DSTORE - Store double into local variable
+	///     <pre>Stack: ..., value.word1, value.word2 -&gt; ... </PRE>
 	/// </remarks>
-	public class DSTORE : NBCEL.generic.StoreInstruction
-	{
-		/// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
-		/// <remarks>
-		/// Empty constructor needed for Instruction.readInstruction.
-		/// Not to be used otherwise.
-		/// </remarks>
-		internal DSTORE()
-			: base(NBCEL.Const.DSTORE, NBCEL.Const.DSTORE_0)
-		{
-		}
+	public class DSTORE : StoreInstruction
+    {
+	    /// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
+	    /// <remarks>
+	    ///     Empty constructor needed for Instruction.readInstruction.
+	    ///     Not to be used otherwise.
+	    /// </remarks>
+	    internal DSTORE()
+            : base(Const.DSTORE, Const.DSTORE_0)
+        {
+        }
 
-		/// <summary>Store double into local variable</summary>
-		/// <param name="n">index of local variable</param>
-		public DSTORE(int n)
-			: base(NBCEL.Const.DSTORE, NBCEL.Const.DSTORE_0, n)
-		{
-		}
+	    /// <summary>Store double into local variable</summary>
+	    /// <param name="n">index of local variable</param>
+	    public DSTORE(int n)
+            : base(Const.DSTORE, Const.DSTORE_0, n)
+        {
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			base.Accept(v);
-			v.VisitDSTORE(this);
-		}
-	}
+	    /// <summary>Call corresponding visitor method(s).</summary>
+	    /// <remarks>
+	    ///     Call corresponding visitor method(s). The order is:
+	    ///     Call visitor methods of implemented interfaces first, then
+	    ///     call methods according to the class hierarchy in descending order,
+	    ///     i.e., the most specific visitXXX() call comes last.
+	    /// </remarks>
+	    /// <param name="v">Visitor object</param>
+	    public override void Accept(Visitor v)
+        {
+            base.Accept(v);
+            v.VisitDSTORE(this);
+        }
+    }
 }

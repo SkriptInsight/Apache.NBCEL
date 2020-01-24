@@ -15,40 +15,43 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
+
+using System;
 
 namespace NBCEL.verifier.exc
 {
 	/// <summary>
-	/// Instances of this class are thrown by BCEL's class file verifier "JustIce"
-	/// when a class file to verify does not pass the verification pass 2 as described
-	/// in the Java Virtual Machine specification, 2nd edition.
+	///     Instances of this class are thrown by BCEL's class file verifier "JustIce"
+	///     when a class file to verify does not pass the verification pass 2 as described
+	///     in the Java Virtual Machine specification, 2nd edition.
 	/// </summary>
-	[System.Serializable]
-	public class ClassConstraintException : NBCEL.verifier.exc.VerificationException
-	{
-		private const long serialVersionUID = -4745598983569128296L;
+	[Serializable]
+    public class ClassConstraintException : VerificationException
+    {
+        private const long serialVersionUID = -4745598983569128296L;
 
-		/// <summary>Constructs a new ClassConstraintException with null as its error message string.
-		/// 	</summary>
-		public ClassConstraintException()
-			: base()
-		{
-		}
+        /// <summary>
+        ///     Constructs a new ClassConstraintException with null as its error message string.
+        /// </summary>
+        public ClassConstraintException()
+        {
+        }
 
-		/// <summary>Constructs a new ClassConstraintException with the specified error message.
-		/// 	</summary>
-		public ClassConstraintException(string message)
-			: base(message)
-		{
-		}
+        /// <summary>
+        ///     Constructs a new ClassConstraintException with the specified error message.
+        /// </summary>
+        public ClassConstraintException(string message)
+            : base(message)
+        {
+        }
 
-		/// <summary>Constructs a new ClassConstraintException with the specified error message and cause
-		/// 	</summary>
-		/// <since>6.0</since>
-		public ClassConstraintException(string message, System.Exception initCause)
-			: base(message, initCause)
-		{
-		}
-	}
+        /// <summary>
+        ///     Constructs a new ClassConstraintException with the specified error message and cause
+        /// </summary>
+        /// <since>6.0</since>
+        public ClassConstraintException(string message, Exception initCause)
+            : base(message, initCause)
+        {
+        }
+    }
 }

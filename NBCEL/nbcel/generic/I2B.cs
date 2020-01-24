@@ -15,37 +15,36 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// I2B - Convert int to byte
-	/// <PRE>Stack: ..., value -&gt; ..., result</PRE>
+	///     I2B - Convert int to byte
+	///     <PRE>Stack: ..., value -&gt; ..., result</PRE>
 	/// </summary>
-	public class I2B : NBCEL.generic.ConversionInstruction
-	{
-		/// <summary>Convert int to byte</summary>
-		public I2B()
-			: base(NBCEL.Const.I2B)
-		{
-		}
+	public class I2B : ConversionInstruction
+    {
+        /// <summary>Convert int to byte</summary>
+        public I2B()
+            : base(Const.I2B)
+        {
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitTypedInstruction(this);
-			v.VisitStackProducer(this);
-			v.VisitStackConsumer(this);
-			v.VisitConversionInstruction(this);
-			v.VisitI2B(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitTypedInstruction(this);
+            v.VisitStackProducer(this);
+            v.VisitStackConsumer(this);
+            v.VisitConversionInstruction(this);
+            v.VisitI2B(this);
+        }
+    }
 }

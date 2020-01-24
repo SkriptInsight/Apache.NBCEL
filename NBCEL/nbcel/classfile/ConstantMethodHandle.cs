@@ -15,94 +15,95 @@
 *  limitations under the License.
 *
 */
+
+using java.io;
 using Sharpen;
 
 namespace NBCEL.classfile
 {
 	/// <summary>
-	/// This class is derived from the abstract
-	/// <see cref="Constant"/>
-	/// and represents a reference to a method handle.
+	///     This class is derived from the abstract
+	///     <see cref="Constant" />
+	///     and represents a reference to a method handle.
 	/// </summary>
-	/// <seealso cref="Constant"/>
+	/// <seealso cref="Constant" />
 	/// <since>6.0</since>
-	public sealed class ConstantMethodHandle : NBCEL.classfile.Constant
-	{
-		private int reference_kind;
+	public sealed class ConstantMethodHandle : Constant
+    {
+        private int reference_index;
+        private int reference_kind;
 
-		private int reference_index;
+        /// <summary>Initialize from another object.</summary>
+        public ConstantMethodHandle(ConstantMethodHandle c)
+            : this(c.GetReferenceKind(), c.GetReferenceIndex())
+        {
+        }
 
-		/// <summary>Initialize from another object.</summary>
-		public ConstantMethodHandle(NBCEL.classfile.ConstantMethodHandle c)
-			: this(c.GetReferenceKind(), c.GetReferenceIndex())
-		{
-		}
+        /// <summary>Initialize instance from file data.</summary>
+        /// <param name="file">Input stream</param>
+        /// <exception cref="System.IO.IOException" />
+        internal ConstantMethodHandle(DataInput file)
+            : this(file.ReadUnsignedByte(), file.ReadUnsignedShort())
+        {
+        }
 
-		/// <summary>Initialize instance from file data.</summary>
-		/// <param name="file">Input stream</param>
-		/// <exception cref="System.IO.IOException"/>
-		internal ConstantMethodHandle(java.io.DataInput file)
-			: this(file.ReadUnsignedByte(), file.ReadUnsignedShort())
-		{
-		}
+        public ConstantMethodHandle(int reference_kind, int reference_index)
+            : base(Const.CONSTANT_MethodHandle)
+        {
+            this.reference_kind = reference_kind;
+            this.reference_index = reference_index;
+        }
 
-		public ConstantMethodHandle(int reference_kind, int reference_index)
-			: base(NBCEL.Const.CONSTANT_MethodHandle)
-		{
-			this.reference_kind = reference_kind;
-			this.reference_index = reference_index;
-		}
+        /// <summary>
+        ///     Called by objects that are traversing the nodes of the tree implicitly
+        ///     defined by the contents of a Java class.
+        /// </summary>
+        /// <remarks>
+        ///     Called by objects that are traversing the nodes of the tree implicitly
+        ///     defined by the contents of a Java class. I.e., the hierarchy of methods,
+        ///     fields, attributes, etc. spawns a tree of objects.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitConstantMethodHandle(this);
+        }
 
-		/// <summary>
-		/// Called by objects that are traversing the nodes of the tree implicitly
-		/// defined by the contents of a Java class.
-		/// </summary>
-		/// <remarks>
-		/// Called by objects that are traversing the nodes of the tree implicitly
-		/// defined by the contents of a Java class. I.e., the hierarchy of methods,
-		/// fields, attributes, etc. spawns a tree of objects.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.classfile.Visitor v)
-		{
-			v.VisitConstantMethodHandle(this);
-		}
+        /// <summary>Dump method kind and index to file stream in binary format.</summary>
+        /// <param name="file">Output file stream</param>
+        /// <exception cref="System.IO.IOException" />
+        public override void Dump(DataOutputStream file)
+        {
+            file.WriteByte(GetTag());
+            file.WriteByte(reference_kind);
+            file.WriteShort(reference_index);
+        }
 
-		/// <summary>Dump method kind and index to file stream in binary format.</summary>
-		/// <param name="file">Output file stream</param>
-		/// <exception cref="System.IO.IOException"/>
-		public override void Dump(java.io.DataOutputStream file)
-		{
-			file.WriteByte(base.GetTag());
-			file.WriteByte(reference_kind);
-			file.WriteShort(reference_index);
-		}
+        public int GetReferenceKind()
+        {
+            return reference_kind;
+        }
 
-		public int GetReferenceKind()
-		{
-			return reference_kind;
-		}
+        public void SetReferenceKind(int reference_kind)
+        {
+            this.reference_kind = reference_kind;
+        }
 
-		public void SetReferenceKind(int reference_kind)
-		{
-			this.reference_kind = reference_kind;
-		}
+        public int GetReferenceIndex()
+        {
+            return reference_index;
+        }
 
-		public int GetReferenceIndex()
-		{
-			return reference_index;
-		}
+        public void SetReferenceIndex(int reference_index)
+        {
+            this.reference_index = reference_index;
+        }
 
-		public void SetReferenceIndex(int reference_index)
-		{
-			this.reference_index = reference_index;
-		}
-
-		/// <returns>String representation</returns>
-		public override string ToString()
-		{
-			return base.ToString() + "(reference_kind = " + reference_kind + ", reference_index = "
-				 + reference_index + ")";
-		}
-	}
+        /// <returns>String representation</returns>
+        public override string ToString()
+        {
+            return base.ToString() + "(reference_kind = " + reference_kind + ", reference_index = "
+                   + reference_index + ")";
+        }
+    }
 }

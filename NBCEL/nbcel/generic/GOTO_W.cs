@@ -15,62 +15,65 @@
 *  limitations under the License.
 *
 */
+
+using java.io;
+using NBCEL.util;
 using Sharpen;
 
 namespace NBCEL.generic
 {
-	/// <summary>GOTO_W - Branch always (to relative offset, not absolute address)</summary>
-	public class GOTO_W : NBCEL.generic.GotoInstruction
-	{
-		/// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
-		/// <remarks>
-		/// Empty constructor needed for Instruction.readInstruction.
-		/// Not to be used otherwise.
-		/// </remarks>
-		internal GOTO_W()
-		{
-		}
+    /// <summary>GOTO_W - Branch always (to relative offset, not absolute address)</summary>
+    public class GOTO_W : GotoInstruction
+    {
+	    /// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
+	    /// <remarks>
+	    ///     Empty constructor needed for Instruction.readInstruction.
+	    ///     Not to be used otherwise.
+	    /// </remarks>
+	    internal GOTO_W()
+        {
+        }
 
-		public GOTO_W(NBCEL.generic.InstructionHandle target)
-			: base(NBCEL.Const.GOTO_W, target)
-		{
-			base.SetLength(5);
-		}
+        public GOTO_W(InstructionHandle target)
+            : base(Const.GOTO_W, target)
+        {
+            SetLength(5);
+        }
 
-		/// <summary>Dump instruction as byte code to stream out.</summary>
-		/// <param name="out">Output stream</param>
-		/// <exception cref="System.IO.IOException"/>
-		public override void Dump(java.io.DataOutputStream @out)
-		{
-			base.SetIndex(GetTargetOffset());
-			@out.WriteByte(base.GetOpcode());
-			@out.WriteInt(base.GetIndex());
-		}
+        /// <summary>Dump instruction as byte code to stream out.</summary>
+        /// <param name="out">Output stream</param>
+        /// <exception cref="System.IO.IOException" />
+        public override void Dump(DataOutputStream @out)
+        {
+            base.SetIndex(GetTargetOffset());
+            @out.WriteByte(base.GetOpcode());
+            @out.WriteInt(GetIndex());
+        }
 
-		/// <summary>Read needed data (e.g.</summary>
-		/// <remarks>Read needed data (e.g. index) from file.</remarks>
-		/// <exception cref="System.IO.IOException"/>
-		protected internal override void InitFromFile(NBCEL.util.ByteSequence bytes, bool
-			 wide)
-		{
-			base.SetIndex(bytes.ReadInt());
-			base.SetLength(5);
-		}
+        /// <summary>Read needed data (e.g.</summary>
+        /// <remarks>Read needed data (e.g. index) from file.</remarks>
+        /// <exception cref="System.IO.IOException" />
+        protected internal override void InitFromFile(ByteSequence bytes, bool
+            wide)
+        {
+            base.SetIndex(bytes.ReadInt());
+            SetLength(5);
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitUnconditionalBranch(this);
-			v.VisitBranchInstruction(this);
-			v.VisitGotoInstruction(this);
-			v.VisitGOTO_W(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitUnconditionalBranch(this);
+            v.VisitBranchInstruction(this);
+            v.VisitGotoInstruction(this);
+            v.VisitGOTO_W(this);
+        }
+    }
 }

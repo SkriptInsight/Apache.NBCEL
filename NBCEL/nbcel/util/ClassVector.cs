@@ -15,48 +15,51 @@
 *  limitations under the License.
 *
 */
+
+using System;
+using System.Collections.Generic;
+using NBCEL.classfile;
 using Sharpen;
 
 namespace NBCEL.util
 {
 	/// <summary>
-	/// Utility class implementing a (typesafe) collection of JavaClass
-	/// objects.
+	///     Utility class implementing a (typesafe) collection of JavaClass
+	///     objects.
 	/// </summary>
 	/// <remarks>
-	/// Utility class implementing a (typesafe) collection of JavaClass
-	/// objects. Contains the most important methods of a Vector.
+	///     Utility class implementing a (typesafe) collection of JavaClass
+	///     objects. Contains the most important methods of a Vector.
 	/// </remarks>
-	[System.Serializable]
-	[System.ObsoleteAttribute(@"as of 5.1.1 - 7/17/2005")]
-	public class ClassVector
-	{
-		private const long serialVersionUID = 5600397075672780806L;
+	[Serializable]
+    [Obsolete(@"as of 5.1.1 - 7/17/2005")]
+    public class ClassVector
+    {
+        private const long serialVersionUID = 5600397075672780806L;
 
-		[System.Obsolete]
-		protected internal System.Collections.Generic.List<NBCEL.classfile.JavaClass> vec
-			 = new System.Collections.Generic.List<NBCEL.classfile.JavaClass>();
+        [Obsolete] protected internal List<JavaClass> vec
+            = new List<JavaClass>();
 
-		public virtual void AddElement(NBCEL.classfile.JavaClass clazz)
-		{
-			vec.Add(clazz);
-		}
+        public virtual void AddElement(JavaClass clazz)
+        {
+            vec.Add(clazz);
+        }
 
-		public virtual NBCEL.classfile.JavaClass ElementAt(int index)
-		{
-			return vec[index];
-		}
+        public virtual JavaClass ElementAt(int index)
+        {
+            return vec[index];
+        }
 
-		public virtual void RemoveElementAt(int index)
-		{
-			vec.RemoveAtReturningValue(index);
-		}
+        public virtual void RemoveElementAt(int index)
+        {
+            vec.RemoveAtReturningValue(index);
+        }
 
-		public virtual NBCEL.classfile.JavaClass[] ToArray()
-		{
-			NBCEL.classfile.JavaClass[] classes = new NBCEL.classfile.JavaClass[vec.Count];
-			Sharpen.Collections.ToArray(vec, classes);
-			return classes;
-		}
-	}
+        public virtual JavaClass[] ToArray()
+        {
+            var classes = new JavaClass[vec.Count];
+            Collections.ToArray(vec, classes);
+            return classes;
+        }
+    }
 }

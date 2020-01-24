@@ -15,33 +15,32 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// DUP_X1 - Duplicate top operand stack word and put two down
-	/// <PRE>Stack: ..., word2, word1 -&gt; ..., word1, word2, word1</PRE>
+	///     DUP_X1 - Duplicate top operand stack word and put two down
+	///     <PRE>Stack: ..., word2, word1 -&gt; ..., word1, word2, word1</PRE>
 	/// </summary>
-	public class DUP_X1 : NBCEL.generic.StackInstruction
-	{
-		public DUP_X1()
-			: base(NBCEL.Const.DUP_X1)
-		{
-		}
+	public class DUP_X1 : StackInstruction
+    {
+        public DUP_X1()
+            : base(Const.DUP_X1)
+        {
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitStackInstruction(this);
-			v.VisitDUP_X1(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitStackInstruction(this);
+            v.VisitDUP_X1(this);
+        }
+    }
 }

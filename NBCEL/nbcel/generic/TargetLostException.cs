@@ -15,55 +15,58 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
+
+using System;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// Thrown by InstructionList.remove() when one or multiple disposed instructions
-	/// are still being referenced by an InstructionTargeter object.
+	///     Thrown by InstructionList.remove() when one or multiple disposed instructions
+	///     are still being referenced by an InstructionTargeter object.
 	/// </summary>
 	/// <remarks>
-	/// Thrown by InstructionList.remove() when one or multiple disposed instructions
-	/// are still being referenced by an InstructionTargeter object. I.e. the
-	/// InstructionTargeter has to be notified that (one of) the InstructionHandle it
-	/// is referencing is being removed from the InstructionList and thus not valid anymore.
-	/// <p>Making this an exception instead of a return value forces the user to handle
-	/// these case explicitely in a try { ... } catch. The following code illustrates
-	/// how this may be done:</p>
-	/// <PRE>
-	/// ...
-	/// try {
-	/// il.delete(start_ih, end_ih);
-	/// } catch(TargetLostException e) {
-	/// for (InstructionHandle target : e.getTargets()) {
-	/// for (InstructionTargeter targeter : target.getTargeters()) {
-	/// targeter.updateTarget(target, new_target);
-	/// }
-	/// }
-	/// }
-	/// </PRE>
+	///     Thrown by InstructionList.remove() when one or multiple disposed instructions
+	///     are still being referenced by an InstructionTargeter object. I.e. the
+	///     InstructionTargeter has to be notified that (one of) the InstructionHandle it
+	///     is referencing is being removed from the InstructionList and thus not valid anymore.
+	///     <p>
+	///         Making this an exception instead of a return value forces the user to handle
+	///         these case explicitely in a try { ... } catch. The following code illustrates
+	///         how this may be done:
+	///     </p>
+	///     <PRE>
+	///         ...
+	///         try {
+	///         il.delete(start_ih, end_ih);
+	///         } catch(TargetLostException e) {
+	///         for (InstructionHandle target : e.getTargets()) {
+	///         for (InstructionTargeter targeter : target.getTargeters()) {
+	///         targeter.updateTarget(target, new_target);
+	///         }
+	///         }
+	///         }
+	///     </PRE>
 	/// </remarks>
-	/// <seealso cref="InstructionHandle"/>
-	/// <seealso cref="InstructionList"/>
-	/// <seealso cref="InstructionTargeter"/>
-	[System.Serializable]
-	public sealed class TargetLostException : System.Exception
-	{
-		private const long serialVersionUID = -6857272667645328384L;
+	/// <seealso cref="InstructionHandle" />
+	/// <seealso cref="InstructionList" />
+	/// <seealso cref="InstructionTargeter" />
+	[Serializable]
+    public sealed class TargetLostException : Exception
+    {
+        private const long serialVersionUID = -6857272667645328384L;
 
-		private readonly NBCEL.generic.InstructionHandle[] targets;
+        private readonly InstructionHandle[] targets;
 
-		internal TargetLostException(NBCEL.generic.InstructionHandle[] t, string mesg)
-			: base(mesg)
-		{
-			targets = t;
-		}
+        internal TargetLostException(InstructionHandle[] t, string mesg)
+            : base(mesg)
+        {
+            targets = t;
+        }
 
-		/// <returns>list of instructions still being targeted.</returns>
-		public NBCEL.generic.InstructionHandle[] GetTargets()
-		{
-			return targets;
-		}
-	}
+        /// <returns>list of instructions still being targeted.</returns>
+        public InstructionHandle[] GetTargets()
+        {
+            return targets;
+        }
+    }
 }

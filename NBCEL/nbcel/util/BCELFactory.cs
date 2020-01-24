@@ -16,357 +16,349 @@
 *
 */
 
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Text;
+using NBCEL.classfile;
+using NBCEL.generic;
 using Sharpen;
+using EmptyVisitor = NBCEL.generic.EmptyVisitor;
+using Type = NBCEL.generic.Type;
 
 namespace NBCEL.util
 {
 	/// <summary>Factory creates il.append() statements, and sets instruction targets.</summary>
 	/// <remarks>
-	/// Factory creates il.append() statements, and sets instruction targets.
-	/// A helper class for BCELifier.
+	///     Factory creates il.append() statements, and sets instruction targets.
+	///     A helper class for BCELifier.
 	/// </remarks>
-	/// <seealso cref="BCELifier"/>
-	internal class BCELFactory : NBCEL.generic.EmptyVisitor
-	{
-		private static readonly string CONSTANT_PREFIX = typeof(NBCEL.Const).GetSimpleName
-			() + ".";
+	/// <seealso cref="BCELifier" />
+	internal class BCELFactory : EmptyVisitor
+    {
+        private static readonly string CONSTANT_PREFIX = typeof(Const).GetSimpleName
+                                                             () + ".";
 
-		private readonly NBCEL.generic.MethodGen _mg;
+        private readonly ConstantPoolGen _cp;
 
-		private readonly TextWriter _out;
+        private readonly MethodGen _mg;
 
-		private readonly NBCEL.generic.ConstantPoolGen _cp;
+        private readonly TextWriter _out;
 
-		internal BCELFactory(NBCEL.generic.MethodGen mg, TextWriter @out)
-		{
-			_mg = mg;
-			_cp = mg.GetConstantPool();
-			_out = @out;
-		}
+        private readonly IDictionary<Instruction
+            , InstructionHandle> branch_map = new Dictionary
+            <Instruction, InstructionHandle>();
 
-		private readonly System.Collections.Generic.IDictionary<NBCEL.generic.Instruction
-			, NBCEL.generic.InstructionHandle> branch_map = new System.Collections.Generic.Dictionary
-			<NBCEL.generic.Instruction, NBCEL.generic.InstructionHandle>();
+        private readonly List<BranchInstruction>
+            branches = new List<BranchInstruction>
+                ();
 
-		public virtual void Start()
-		{
-			if (!_mg.IsAbstract() && !_mg.IsNative())
-			{
-				for (NBCEL.generic.InstructionHandle ih = _mg.GetInstructionList().GetStart(); ih
-					 != null; ih = ih.GetNext())
-				{
-					NBCEL.generic.Instruction i = ih.GetInstruction();
-					if (i is NBCEL.generic.BranchInstruction)
-					{
-						Sharpen.Collections.Put(branch_map, i, ih);
-					}
-					// memorize container
-					if (ih.HasTargeters())
-					{
-						if (i is NBCEL.generic.BranchInstruction)
-						{
-							_out.WriteLine("    InstructionHandle ih_" + ih.GetPosition() + ";");
-						}
-						else
-						{
-							_out.Write("    InstructionHandle ih_" + ih.GetPosition() + " = ");
-						}
-					}
-					else
-					{
-						_out.Write("    ");
-					}
-					if (!VisitInstruction(i))
-					{
-						i.Accept(this);
-					}
-				}
-				UpdateBranchTargets();
-				UpdateExceptionHandlers();
-			}
-		}
+        internal BCELFactory(MethodGen mg, TextWriter @out)
+        {
+            _mg = mg;
+            _cp = mg.GetConstantPool();
+            _out = @out;
+        }
 
-		private bool VisitInstruction(NBCEL.generic.Instruction i)
-		{
-			short opcode = i.GetOpcode();
-			if ((NBCEL.generic.InstructionConst.GetInstruction(opcode) != null) && !(i is NBCEL.generic.BaseConstantPushInstruction
-				) && !(i is NBCEL.generic.ReturnInstruction))
-			{
-				// Handled below
-				_out.WriteLine("il.append(InstructionConst." + i.GetName().ToUpper() + ");");
-				return true;
-			}
-			return false;
-		}
+        public virtual void Start()
+        {
+            if (!_mg.IsAbstract() && !_mg.IsNative())
+            {
+                for (var ih = _mg.GetInstructionList().GetStart();
+                    ih
+                    != null;
+                    ih = ih.GetNext())
+                {
+                    var i = ih.GetInstruction();
+                    if (i is BranchInstruction) Collections.Put(branch_map, i, ih);
+                    // memorize container
+                    if (ih.HasTargeters())
+                    {
+                        if (i is BranchInstruction)
+                            _out.WriteLine("    InstructionHandle ih_" + ih.GetPosition() + ";");
+                        else
+                            _out.Write("    InstructionHandle ih_" + ih.GetPosition() + " = ");
+                    }
+                    else
+                    {
+                        _out.Write("    ");
+                    }
 
-		public override void VisitLocalVariableInstruction(NBCEL.generic.LocalVariableInstruction
-			 i)
-		{
-			short opcode = i.GetOpcode();
-			NBCEL.generic.Type type = i.GetType(_cp);
-			if (opcode == NBCEL.Const.IINC)
-			{
-				_out.WriteLine("il.append(new IINC(" + i.GetIndex() + ", " + ((NBCEL.generic.IINC)i
-					).GetIncrement() + "));");
-			}
-			else
-			{
-				string kind = (opcode < NBCEL.Const.ISTORE) ? "Load" : "Store";
-				_out.WriteLine("il.append(_factory.create" + kind + "(" + NBCEL.util.BCELifier.PrintType
-					(type) + ", " + i.GetIndex() + "));");
-			}
-		}
+                    if (!VisitInstruction(i)) i.Accept(this);
+                }
 
-		public override void VisitArrayInstruction(NBCEL.generic.ArrayInstruction i)
-		{
-			short opcode = i.GetOpcode();
-			NBCEL.generic.Type type = i.GetType(_cp);
-			string kind = (opcode < NBCEL.Const.IASTORE) ? "Load" : "Store";
-			_out.WriteLine("il.append(_factory.createArray" + kind + "(" + NBCEL.util.BCELifier
-				.PrintType(type) + "));");
-		}
+                UpdateBranchTargets();
+                UpdateExceptionHandlers();
+            }
+        }
 
-		public override void VisitFieldInstruction(NBCEL.generic.FieldInstruction i)
-		{
-			short opcode = i.GetOpcode();
-			string class_name = i.GetClassName(_cp);
-			string field_name = i.GetFieldName(_cp);
-			NBCEL.generic.Type type = i.GetFieldType(_cp);
-			_out.WriteLine("il.append(_factory.createFieldAccess(\"" + class_name + "\", \"" + 
-				field_name + "\", " + NBCEL.util.BCELifier.PrintType(type) + ", " + CONSTANT_PREFIX
-				 + NBCEL.Const.GetOpcodeName(opcode).ToUpper() + "));");
-		}
+        private bool VisitInstruction(Instruction i)
+        {
+            var opcode = i.GetOpcode();
+            if (InstructionConst.GetInstruction(opcode) != null && !(i is BaseConstantPushInstruction
+                    ) && !(i is ReturnInstruction))
+            {
+                // Handled below
+                _out.WriteLine("il.append(InstructionConst." + i.GetName().ToUpper() + ");");
+                return true;
+            }
 
-		public override void VisitInvokeInstruction(NBCEL.generic.InvokeInstruction i)
-		{
-			short opcode = i.GetOpcode();
-			string class_name = i.GetClassName(_cp);
-			string method_name = i.GetMethodName(_cp);
-			NBCEL.generic.Type type = i.GetReturnType(_cp);
-			NBCEL.generic.Type[] arg_types = i.GetArgumentTypes(_cp);
-			_out.WriteLine("il.append(_factory.createInvoke(\"" + class_name + "\", \"" + method_name
-				 + "\", " + NBCEL.util.BCELifier.PrintType(type) + ", " + NBCEL.util.BCELifier.PrintArgumentTypes
-				(arg_types) + ", " + CONSTANT_PREFIX + NBCEL.Const.GetOpcodeName(opcode).ToUpper
-				() + "));");
-		}
+            return false;
+        }
 
-		public override void VisitAllocationInstruction(NBCEL.generic.AllocationInstruction
-			 i)
-		{
-			NBCEL.generic.Type type;
-			if (i is NBCEL.generic.CPInstruction)
-			{
-				type = ((NBCEL.generic.CPInstruction)i).GetType(_cp);
-			}
-			else
-			{
-				type = ((NBCEL.generic.NEWARRAY)i).GetType();
-			}
-			short opcode = ((NBCEL.generic.Instruction)i).GetOpcode();
-			int dim = 1;
-			switch (opcode)
-			{
-				case NBCEL.Const.NEW:
-				{
-					_out.WriteLine("il.append(_factory.createNew(\"" + ((NBCEL.generic.ObjectType)type)
-						.GetClassName() + "\"));");
-					break;
-				}
+        public override void VisitLocalVariableInstruction(LocalVariableInstruction
+            i)
+        {
+            var opcode = i.GetOpcode();
+            var type = i.GetType(_cp);
+            if (opcode == Const.IINC)
+            {
+                _out.WriteLine("il.append(new IINC(" + i.GetIndex() + ", " + ((IINC) i
+                               ).GetIncrement() + "));");
+            }
+            else
+            {
+                var kind = opcode < Const.ISTORE ? "Load" : "Store";
+                _out.WriteLine("il.append(_factory.create" + kind + "(" + BCELifier.PrintType
+                                   (type) + ", " + i.GetIndex() + "));");
+            }
+        }
 
-				case NBCEL.Const.MULTIANEWARRAY:
-				{
-					dim = ((NBCEL.generic.MULTIANEWARRAY)i).GetDimensions();
-					goto case NBCEL.Const.ANEWARRAY;
-				}
+        public override void VisitArrayInstruction(ArrayInstruction i)
+        {
+            var opcode = i.GetOpcode();
+            var type = i.GetType(_cp);
+            var kind = opcode < Const.IASTORE ? "Load" : "Store";
+            _out.WriteLine("il.append(_factory.createArray" + kind + "(" + BCELifier
+                               .PrintType(type) + "));");
+        }
 
-				case NBCEL.Const.ANEWARRAY:
-				case NBCEL.Const.NEWARRAY:
-				{
-					//$FALL-THROUGH$
-					if (type is NBCEL.generic.ArrayType)
-					{
-						type = ((NBCEL.generic.ArrayType)type).GetBasicType();
-					}
-					_out.WriteLine("il.append(_factory.createNewArray(" + NBCEL.util.BCELifier.PrintType
-						(type) + ", (short) " + dim + "));");
-					break;
-				}
+        public override void VisitFieldInstruction(FieldInstruction i)
+        {
+            var opcode = i.GetOpcode();
+            var class_name = i.GetClassName(_cp);
+            var field_name = i.GetFieldName(_cp);
+            var type = i.GetFieldType(_cp);
+            _out.WriteLine("il.append(_factory.createFieldAccess(\"" + class_name + "\", \"" +
+                           field_name + "\", " + BCELifier.PrintType(type) + ", " + CONSTANT_PREFIX
+                           + Const.GetOpcodeName(opcode).ToUpper() + "));");
+        }
 
-				default:
-				{
-					throw new System.Exception("Oops: " + opcode);
-				}
-			}
-		}
+        public override void VisitInvokeInstruction(InvokeInstruction i)
+        {
+            var opcode = i.GetOpcode();
+            var class_name = i.GetClassName(_cp);
+            var method_name = i.GetMethodName(_cp);
+            var type = i.GetReturnType(_cp);
+            var arg_types = i.GetArgumentTypes(_cp);
+            _out.WriteLine("il.append(_factory.createInvoke(\"" + class_name + "\", \"" + method_name
+                           + "\", " + BCELifier.PrintType(type) + ", " + BCELifier.PrintArgumentTypes
+                               (arg_types) + ", " + CONSTANT_PREFIX + Const.GetOpcodeName(opcode).ToUpper
+                               () + "));");
+        }
 
-		private void CreateConstant(object value)
-		{
-			string embed = value.ToString();
-			if (value is string)
-			{
-				embed = '"' + NBCEL.classfile.Utility.ConvertString(embed) + '"';
-			}
-			else if (value is char)
-			{
-				embed = "(char)0x" + Sharpen.Runtime.ToHexString(((char)value));
-			}
-			else if (value is float)
-			{
-				embed += "f";
-			}
-			else if (value is long)
-			{
-				embed += "L";
-			}
-			else if (value is NBCEL.generic.ObjectType)
-			{
-				NBCEL.generic.ObjectType ot = (NBCEL.generic.ObjectType)value;
-				embed = "new ObjectType(\"" + ot.GetClassName() + "\")";
-			}
-			_out.WriteLine("il.append(new PUSH(_cp, " + embed + "));");
-		}
+        public override void VisitAllocationInstruction(AllocationInstruction
+            i)
+        {
+            Type type;
+            if (i is CPInstruction)
+                type = ((CPInstruction) i).GetType(_cp);
+            else
+                type = ((NEWARRAY) i).GetType();
+            var opcode = ((Instruction) i).GetOpcode();
+            var dim = 1;
+            switch (opcode)
+            {
+                case Const.NEW:
+                {
+                    _out.WriteLine("il.append(_factory.createNew(\"" + ((ObjectType) type)
+                                   .GetClassName() + "\"));");
+                    break;
+                }
 
-		public override void VisitLDC(NBCEL.generic.LDC i)
-		{
-			CreateConstant(i.GetValue(_cp));
-		}
+                case Const.MULTIANEWARRAY:
+                {
+                    dim = ((MULTIANEWARRAY) i).GetDimensions();
+                    goto case Const.ANEWARRAY;
+                }
 
-		public override void VisitLDC2_W(NBCEL.generic.LDC2_W i)
-		{
-			CreateConstant(i.GetValue(_cp));
-		}
+                case Const.ANEWARRAY:
+                case Const.NEWARRAY:
+                {
+                    //$FALL-THROUGH$
+                    if (type is ArrayType) type = ((ArrayType) type).GetBasicType();
+                    _out.WriteLine("il.append(_factory.createNewArray(" + BCELifier.PrintType
+                                       (type) + ", (short) " + dim + "));");
+                    break;
+                }
 
-		public override void VisitConstantPushInstruction<T>(NBCEL.generic.ConstantPushInstruction<T>
-			 i)
-		{
-			CreateConstant(i.GetValue());
-		}
+                default:
+                {
+                    throw new Exception("Oops: " + opcode);
+                }
+            }
+        }
 
-		public override void VisitINSTANCEOF(NBCEL.generic.INSTANCEOF i)
-		{
-			NBCEL.generic.Type type = i.GetType(_cp);
-			_out.WriteLine("il.append(new INSTANCEOF(_cp.addClass(" + NBCEL.util.BCELifier.PrintType
-				(type) + ")));");
-		}
+        private void CreateConstant(object value)
+        {
+            var embed = value.ToString();
+            if (value is string)
+            {
+                embed = '"' + Utility.ConvertString(embed) + '"';
+            }
+            else if (value is char)
+            {
+                embed = "(char)0x" + Runtime.ToHexString((char) value);
+            }
+            else if (value is float)
+            {
+                embed += "f";
+            }
+            else if (value is long)
+            {
+                embed += "L";
+            }
+            else if (value is ObjectType)
+            {
+                var ot = (ObjectType) value;
+                embed = "new ObjectType(\"" + ot.GetClassName() + "\")";
+            }
 
-		public override void VisitCHECKCAST(NBCEL.generic.CHECKCAST i)
-		{
-			NBCEL.generic.Type type = i.GetType(_cp);
-			_out.WriteLine("il.append(_factory.createCheckCast(" + NBCEL.util.BCELifier.PrintType
-				(type) + "));");
-		}
+            _out.WriteLine("il.append(new PUSH(_cp, " + embed + "));");
+        }
 
-		public override void VisitReturnInstruction(NBCEL.generic.ReturnInstruction i)
-		{
-			NBCEL.generic.Type type = i.GetType(_cp);
-			_out.WriteLine("il.append(_factory.createReturn(" + NBCEL.util.BCELifier.PrintType(
-				type) + "));");
-		}
+        public override void VisitLDC(LDC i)
+        {
+            CreateConstant(i.GetValue(_cp));
+        }
 
-		private readonly System.Collections.Generic.List<NBCEL.generic.BranchInstruction>
-			 branches = new System.Collections.Generic.List<NBCEL.generic.BranchInstruction>
-			();
+        public override void VisitLDC2_W(LDC2_W i)
+        {
+            CreateConstant(i.GetValue(_cp));
+        }
 
-		// Memorize BranchInstructions that need an update
-		public override void VisitBranchInstruction(NBCEL.generic.BranchInstruction bi)
-		{
-			NBCEL.generic.BranchHandle bh = (NBCEL.generic.BranchHandle)branch_map.GetOrNull(
-				bi);
-			int pos = bh.GetPosition();
-			string name = bi.GetName() + "_" + pos;
-			if (bi is NBCEL.generic.Select)
-			{
-				NBCEL.generic.Select s = (NBCEL.generic.Select)bi;
-				branches.Add(bi);
-				System.Text.StringBuilder args = new System.Text.StringBuilder("new int[] { ");
-				int[] matchs = s.GetMatchs();
-				for (int i = 0; i < matchs.Length; i++)
-				{
-					args.Append(matchs[i]);
-					if (i < matchs.Length - 1)
-					{
-						args.Append(", ");
-					}
-				}
-				args.Append(" }");
-				_out.Write("Select " + name + " = new " + bi.GetName().ToUpper(
-					) + "(" + args + ", new InstructionHandle[] { ");
-				for (int i = 0; i < matchs.Length; i++)
-				{
-					_out.Write("null");
-					if (i < matchs.Length - 1)
-					{
-						_out.Write(", ");
-					}
-				}
-				_out.WriteLine(" }, null);");
-			}
-			else
-			{
-				int t_pos = bh.GetTarget().GetPosition();
-				string target;
-				if (pos > t_pos)
-				{
-					target = "ih_" + t_pos;
-				}
-				else
-				{
-					branches.Add(bi);
-					target = "null";
-				}
-				_out.WriteLine("    BranchInstruction " + name + " = _factory.createBranchInstruction("
-					 + CONSTANT_PREFIX + bi.GetName().ToUpper() + ", " + target
-					 + ");");
-			}
-			if (bh.HasTargeters())
-			{
-				_out.WriteLine("    ih_" + pos + " = il.append(" + name + ");");
-			}
-			else
-			{
-				_out.WriteLine("    il.append(" + name + ");");
-			}
-		}
+        public override void VisitConstantPushInstruction<T>(ConstantPushInstruction<T>
+            i)
+        {
+            CreateConstant(i.GetValue());
+        }
 
-		public override void VisitRET(NBCEL.generic.RET i)
-		{
-			_out.WriteLine("il.append(new RET(" + i.GetIndex() + ")));");
-		}
+        public override void VisitINSTANCEOF(INSTANCEOF i)
+        {
+            var type = i.GetType(_cp);
+            _out.WriteLine("il.append(new INSTANCEOF(_cp.addClass(" + BCELifier.PrintType
+                               (type) + ")));");
+        }
 
-		private void UpdateBranchTargets()
-		{
-			foreach (NBCEL.generic.BranchInstruction bi in branches)
-			{
-				NBCEL.generic.BranchHandle bh = (NBCEL.generic.BranchHandle)branch_map.GetOrNull(
-					bi);
-				int pos = bh.GetPosition();
-				string name = bi.GetName() + "_" + pos;
-				int t_pos = bh.GetTarget().GetPosition();
-				_out.WriteLine("    " + name + ".setTarget(ih_" + t_pos + ");");
-				if (bi is NBCEL.generic.Select)
-				{
-					NBCEL.generic.InstructionHandle[] ihs = ((NBCEL.generic.Select)bi).GetTargets();
-					for (int j = 0; j < ihs.Length; j++)
-					{
-						t_pos = ihs[j].GetPosition();
-						_out.WriteLine("    " + name + ".setTarget(" + j + ", ih_" + t_pos + ");");
-					}
-				}
-			}
-		}
+        public override void VisitCHECKCAST(CHECKCAST i)
+        {
+            var type = i.GetType(_cp);
+            _out.WriteLine("il.append(_factory.createCheckCast(" + BCELifier.PrintType
+                               (type) + "));");
+        }
 
-		private void UpdateExceptionHandlers()
-		{
-			NBCEL.generic.CodeExceptionGen[] handlers = _mg.GetExceptionHandlers();
-			foreach (NBCEL.generic.CodeExceptionGen h in handlers)
-			{
-				string type = (h.GetCatchType() == null) ? "null" : NBCEL.util.BCELifier.PrintType
-					(h.GetCatchType());
-				_out.WriteLine("    method.addExceptionHandler(" + "ih_" + h.GetStartPC().GetPosition
-					() + ", " + "ih_" + h.GetEndPC().GetPosition() + ", " + "ih_" + h.GetHandlerPC()
-					.GetPosition() + ", " + type + ");");
-			}
-		}
-	}
+        public override void VisitReturnInstruction(ReturnInstruction i)
+        {
+            var type = i.GetType(_cp);
+            _out.WriteLine("il.append(_factory.createReturn(" + BCELifier.PrintType(
+                               type) + "));");
+        }
+
+        // Memorize BranchInstructions that need an update
+        public override void VisitBranchInstruction(BranchInstruction bi)
+        {
+            var bh = (BranchHandle) branch_map.GetOrNull(
+                bi);
+            var pos = bh.GetPosition();
+            var name = bi.GetName() + "_" + pos;
+            if (bi is Select)
+            {
+                var s = (Select) bi;
+                branches.Add(bi);
+                var args = new StringBuilder("new int[] { ");
+                var matchs = s.GetMatchs();
+                for (var i = 0; i < matchs.Length; i++)
+                {
+                    args.Append(matchs[i]);
+                    if (i < matchs.Length - 1) args.Append(", ");
+                }
+
+                args.Append(" }");
+                _out.Write("Select " + name + " = new " + bi.GetName().ToUpper(
+                           ) + "(" + args + ", new InstructionHandle[] { ");
+                for (var i = 0; i < matchs.Length; i++)
+                {
+                    _out.Write("null");
+                    if (i < matchs.Length - 1) _out.Write(", ");
+                }
+
+                _out.WriteLine(" }, null);");
+            }
+            else
+            {
+                var t_pos = bh.GetTarget().GetPosition();
+                string target;
+                if (pos > t_pos)
+                {
+                    target = "ih_" + t_pos;
+                }
+                else
+                {
+                    branches.Add(bi);
+                    target = "null";
+                }
+
+                _out.WriteLine("    BranchInstruction " + name + " = _factory.createBranchInstruction("
+                               + CONSTANT_PREFIX + bi.GetName().ToUpper() + ", " + target
+                               + ");");
+            }
+
+            if (bh.HasTargeters())
+                _out.WriteLine("    ih_" + pos + " = il.append(" + name + ");");
+            else
+                _out.WriteLine("    il.append(" + name + ");");
+        }
+
+        public override void VisitRET(RET i)
+        {
+            _out.WriteLine("il.append(new RET(" + i.GetIndex() + ")));");
+        }
+
+        private void UpdateBranchTargets()
+        {
+            foreach (var bi in branches)
+            {
+                var bh = (BranchHandle) branch_map.GetOrNull(
+                    bi);
+                var pos = bh.GetPosition();
+                var name = bi.GetName() + "_" + pos;
+                var t_pos = bh.GetTarget().GetPosition();
+                _out.WriteLine("    " + name + ".setTarget(ih_" + t_pos + ");");
+                if (bi is Select)
+                {
+                    var ihs = ((Select) bi).GetTargets();
+                    for (var j = 0; j < ihs.Length; j++)
+                    {
+                        t_pos = ihs[j].GetPosition();
+                        _out.WriteLine("    " + name + ".setTarget(" + j + ", ih_" + t_pos + ");");
+                    }
+                }
+            }
+        }
+
+        private void UpdateExceptionHandlers()
+        {
+            var handlers = _mg.GetExceptionHandlers();
+            foreach (var h in handlers)
+            {
+                var type = h.GetCatchType() == null
+                    ? "null"
+                    : BCELifier.PrintType
+                        (h.GetCatchType());
+                _out.WriteLine("    method.addExceptionHandler(" + "ih_" + h.GetStartPC().GetPosition
+                                   () + ", " + "ih_" + h.GetEndPC().GetPosition() + ", " + "ih_" + h.GetHandlerPC()
+                                   .GetPosition() + ", " + type + ");");
+            }
+        }
+    }
 }

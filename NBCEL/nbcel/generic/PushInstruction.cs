@@ -15,21 +15,20 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// Denotes an unparameterized instruction to produce a value on top of the stack,
-	/// such as ILOAD, LDC, SIPUSH, DUP, ICONST, etc.
+	///     Denotes an unparameterized instruction to produce a value on top of the stack,
+	///     such as ILOAD, LDC, SIPUSH, DUP, ICONST, etc.
 	/// </summary>
-	/// <seealso cref="ILOAD"/>
-	/// <seealso cref="ICONST"/>
-	/// <seealso cref="LDC"/>
-	/// <seealso cref="DUP"/>
-	/// <seealso cref="SIPUSH"/>
-	/// <seealso cref="GETSTATIC"/>
-	public interface PushInstruction : NBCEL.generic.StackProducer
-	{
-	}
+	/// <seealso cref="ILOAD" />
+	/// <seealso cref="ICONST" />
+	/// <seealso cref="LDC" />
+	/// <seealso cref="DUP" />
+	/// <seealso cref="SIPUSH" />
+	/// <seealso cref="GETSTATIC" />
+	public interface PushInstruction : StackProducer
+    {
+    }
 }

@@ -14,71 +14,67 @@
 *  See the License for the specific language governing permissions and
 *  limitations under the License.
 */
+
+using java.io;
 using Sharpen;
 
 namespace NBCEL.classfile
 {
 	/// <summary>This class represents a MethodParameters attribute.</summary>
-	/// <seealso><a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.7.24">
-	/// * The class File Format : The MethodParameters Attribute</a></seealso>
+	/// <seealso>
+	///     <a href="http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.7.24">
+	///         * The class File Format : The MethodParameters Attribute
+	///     </a>
+	/// </seealso>
 	/// <since>6.0</since>
-	public class MethodParameters : NBCEL.classfile.Attribute
-	{
-		private NBCEL.classfile.MethodParameter[] parameters = new NBCEL.classfile.MethodParameter
-			[0];
+	public class MethodParameters : Attribute
+    {
+        private MethodParameter[] parameters = new MethodParameter
+            [0];
 
-		/// <exception cref="System.IO.IOException"/>
-		internal MethodParameters(int name_index, int length, java.io.DataInput input, NBCEL.classfile.ConstantPool
-			 constant_pool)
-			: base(NBCEL.Const.ATTR_METHOD_PARAMETERS, name_index, length, constant_pool)
-		{
-			int parameters_count = input.ReadUnsignedByte();
-			parameters = new NBCEL.classfile.MethodParameter[parameters_count];
-			for (int i = 0; i < parameters_count; i++)
-			{
-				parameters[i] = new NBCEL.classfile.MethodParameter(input);
-			}
-		}
+        /// <exception cref="System.IO.IOException" />
+        internal MethodParameters(int name_index, int length, DataInput input, ConstantPool
+            constant_pool)
+            : base(Const.ATTR_METHOD_PARAMETERS, name_index, length, constant_pool)
+        {
+            var parameters_count = input.ReadUnsignedByte();
+            parameters = new MethodParameter[parameters_count];
+            for (var i = 0; i < parameters_count; i++) parameters[i] = new MethodParameter(input);
+        }
 
-		public virtual NBCEL.classfile.MethodParameter[] GetParameters()
-		{
-			return parameters;
-		}
+        public virtual MethodParameter[] GetParameters()
+        {
+            return parameters;
+        }
 
-		public virtual void SetParameters(NBCEL.classfile.MethodParameter[] parameters)
-		{
-			this.parameters = parameters;
-		}
+        public virtual void SetParameters(MethodParameter[] parameters)
+        {
+            this.parameters = parameters;
+        }
 
-		public override void Accept(NBCEL.classfile.Visitor v)
-		{
-			v.VisitMethodParameters(this);
-		}
+        public override void Accept(Visitor v)
+        {
+            v.VisitMethodParameters(this);
+        }
 
-		public override NBCEL.classfile.Attribute Copy(NBCEL.classfile.ConstantPool _constant_pool
-			)
-		{
-			NBCEL.classfile.MethodParameters c = (NBCEL.classfile.MethodParameters)Clone();
-			c.parameters = new NBCEL.classfile.MethodParameter[parameters.Length];
-			for (int i = 0; i < parameters.Length; i++)
-			{
-				c.parameters[i] = parameters[i].Copy();
-			}
-			c.SetConstantPool(_constant_pool);
-			return c;
-		}
+        public override Attribute Copy(ConstantPool _constant_pool
+        )
+        {
+            var c = (MethodParameters) Clone();
+            c.parameters = new MethodParameter[parameters.Length];
+            for (var i = 0; i < parameters.Length; i++) c.parameters[i] = parameters[i].Copy();
+            c.SetConstantPool(_constant_pool);
+            return c;
+        }
 
-		/// <summary>Dump method parameters attribute to file stream in binary format.</summary>
-		/// <param name="file">Output file stream</param>
-		/// <exception cref="System.IO.IOException"/>
-		public override void Dump(java.io.DataOutputStream file)
-		{
-			base.Dump(file);
-			file.WriteByte(parameters.Length);
-			foreach (NBCEL.classfile.MethodParameter parameter in parameters)
-			{
-				parameter.Dump(file);
-			}
-		}
-	}
+        /// <summary>Dump method parameters attribute to file stream in binary format.</summary>
+        /// <param name="file">Output file stream</param>
+        /// <exception cref="System.IO.IOException" />
+        public override void Dump(DataOutputStream file)
+        {
+            base.Dump(file);
+            file.WriteByte(parameters.Length);
+            foreach (var parameter in parameters) parameter.Dump(file);
+        }
+    }
 }

@@ -15,33 +15,33 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
+
+using System;
 
 namespace NBCEL.generic
 {
 	/// <summary>Thrown on internal errors.</summary>
 	/// <remarks>
-	/// Thrown on internal errors. Extends RuntimeException so it hasn't to be declared
-	/// in the throws clause every time.
+	///     Thrown on internal errors. Extends RuntimeException so it hasn't to be declared
+	///     in the throws clause every time.
 	/// </remarks>
-	[System.Serializable]
-	public class ClassGenException : System.Exception
-	{
-		private const long serialVersionUID = 7247369755051242791L;
+	[Serializable]
+    public class ClassGenException : Exception
+    {
+        private const long serialVersionUID = 7247369755051242791L;
 
-		public ClassGenException()
-			: base()
-		{
-		}
+        public ClassGenException()
+        {
+        }
 
-		public ClassGenException(string s)
-			: base(s)
-		{
-		}
+        public ClassGenException(string s)
+            : base(s)
+        {
+        }
 
-		public ClassGenException(string s, System.Exception initCause)
-			: base(s, initCause)
-		{
-		}
-	}
+        public ClassGenException(string s, Exception initCause)
+            : base(s, initCause)
+        {
+        }
+    }
 }

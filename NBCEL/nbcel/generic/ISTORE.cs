@@ -15,49 +15,48 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// ISTORE - Store int from stack into local variable
-	/// <PRE>Stack: ..., value -&gt; ...
+	///     ISTORE - Store int from stack into local variable
+	///     <PRE>Stack: ..., value -&gt; ...
 	/// </summary>
 	/// <remarks>
-	/// ISTORE - Store int from stack into local variable
-	/// <PRE>Stack: ..., value -&gt; ... </PRE>
+	///     ISTORE - Store int from stack into local variable
+	///     <PRE>Stack: ..., value -&gt; ... </PRE>
 	/// </remarks>
-	public class ISTORE : NBCEL.generic.StoreInstruction
-	{
-		/// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
-		/// <remarks>
-		/// Empty constructor needed for Instruction.readInstruction.
-		/// Not to be used otherwise.
-		/// </remarks>
-		internal ISTORE()
-			: base(NBCEL.Const.ISTORE, NBCEL.Const.ISTORE_0)
-		{
-		}
+	public class ISTORE : StoreInstruction
+    {
+	    /// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
+	    /// <remarks>
+	    ///     Empty constructor needed for Instruction.readInstruction.
+	    ///     Not to be used otherwise.
+	    /// </remarks>
+	    internal ISTORE()
+            : base(Const.ISTORE, Const.ISTORE_0)
+        {
+        }
 
-		/// <summary>Store int into local variable</summary>
-		/// <param name="n">index of local variable</param>
-		public ISTORE(int n)
-			: base(NBCEL.Const.ISTORE, NBCEL.Const.ISTORE_0, n)
-		{
-		}
+	    /// <summary>Store int into local variable</summary>
+	    /// <param name="n">index of local variable</param>
+	    public ISTORE(int n)
+            : base(Const.ISTORE, Const.ISTORE_0, n)
+        {
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			base.Accept(v);
-			v.VisitISTORE(this);
-		}
-	}
+	    /// <summary>Call corresponding visitor method(s).</summary>
+	    /// <remarks>
+	    ///     Call corresponding visitor method(s). The order is:
+	    ///     Call visitor methods of implemented interfaces first, then
+	    ///     call methods according to the class hierarchy in descending order,
+	    ///     i.e., the most specific visitXXX() call comes last.
+	    /// </remarks>
+	    /// <param name="v">Visitor object</param>
+	    public override void Accept(Visitor v)
+        {
+            base.Accept(v);
+            v.VisitISTORE(this);
+        }
+    }
 }

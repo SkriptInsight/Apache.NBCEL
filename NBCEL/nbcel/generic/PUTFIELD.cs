@@ -15,64 +15,63 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// PUTFIELD - Put field in object
-	/// <PRE>Stack: ..., objectref, value -&gt; ...</PRE>
-	/// OR
-	/// <PRE>Stack: ..., objectref, value.word1, value.word2 -&gt; ...</PRE>
+	///     PUTFIELD - Put field in object
+	///     <PRE>Stack: ..., objectref, value -&gt; ...</PRE>
+	///     OR
+	///     <PRE>Stack: ..., objectref, value.word1, value.word2 -&gt; ...</PRE>
 	/// </summary>
-	public class PUTFIELD : NBCEL.generic.FieldInstruction, NBCEL.generic.PopInstruction
-		, NBCEL.generic.ExceptionThrower
-	{
-		/// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
-		/// <remarks>
-		/// Empty constructor needed for Instruction.readInstruction.
-		/// Not to be used otherwise.
-		/// </remarks>
-		internal PUTFIELD()
-		{
-		}
+	public class PUTFIELD : FieldInstruction, PopInstruction
+        , ExceptionThrower
+    {
+	    /// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
+	    /// <remarks>
+	    ///     Empty constructor needed for Instruction.readInstruction.
+	    ///     Not to be used otherwise.
+	    /// </remarks>
+	    internal PUTFIELD()
+        {
+        }
 
-		public PUTFIELD(int index)
-			: base(NBCEL.Const.PUTFIELD, index)
-		{
-		}
+        public PUTFIELD(int index)
+            : base(Const.PUTFIELD, index)
+        {
+        }
 
-		public override int ConsumeStack(NBCEL.generic.ConstantPoolGen cpg)
-		{
-			return GetFieldSize(cpg) + 1;
-		}
+        public virtual System.Type[] GetExceptions()
+        {
+            return ExceptionConst.CreateExceptions(ExceptionConst.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION
+                , ExceptionConst.NULL_POINTER_EXCEPTION, ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR
+            );
+        }
 
-		public virtual System.Type[] GetExceptions()
-		{
-			return NBCEL.ExceptionConst.CreateExceptions(NBCEL.ExceptionConst.EXCS.EXCS_FIELD_AND_METHOD_RESOLUTION
-				, NBCEL.ExceptionConst.NULL_POINTER_EXCEPTION, NBCEL.ExceptionConst.INCOMPATIBLE_CLASS_CHANGE_ERROR
-				);
-		}
+        public override int ConsumeStack(ConstantPoolGen cpg)
+        {
+            return GetFieldSize(cpg) + 1;
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitExceptionThrower(this);
-			v.VisitStackConsumer(this);
-			v.VisitPopInstruction(this);
-			v.VisitTypedInstruction(this);
-			v.VisitLoadClass(this);
-			v.VisitCPInstruction(this);
-			v.VisitFieldOrMethod(this);
-			v.VisitFieldInstruction(this);
-			v.VisitPUTFIELD(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitExceptionThrower(this);
+            v.VisitStackConsumer(this);
+            v.VisitPopInstruction(this);
+            v.VisitTypedInstruction(this);
+            v.VisitLoadClass(this);
+            v.VisitCPInstruction(this);
+            v.VisitFieldOrMethod(this);
+            v.VisitFieldInstruction(this);
+            v.VisitPUTFIELD(this);
+        }
+    }
 }

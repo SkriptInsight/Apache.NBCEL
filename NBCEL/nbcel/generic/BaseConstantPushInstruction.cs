@@ -15,18 +15,17 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// Denotes a push instruction that produces a literal on the stack
-	/// such as  SIPUSH, BIPUSH, ICONST, etc.
+	///     Denotes a push instruction that produces a literal on the stack
+	///     such as  SIPUSH, BIPUSH, ICONST, etc.
 	/// </summary>
-	/// <seealso cref="ICONST"/>
-	/// <seealso cref="SIPUSH"/>
-	public interface BaseConstantPushInstruction : NBCEL.generic.PushInstruction, NBCEL.generic.TypedInstruction
-	{
-		object GetValue();
-	}
+	/// <seealso cref="ICONST" />
+	/// <seealso cref="SIPUSH" />
+	public interface BaseConstantPushInstruction : PushInstruction, TypedInstruction
+    {
+        object GetValue();
+    }
 }

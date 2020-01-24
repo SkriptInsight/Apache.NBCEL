@@ -15,25 +15,24 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
-	/// <summary>Super class for GOTO</summary>
-	public abstract class GotoInstruction : NBCEL.generic.BranchInstruction, NBCEL.generic.UnconditionalBranch
-	{
-		internal GotoInstruction(short opcode, NBCEL.generic.InstructionHandle target)
-			: base(opcode, target)
-		{
-		}
+    /// <summary>Super class for GOTO</summary>
+    public abstract class GotoInstruction : BranchInstruction, UnconditionalBranch
+    {
+        internal GotoInstruction(short opcode, InstructionHandle target)
+            : base(opcode, target)
+        {
+        }
 
-		/// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
-		/// <remarks>
-		/// Empty constructor needed for Instruction.readInstruction.
-		/// Not to be used otherwise.
-		/// </remarks>
-		internal GotoInstruction()
-		{
-		}
-	}
+        /// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
+        /// <remarks>
+        ///     Empty constructor needed for Instruction.readInstruction.
+        ///     Not to be used otherwise.
+        /// </remarks>
+        internal GotoInstruction()
+        {
+        }
+    }
 }

@@ -15,29 +15,28 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
-	/// <summary>BREAKPOINT, JVM dependent, ignored by default</summary>
-	public class BREAKPOINT : NBCEL.generic.Instruction
-	{
-		public BREAKPOINT()
-			: base(NBCEL.Const.BREAKPOINT, (short)1)
-		{
-		}
+    /// <summary>BREAKPOINT, JVM dependent, ignored by default</summary>
+    public class BREAKPOINT : Instruction
+    {
+        public BREAKPOINT()
+            : base(Const.BREAKPOINT, 1)
+        {
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitBREAKPOINT(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitBREAKPOINT(this);
+        }
+    }
 }

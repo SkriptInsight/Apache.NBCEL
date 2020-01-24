@@ -15,37 +15,36 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// F2D - Convert float to double
-	/// <PRE>Stack: ..., value -&gt; ..., result.word1, result.word2</PRE>
+	///     F2D - Convert float to double
+	///     <PRE>Stack: ..., value -&gt; ..., result.word1, result.word2</PRE>
 	/// </summary>
-	public class F2D : NBCEL.generic.ConversionInstruction
-	{
-		/// <summary>Convert float to double</summary>
-		public F2D()
-			: base(NBCEL.Const.F2D)
-		{
-		}
+	public class F2D : ConversionInstruction
+    {
+        /// <summary>Convert float to double</summary>
+        public F2D()
+            : base(Const.F2D)
+        {
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitTypedInstruction(this);
-			v.VisitStackProducer(this);
-			v.VisitStackConsumer(this);
-			v.VisitConversionInstruction(this);
-			v.VisitF2D(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitTypedInstruction(this);
+            v.VisitStackProducer(this);
+            v.VisitStackConsumer(this);
+            v.VisitConversionInstruction(this);
+            v.VisitF2D(this);
+        }
+    }
 }

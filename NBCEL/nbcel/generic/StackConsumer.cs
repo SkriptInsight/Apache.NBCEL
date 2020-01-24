@@ -15,14 +15,13 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
-	/// <summary>Denote an instruction that may consume a value from the stack.</summary>
-	public interface StackConsumer
-	{
-		/// <returns>how many words are consumed from stack</returns>
-		int ConsumeStack(NBCEL.generic.ConstantPoolGen cpg);
-	}
+    /// <summary>Denote an instruction that may consume a value from the stack.</summary>
+    public interface StackConsumer
+    {
+        /// <returns>how many words are consumed from stack</returns>
+        int ConsumeStack(ConstantPoolGen cpg);
+    }
 }

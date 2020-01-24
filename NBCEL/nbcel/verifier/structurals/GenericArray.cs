@@ -15,33 +15,34 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
+
+using System;
 
 namespace NBCEL.verifier.structurals
 {
 	/// <summary>
-	/// A placeholder class that can be used to create an ObjectType of which
-	/// has some of the properties arrays have.
+	///     A placeholder class that can be used to create an ObjectType of which
+	///     has some of the properties arrays have.
 	/// </summary>
 	/// <remarks>
-	/// A placeholder class that can be used to create an ObjectType of which
-	/// has some of the properties arrays have. They implement java.lang.Cloneable
-	/// and java.io.Serializable and they extend java.lang.Object.
+	///     A placeholder class that can be used to create an ObjectType of which
+	///     has some of the properties arrays have. They implement java.lang.Cloneable
+	///     and java.io.Serializable and they extend java.lang.Object.
 	/// </remarks>
-	[System.Serializable]
-	public class GenericArray : object, System.ICloneable
-	{
-		private const long serialVersionUID = 1991183963515237894L;
+	[Serializable]
+    public class GenericArray : object, ICloneable
+    {
+        private const long serialVersionUID = 1991183963515237894L;
 
-		/// <exception cref="java.lang.CloneNotSupportedException"/>
-		protected internal virtual object Clone()
-		{
-			return base.MemberwiseClone();
-		}
+        object ICloneable.Clone()
+        {
+            return MemberwiseClone();
+        }
 
-		object System.ICloneable.Clone()
-		{
-			return MemberwiseClone();
-		}
-	}
+        /// <exception cref="java.lang.CloneNotSupportedException" />
+        protected internal virtual object Clone()
+        {
+            return MemberwiseClone();
+        }
+    }
 }

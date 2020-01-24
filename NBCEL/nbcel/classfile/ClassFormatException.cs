@@ -15,34 +15,34 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
+
+using System;
 
 namespace NBCEL.classfile
 {
 	/// <summary>
-	/// Thrown when the BCEL attempts to read a class file and determines
-	/// that the file is malformed or otherwise cannot be interpreted as a
-	/// class file.
+	///     Thrown when the BCEL attempts to read a class file and determines
+	///     that the file is malformed or otherwise cannot be interpreted as a
+	///     class file.
 	/// </summary>
-	[System.Serializable]
-	public class ClassFormatException : System.Exception
-	{
-		private const long serialVersionUID = -3569097343160139969L;
+	[Serializable]
+    public class ClassFormatException : Exception
+    {
+        private const long serialVersionUID = -3569097343160139969L;
 
-		public ClassFormatException()
-			: base()
-		{
-		}
+        public ClassFormatException()
+        {
+        }
 
-		public ClassFormatException(string s)
-			: base(s)
-		{
-		}
+        public ClassFormatException(string s)
+            : base(s)
+        {
+        }
 
-		/// <since>6.0</since>
-		public ClassFormatException(string message, System.Exception cause)
-			: base(message, cause)
-		{
-		}
-	}
+        /// <since>6.0</since>
+        public ClassFormatException(string message, Exception cause)
+            : base(message, cause)
+        {
+        }
+    }
 }

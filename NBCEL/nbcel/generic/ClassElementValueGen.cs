@@ -15,82 +15,85 @@
 *  limitations under the License.
 *
 */
+
+using java.io;
+using NBCEL.classfile;
 using Sharpen;
 
 namespace NBCEL.generic
 {
-	/// <since>6.0</since>
-	public class ClassElementValueGen : NBCEL.generic.ElementValueGen
-	{
-		private int idx;
+    /// <since>6.0</since>
+    public class ClassElementValueGen : ElementValueGen
+    {
+        private readonly int idx;
 
-		protected internal ClassElementValueGen(int typeIdx, NBCEL.generic.ConstantPoolGen
-			 cpool)
-			: base(NBCEL.generic.ElementValueGen.CLASS, cpool)
-		{
-			// For primitive types and string type, this points to the value entry in
-			// the cpool
-			// For 'class' this points to the class entry in the cpool
-			this.idx = typeIdx;
-		}
+        protected internal ClassElementValueGen(int typeIdx, ConstantPoolGen
+            cpool)
+            : base(CLASS, cpool)
+        {
+            // For primitive types and string type, this points to the value entry in
+            // the cpool
+            // For 'class' this points to the class entry in the cpool
+            idx = typeIdx;
+        }
 
-		public ClassElementValueGen(NBCEL.generic.ObjectType t, NBCEL.generic.ConstantPoolGen
-			 cpool)
-			: base(NBCEL.generic.ElementValueGen.CLASS, cpool)
-		{
-			// this.idx = cpool.addClass(t);
-			idx = cpool.AddUtf8(t.GetSignature());
-		}
+        public ClassElementValueGen(ObjectType t, ConstantPoolGen
+            cpool)
+            : base(CLASS, cpool)
+        {
+            // this.idx = cpool.addClass(t);
+            idx = cpool.AddUtf8(t.GetSignature());
+        }
 
-		/// <summary>Return immutable variant of this ClassElementValueGen</summary>
-		public override NBCEL.classfile.ElementValue GetElementValue()
-		{
-			return new NBCEL.classfile.ClassElementValue(base.GetElementValueType(), idx, GetConstantPool
-				().GetConstantPool());
-		}
+        public ClassElementValueGen(ClassElementValue value, ConstantPoolGen
+            cpool, bool copyPoolEntries)
+            : base(CLASS, cpool)
+        {
+            if (copyPoolEntries)
+            {
+                // idx = cpool.addClass(value.getClassString());
+                idx = cpool.AddUtf8(value.GetClassString());
+            }
+            else
+            {
+                idx = value.GetIndex();
+            }
+        }
 
-		public ClassElementValueGen(NBCEL.classfile.ClassElementValue value, NBCEL.generic.ConstantPoolGen
-			 cpool, bool copyPoolEntries)
-			: base(CLASS, cpool)
-		{
-			if (copyPoolEntries)
-			{
-				// idx = cpool.addClass(value.getClassString());
-				idx = cpool.AddUtf8(value.GetClassString());
-			}
-			else
-			{
-				idx = value.GetIndex();
-			}
-		}
+        /// <summary>Return immutable variant of this ClassElementValueGen</summary>
+        public override ElementValue GetElementValue()
+        {
+            return new ClassElementValue(base.GetElementValueType(), idx, GetConstantPool
+                ().GetConstantPool());
+        }
 
-		public virtual int GetIndex()
-		{
-			return idx;
-		}
+        public virtual int GetIndex()
+        {
+            return idx;
+        }
 
-		public virtual string GetClassString()
-		{
-			NBCEL.classfile.ConstantUtf8 cu8 = (NBCEL.classfile.ConstantUtf8)GetConstantPool(
-				).GetConstant(idx);
-			return cu8.GetBytes();
-		}
+        public virtual string GetClassString()
+        {
+            var cu8 = (ConstantUtf8) GetConstantPool(
+            ).GetConstant(idx);
+            return cu8.GetBytes();
+        }
 
-		// ConstantClass c = (ConstantClass)getConstantPool().getConstant(idx);
-		// ConstantUtf8 utf8 =
-		// (ConstantUtf8)getConstantPool().getConstant(c.getNameIndex());
-		// return utf8.getBytes();
-		public override string StringifyValue()
-		{
-			return GetClassString();
-		}
+        // ConstantClass c = (ConstantClass)getConstantPool().getConstant(idx);
+        // ConstantUtf8 utf8 =
+        // (ConstantUtf8)getConstantPool().getConstant(c.getNameIndex());
+        // return utf8.getBytes();
+        public override string StringifyValue()
+        {
+            return GetClassString();
+        }
 
-		/// <exception cref="System.IO.IOException"/>
-		public override void Dump(java.io.DataOutputStream dos)
-		{
-			dos.WriteByte(base.GetElementValueType());
-			// u1 kind of value
-			dos.WriteShort(idx);
-		}
-	}
+        /// <exception cref="System.IO.IOException" />
+        public override void Dump(DataOutputStream dos)
+        {
+            dos.WriteByte(base.GetElementValueType());
+            // u1 kind of value
+            dos.WriteShort(idx);
+        }
+    }
 }

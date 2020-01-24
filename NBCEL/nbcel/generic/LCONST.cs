@@ -15,81 +15,74 @@
 *  limitations under the License.
 *
 */
-using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// LCONST - Push 0 or 1, other values cause an exception
-	/// <PRE>Stack: ...
+	///     LCONST - Push 0 or 1, other values cause an exception
+	///     <PRE>Stack: ...
 	/// </summary>
 	/// <remarks>
-	/// LCONST - Push 0 or 1, other values cause an exception
-	/// <PRE>Stack: ... -&gt; ..., </PRE>
+	///     LCONST - Push 0 or 1, other values cause an exception
+	///     <PRE>Stack: ... -&gt; ..., </PRE>
 	/// </remarks>
-	public class LCONST : NBCEL.generic.Instruction, NBCEL.generic.ConstantPushInstruction<long>
-	{
-		private long value;
+	public class LCONST : Instruction, ConstantPushInstruction<long>
+    {
+        private readonly long value;
 
-		/// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
-		/// <remarks>
-		/// Empty constructor needed for Instruction.readInstruction.
-		/// Not to be used otherwise.
-		/// </remarks>
-		internal LCONST()
-		{
-		}
+        /// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
+        /// <remarks>
+        ///     Empty constructor needed for Instruction.readInstruction.
+        ///     Not to be used otherwise.
+        /// </remarks>
+        internal LCONST()
+        {
+        }
 
-		public LCONST(long l)
-			: base(NBCEL.Const.LCONST_0, (short)1)
-		{
-			if (l == 0)
-			{
-				base.SetOpcode(NBCEL.Const.LCONST_0);
-			}
-			else if (l == 1)
-			{
-				base.SetOpcode(NBCEL.Const.LCONST_1);
-			}
-			else
-			{
-				throw new NBCEL.generic.ClassGenException("LCONST can be used only for 0 and 1: "
-					 + l);
-			}
-			value = l;
-		}
+        public LCONST(long l)
+            : base(Const.LCONST_0, 1)
+        {
+            if (l == 0)
+                SetOpcode(Const.LCONST_0);
+            else if (l == 1)
+                SetOpcode(Const.LCONST_1);
+            else
+                throw new ClassGenException("LCONST can be used only for 0 and 1: "
+                                            + l);
+            value = l;
+        }
 
-		public virtual long GetValue()
-		{
-			return (value);
-		}
+        public virtual long GetValue()
+        {
+            return value;
+        }
 
-		/// <returns>Type.LONG</returns>
-		public virtual NBCEL.generic.Type GetType(NBCEL.generic.ConstantPoolGen cp)
-		{
-			return NBCEL.generic.Type.LONG;
-		}
+        /// <returns>Type.LONG</returns>
+        public virtual Type GetType(ConstantPoolGen cp)
+        {
+            return Type.LONG;
+        }
 
-		object BaseConstantPushInstruction.GetValue()
-		{
-			return GetValue();
-		}
+        object BaseConstantPushInstruction.GetValue()
+        {
+            return GetValue();
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitPushInstruction(this);
-			v.VisitStackProducer(this);
-			v.VisitTypedInstruction(this);
-			v.VisitConstantPushInstruction(this);
-			v.VisitLCONST(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitPushInstruction(this);
+            v.VisitStackProducer(this);
+            v.VisitTypedInstruction(this);
+            v.VisitConstantPushInstruction(this);
+            v.VisitLCONST(this);
+        }
+    }
 }

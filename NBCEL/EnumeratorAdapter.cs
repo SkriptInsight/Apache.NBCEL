@@ -39,14 +39,15 @@ namespace Sharpen
     {
         private readonly IEnumerator<T> enumerator;
 
-        private bool fetchedNext = false;
-        private bool nextAvailable = false;
+        private bool fetchedNext;
         private T next;
+        private bool nextAvailable;
 
         public EnumeratorAdapter(IEnumerator<T> enumerator)
         {
             this.enumerator = enumerator;
         }
+
         public EnumeratorAdapter(HashSet<T>.Enumerator enumerator)
         {
             this.enumerator = enumerator;
@@ -64,27 +65,10 @@ namespace Sharpen
         public T Next()
         {
             CheckNext();
-            if (!nextAvailable)
-            {
-                throw new InvalidOperationException();
-            }
+            if (!nextAvailable) throw new InvalidOperationException();
 
             fetchedNext = false; // We've consumed this now
             return next;
-        }
-
-        void CheckNext()
-        {
-            if (!fetchedNext)
-            {
-                nextAvailable = enumerator.MoveNext();
-                if (nextAvailable)
-                {
-                    next = enumerator.Current;
-                }
-
-                fetchedNext = true;
-            }
         }
 
         public void Remove()
@@ -95,6 +79,17 @@ namespace Sharpen
         public void Dispose()
         {
             enumerator.Dispose();
+        }
+
+        private void CheckNext()
+        {
+            if (!fetchedNext)
+            {
+                nextAvailable = enumerator.MoveNext();
+                if (nextAvailable) next = enumerator.Current;
+
+                fetchedNext = true;
+            }
         }
     }
 
@@ -121,9 +116,9 @@ namespace Sharpen
     public sealed class IteratorAdapter<T> : IEnumerator<T>
     {
         private readonly IIterator<T> iterator;
-
-        private bool gotCurrent = false;
         private T current;
+
+        private bool gotCurrent;
 
         public IteratorAdapter(IIterator<T> iterator)
         {
@@ -134,27 +129,18 @@ namespace Sharpen
         {
             get
             {
-                if (!gotCurrent)
-                {
-                    throw new InvalidOperationException();
-                }
+                if (!gotCurrent) throw new InvalidOperationException();
 
                 return current;
             }
         }
 
-        object IEnumerator.Current
-        {
-            get { return Current; }
-        }
+        object IEnumerator.Current => Current;
 
         public bool MoveNext()
         {
             gotCurrent = iterator.HasNext;
-            if (gotCurrent)
-            {
-                current = iterator.Next();
-            }
+            if (gotCurrent) current = iterator.Next();
 
             return gotCurrent;
         }

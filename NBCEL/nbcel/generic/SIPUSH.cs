@@ -15,92 +15,95 @@
 *  limitations under the License.
 *
 */
+
+using java.io;
+using NBCEL.util;
 using Sharpen;
 
 namespace NBCEL.generic
 {
 	/// <summary>
-	/// SIPUSH - Push short
-	/// <PRE>Stack: ...
+	///     SIPUSH - Push short
+	///     <PRE>Stack: ...
 	/// </summary>
 	/// <remarks>
-	/// SIPUSH - Push short
-	/// <PRE>Stack: ... -&gt; ..., value</PRE>
+	///     SIPUSH - Push short
+	///     <PRE>Stack: ... -&gt; ..., value</PRE>
 	/// </remarks>
-	public class SIPUSH : NBCEL.generic.Instruction, NBCEL.generic.ConstantPushInstruction<short>
-	{
-		private short b;
+	public class SIPUSH : Instruction, ConstantPushInstruction<short>
+    {
+        private short b;
 
-		/// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
-		/// <remarks>
-		/// Empty constructor needed for Instruction.readInstruction.
-		/// Not to be used otherwise.
-		/// </remarks>
-		internal SIPUSH()
-		{
-		}
+        /// <summary>Empty constructor needed for Instruction.readInstruction.</summary>
+        /// <remarks>
+        ///     Empty constructor needed for Instruction.readInstruction.
+        ///     Not to be used otherwise.
+        /// </remarks>
+        internal SIPUSH()
+        {
+        }
 
-		public SIPUSH(short b)
-			: base(NBCEL.Const.SIPUSH, (short)3)
-		{
-			this.b = b;
-		}
+        public SIPUSH(short b)
+            : base(Const.SIPUSH, 3)
+        {
+            this.b = b;
+        }
 
-		/// <summary>Dump instruction as short code to stream out.</summary>
-		/// <exception cref="System.IO.IOException"/>
-		public override void Dump(java.io.DataOutputStream @out)
-		{
-			base.Dump(@out);
-			@out.WriteShort(b);
-		}
+        public virtual short GetValue()
+        {
+            return b;
+        }
 
-		/// <returns>mnemonic for instruction</returns>
-		public override string ToString(bool verbose)
-		{
-			return base.ToString(verbose) + " " + b;
-		}
+        /// <returns>Type.SHORT</returns>
+        public virtual Type GetType(ConstantPoolGen cp)
+        {
+            return Type.SHORT;
+        }
 
-		/// <summary>Read needed data (e.g.</summary>
-		/// <remarks>Read needed data (e.g. index) from file.</remarks>
-		/// <exception cref="System.IO.IOException"/>
-		protected internal override void InitFromFile(NBCEL.util.ByteSequence bytes, bool
-			 wide)
-		{
-			base.SetLength(3);
-			b = bytes.ReadShort();
-		}
+        object BaseConstantPushInstruction.GetValue()
+        {
+            return GetValue();
+        }
 
-		public virtual short GetValue()
-		{
-			return b;
-		}
+        /// <summary>Dump instruction as short code to stream out.</summary>
+        /// <exception cref="System.IO.IOException" />
+        public override void Dump(DataOutputStream @out)
+        {
+            base.Dump(@out);
+            @out.WriteShort(b);
+        }
 
-		/// <returns>Type.SHORT</returns>
-		public virtual NBCEL.generic.Type GetType(NBCEL.generic.ConstantPoolGen cp)
-		{
-			return NBCEL.generic.Type.SHORT;
-		}
+        /// <returns>mnemonic for instruction</returns>
+        public override string ToString(bool verbose)
+        {
+            return base.ToString(verbose) + " " + b;
+        }
 
-		object BaseConstantPushInstruction.GetValue()
-		{
-			return GetValue();
-		}
+        /// <summary>Read needed data (e.g.</summary>
+        /// <remarks>Read needed data (e.g. index) from file.</remarks>
+        /// <exception cref="System.IO.IOException" />
+        protected internal override void InitFromFile(ByteSequence bytes, bool
+            wide)
+        {
+            SetLength(3);
+            b = bytes.ReadShort();
+        }
 
-		/// <summary>Call corresponding visitor method(s).</summary>
-		/// <remarks>
-		/// Call corresponding visitor method(s). The order is:
-		/// Call visitor methods of implemented interfaces first, then
-		/// call methods according to the class hierarchy in descending order,
-		/// i.e., the most specific visitXXX() call comes last.
-		/// </remarks>
-		/// <param name="v">Visitor object</param>
-		public override void Accept(NBCEL.generic.Visitor v)
-		{
-			v.VisitPushInstruction(this);
-			v.VisitStackProducer(this);
-			v.VisitTypedInstruction(this);
-			v.VisitConstantPushInstruction(this);
-			v.VisitSIPUSH(this);
-		}
-	}
+        /// <summary>Call corresponding visitor method(s).</summary>
+        /// <remarks>
+        ///     Call corresponding visitor method(s). The order is:
+        ///     Call visitor methods of implemented interfaces first, then
+        ///     call methods according to the class hierarchy in descending order,
+        ///     i.e., the most specific visitXXX() call comes last.
+        /// </remarks>
+        /// <param name="v">Visitor object</param>
+        public override void Accept(Visitor v)
+        {
+            v.VisitPushInstruction(this);
+            v.VisitStackProducer(this);
+            v.VisitTypedInstruction(this);
+            v.VisitConstantPushInstruction(this);
+            v.VisitSIPUSH(this);
+        }
+    }
 }
