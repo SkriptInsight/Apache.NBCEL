@@ -3,15 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Numerics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
-using java.io;
-using ObjectWeb.Misc.Java.Nio;
+using Apache.NBCEL.Java.IO;
+using Apache.NBCEL.Java.Nio;
 
-namespace Sharpen
+namespace Apache.NBCEL
 {
     public abstract class EnumBase : IComparable<EnumBase>, IComparable
     {
@@ -870,7 +869,7 @@ namespace Sharpen
                 if (!(typeof(TK) == typeof(string))) return null;
                 if (map is IDictionary<string, TV> newMap)
                 {
-                    return newMap.TryGetValue(Sharpen.Collections.NullStringKey, out result) ? result : null;
+                    return newMap.TryGetValue(Collections.NullStringKey, out result) ? result : null;
                 }
             }
 

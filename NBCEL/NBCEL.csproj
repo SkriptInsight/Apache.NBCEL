@@ -2,7 +2,9 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.0</TargetFramework>
-        <RootNamespace />
+        <RootNamespace>Apache.NBCEL</RootNamespace>
+        <AssemblyVersion>1.0.0</AssemblyVersion>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 
 </Project>

@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Sharpen
+namespace Apache.NBCEL
 {
 // // Mimics Java's Iterable<T> interface
     public interface IIterable<T>
