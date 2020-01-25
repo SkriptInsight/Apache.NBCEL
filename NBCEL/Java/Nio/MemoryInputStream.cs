@@ -11,6 +11,13 @@ namespace Apache.NBCEL.Java.Nio
         }
     }
 
+    public class MemoryDataInputStream : DataInputStream
+    {
+        public MemoryDataInputStream(byte[] bytes) : base(bytes.ToInputStream())
+        {
+        }
+    }
+
     public class MemoryInputStream : InputStream
     {
         public MemoryInputStream(MemoryStream stream)

@@ -631,7 +631,7 @@ namespace Apache.NBCEL
             return text.Equals(other, StringComparison.OrdinalIgnoreCase);
         }
 
-        public static string GetStringForBytes(byte[] value, string encoding = "UTF8")
+        public static string GetStringForBytes(byte[] value, string encoding = "UTF-8")
         {
             return Encoding.GetEncoding(encoding).GetString(value);
         }

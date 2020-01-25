@@ -35,7 +35,7 @@ namespace Apache.NBCEL.Util
         private readonly ByteArrayStream byteStream;
 
         public ByteSequence(byte[] bytes)
-            : base(bytes.ToInputStream())
+            : base(new ByteArrayStream(bytes))
         {
             byteStream = (ByteArrayStream) @in;
         }

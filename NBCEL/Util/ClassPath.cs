@@ -95,17 +95,24 @@ namespace Apache.NBCEL.Util
         private static void AddJdkModules(string javaHome, List
             <string> list)
         {
-            var modulesPath = Runtime.GetProperty("java.modules.path");
-            if (modulesPath == null || modulesPath.Trim().Length == 0)
-                // Default to looking in JAVA_HOME/jmods
-                modulesPath = javaHome + Path.DirectorySeparatorChar + "jmods";
-            var modulesDir = new DirectoryInfo(modulesPath);
-            if (modulesDir.Exists)
+            try
             {
-                var modules = modulesDir.GetFiles().Where(f => MODULES_FILTER.Invoke(f, f.Name)).Select(c => c.FullName)
-                    .ToArray();
-                for (var i = 0; i < modules.Length; i++)
-                    list.Add(modulesDir.FullName + Path.DirectorySeparatorChar + modules[i]);
+                var modulesPath = Runtime.GetProperty("java.modules.path");
+                if (modulesPath == null || modulesPath.Trim().Length == 0)
+                    // Default to looking in JAVA_HOME/jmods
+                    modulesPath = javaHome + Path.DirectorySeparatorChar + "jmods";
+                var modulesDir = new DirectoryInfo(modulesPath);
+                if (modulesDir.Exists)
+                {
+                    var modules = modulesDir.GetFiles().Where(f => MODULES_FILTER.Invoke(f, f.Name)).Select(c => c.FullName)
+                        .ToArray();
+                    for (var i = 0; i < modules.Length; i++)
+                        list.Add(modulesDir.FullName + Path.DirectorySeparatorChar + modules[i]);
+                }
+            }
+            catch
+            {
+                // ignored
             }
         }
 
@@ -137,12 +144,19 @@ namespace Apache.NBCEL.Util
             GetPathComponents(extDirs, dirs);
             foreach (var d in dirs)
             {
-                var ext_dir = new DirectoryInfo(d);
-                var extensions = ext_dir.GetFiles().Where(f => ARCHIVE_FILTER.Invoke(f, f.Name))
-                    .Select(c => c.Extension).Distinct().ToArray();
-                if (extensions != null)
-                    foreach (var extension in extensions)
-                        list.Add(ext_dir.FullName + Path.DirectorySeparatorChar + extension);
+                try
+                {
+                    var ext_dir = new DirectoryInfo(d);
+                    var extensions = ext_dir.GetFiles().Where(f => ARCHIVE_FILTER.Invoke(f, f.Name))
+                        .Select(c => c.Extension).Distinct().ToArray();
+                    if (extensions != null)
+                        foreach (var extension in extensions)
+                            list.Add(ext_dir.FullName + Path.DirectorySeparatorChar + extension);
+                }
+                catch
+                {
+                    // ignored
+                }
             }
 
             var buf = new StringBuilder();

@@ -19,6 +19,7 @@
 using System.IO;
 using System.IO.Compression;
 using Apache.NBCEL.Java.IO;
+using Apache.NBCEL.Java.Nio;
 
 namespace Apache.NBCEL.ClassFile
 {
@@ -72,6 +73,11 @@ namespace Apache.NBCEL.ClassFile
         private int superclass_name_index;
 
         private readonly string zip_file;
+
+
+        public ClassParser(byte[] bytes, string fileName) : this(new MemoryDataInputStream(bytes), fileName)
+        {
+        }
 
         /// <summary>Parses class from the given stream.</summary>
         /// <param name="inputStream">Input stream</param>

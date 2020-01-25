@@ -260,7 +260,7 @@ namespace Apache.NBCEL.ClassFile
 
             internal string GetData()
             {
-                return Runtime.GetStringForBytes(Stream.GetBuffer());
+                return Runtime.GetStringForBytes(Stream.ToArray());
             }
 
             internal void Unread()
