@@ -27,9 +27,9 @@ namespace Apache.NBCEL.Generic
 
         /// <param name="class_name">fully qualified class name, e.g. java.lang.String</param>
         public ObjectType(string class_name)
-            : base(Const.T_REFERENCE, "L" + class_name.Replace('.', '/') + ";")
+            : base(Const.T_REFERENCE, string.Intern("L" + class_name.Replace('.', '/') + ";"))
         {
-            this.class_name = class_name.Replace('/', '.');
+            this.class_name = string.Intern(class_name.Replace('/', '.'));
         }
 
         // Class name of type
