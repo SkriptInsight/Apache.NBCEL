@@ -46,6 +46,8 @@ namespace Apache.NBCEL.ClassFile
     public class JavaClass : AccessFlags, ICloneable, Node
         , IComparable<JavaClass>
     {
+        protected JavaClass() { }
+    
         public const byte Heap = 1;
 
         public const byte File = 2;
@@ -87,14 +89,6 @@ namespace Apache.NBCEL.ClassFile
         private int _minor;
 
         private readonly string _packageName;
-
-        /// <summary>
-        ///     In cases where we go ahead and create something,
-        ///     use the default SyntheticRepository, because we
-        ///     don't know any better.
-        /// </summary>
-        [NonSerialized] private Util.Repository _repository = SyntheticRepository.GetInstance
-            ();
 
         private readonly byte _source = Heap;
 
@@ -689,7 +683,8 @@ namespace Apache.NBCEL.ClassFile
         /// </remarks>
         public virtual Util.Repository GetRepository()
         {
-            return _repository;
+            return SyntheticRepository.GetInstance
+                ();
         }
 
         /// <summary>Sets the ClassRepository which loaded the JavaClass.</summary>
@@ -700,7 +695,7 @@ namespace Apache.NBCEL.ClassFile
         public virtual void SetRepository(Util.Repository repository)
         {
             // TODO make protected?
-            this._repository = repository;
+            // this._repository = repository;
         }
 
         /// <summary>Equivalent to runtime "instanceof" operator.</summary>
@@ -744,7 +739,8 @@ namespace Apache.NBCEL.ClassFile
         public virtual JavaClass GetSuperClass()
         {
             if ("java.lang.Object".Equals(GetClassName())) return null;
-            return _repository.LoadClass(GetSuperclassName());
+            return ((Util.Repository) SyntheticRepository.GetInstance
+                ()).LoadClass(GetSuperclassName());
         }
 
         /// <returns>
@@ -772,7 +768,8 @@ namespace Apache.NBCEL.ClassFile
             var interfaces = GetInterfaceNames();
             var classes = new JavaClass[interfaces.Length
             ];
-            for (var i = 0; i < interfaces.Length; i++) classes[i] = _repository.LoadClass(interfaces[i]);
+            for (var i = 0; i < interfaces.Length; i++) classes[i] = ((Util.Repository) SyntheticRepository.GetInstance
+                ()).LoadClass(interfaces[i]);
             return classes;
         }
 
